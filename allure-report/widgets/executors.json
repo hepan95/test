@@ -1,0 +1,1 @@
+[{"name":"Jenkins","type":"jenkins","url":"http://10.10.164.60:8800/","buildOrder":23,"buildName":"ict_api #23","buildUrl":"http://10.10.164.60:8800/job/ict_api/23/","reportName":"AllureReport","reportUrl":"http://10.10.164.60:8800/job/ict_api/23/allure"}]
