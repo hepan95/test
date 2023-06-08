@@ -7,7 +7,7 @@ from Common import ict_api as ict
 import allure
 import pytest
 import requests,json
-myskip = pytest.mark.skipif()
+# myskip = pytest.mark.skipif()
 
 @allure.parent_suite('ict登录接口测试包')  # 包的注释
 @allure.suite('ict登录t接口测试模块')   #模块的注释
