@@ -12,7 +12,7 @@ import requests,json
 @allure.parent_suite('ict登录接口测试包')  # 包的注释
 @allure.suite('ict登录t接口测试模块')   #模块的注释
 @allure.sub_suite('各端登录接口')      #大类的注释
-@myskip
+# @myskip
 # @pytest.mark.skip(reason="无理由跳过")
 class Test_login_01():
     '''大类'''
@@ -62,7 +62,7 @@ class Test_login_01():
 @allure.parent_suite('ict后台查询接口测试包')  # 包的注释
 @allure.suite('ict后台查询接口测试模块')  # 模块的注释
 @allure.sub_suite('后台端查询接口')      #大类的注释
-@myskip
+# @myskip
 class Test_query01():
     '''大类'''
     def setup_class(self):
@@ -948,7 +948,7 @@ class Test_query01():
 @allure.parent_suite('ict货主查询接口测试包')  # 包的注释
 @allure.suite('ict货主查询接口测试模块')  # 模块的注释
 @allure.sub_suite('货主端查询接口')      #大类的注释
-@myskip
+# @myskip
 class Test_query02():
     '''大类'''
     def setup_class(self):
@@ -1081,7 +1081,7 @@ class Test_query02():
 @allure.parent_suite('ict运输公司查询接口测试包')  # 包的注释
 @allure.suite('ict运输公司查询接口测试模块')  # 模块的注释
 @allure.sub_suite('运输公司端查询接口')      #大类的注释
-@myskip
+# @myskip
 class Test_query03():
     '''大类'''
     def setup_class(self):
