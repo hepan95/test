@@ -4,4 +4,5 @@
 /output、/
 /apache-tomcat-10.0.20/
 /.pytest_cache/
-
+/allure-report/
+/allure-results/

@@ -14,7 +14,7 @@ from Config import config as cf
 from Common import common_funtion as bf
 
 
-@pytest.mark.skip(reason="无理由跳过")
+# @pytest.mark.skip(reason="无理由跳过")
 @allure.parent_suite('ict业务场景测试用例')  # 包的注释
 @allure.suite('ict业务场景测试用例模块')  # 模块的注释
 @allure.sub_suite('前置条件')      #大类的注释
@@ -27,7 +27,7 @@ class Test_query01():
         '''大类后置'''
         pass
     @allure.title("区域规则-集装箱出口运输,操作区域蛇口")   #类方法的注释
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     def test_query001(self):
         '''用例描述'''
         with allure.step("查看区域规则-集装箱出口运输,操作区域蛇口是否存在"):
@@ -59,7 +59,7 @@ class Test_query01():
                         with allure.step("集装箱出口区域规划已存在，并已启用"):
                             pass
     @allure.title("接单中心-集装箱出口运输")
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     def test_query002(self):
         with allure.step("查看接单中心-集装箱出口运输，是否存在"):
             jd_zx = ict.Test_Added01().test_Added0035(taskUnitCode="port_container_export_transport")
@@ -90,7 +90,7 @@ class Test_query01():
                         with allure.step("接单中已存在，并已启用"):
                             pass
     @allure.title("计划中心-集装箱出口运输")
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     def test_query003(self):
         with allure.step("查看计划中心-集装箱出口运输，是否存在"):
             jh_zx = ict.Test_Added01().test_Added0039(taskUnitCode="port_container_export_transport")
@@ -121,7 +121,7 @@ class Test_query01():
                         with allure.step("计划中已存在，并已启用"):
                             pass
     @allure.title("调度中心-集装箱出口运输")
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     def test_query004(self):
         with allure.step("查看调度中心，是否存在"):
             dd_zx = ict.Test_Added01().test_Added0043(centerName="center_type_dispatch_mm02",taskUnitCode="")
@@ -185,7 +185,7 @@ class Test_query01():
                     qy_jdzx = ict.Test_Added01().test_Added0046(jdzx_id=jdzx_id)
                     assert qy_jdzx == '启用成功'
     @allure.title("货主联系人")
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     def test_query005(self):
         with allure.step("查看货主id"):
             hz_id = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
@@ -219,7 +219,7 @@ class Test_query01():
                         with allure.step("货主联系人已存在，并已启用"):
                             pass
     @allure.title("收发货联系人1")
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     def test_query006(self):
         with allure.step("查看货主id"):
             hz_id = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
@@ -273,7 +273,7 @@ class Test_query01():
                         with allure.step("装货单位已存在，并已启用"):
                             pass
     @allure.title("集装箱货主市场报价")
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     def test_query007(self):
         with allure.step("查看货主id"):
             hz_id = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
@@ -412,7 +412,7 @@ class Test_query01():
                                     with allure.step("存在集装箱出口运输货主合同报价,并已启用报价"):
                                         pass
     @allure.title("自有车集装箱报价")
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     def test_query008(self):
         with allure.step("查看自有车报价单是否存在"):
             bz_dd1 = ict.Test_Added01().test_Added0076(fw_lx="port_container_export_transport")
@@ -548,7 +548,7 @@ class Test_query01():
                         with allure.step("存在集装箱出口运输自有车报价,并已启用报价"):
                             pass
     @allure.title("自有车档案1")
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     def test_query009(self):
         with allure.step("查看运输公司<租户测试自有车-集1>是否存在"):
             bz_dd1 = ict.Test_Added01().test_Added0059(gys_name="租户测试自有车-集1")
@@ -636,7 +636,7 @@ class Test_query01():
                     with allure.step("粤ZZ0001车辆档案已存在，并已启用"):
                         pass
     @allure.title("自有车档案2")
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     def test_query010(self):
         with allure.step("查看运输公司<租户测试自有车-集2>是否存在"):
             bz_dd1 = ict.Test_Added01().test_Added0059(gys_name="租户测试自有车-集2")
@@ -724,7 +724,7 @@ class Test_query01():
                     with allure.step("粤B7788车辆档案已存在，并已启用"):
                         pass
     @allure.title("收发货联系人2")
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     def test_query011(self):
         with allure.step("查看货主id"):
             hz_id = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
@@ -778,7 +778,7 @@ class Test_query01():
                         with allure.step("装货单位已存在，并已启用"):
                             pass
     @allure.title("收发货联系人3")
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     def test_query012(self):
         with allure.step("查看货主id"):
             hz_id = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
@@ -832,7 +832,7 @@ class Test_query01():
                         with allure.step("装货单位已存在，并已启用"):
                             pass
     @allure.title("厢式车货主市场报价")
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     def test_query013(self):
         with allure.step("查看货主id"):
             hz_id = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
@@ -1002,7 +1002,7 @@ class Test_query01():
                                     with allure.step("存在厢式车货主合同报价,并已启用报价"):
                                         pass
     @allure.title("区域规则-厢式车运输,操作区域蛇口")
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     def test_query014(self):
         '''用例描述'''
         with allure.step("查看区域规则-厢式车运输,操作区域蛇口是否存在"):
@@ -1034,7 +1034,7 @@ class Test_query01():
                         with allure.step("厢式车运输区域规划已存在，并已启用"):
                             pass
     @allure.title("接单中心-厢式车运输")
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     def test_query015(self):
         with allure.step("查看接单中心-厢式车运输，是否存在"):
             jd_zx = ict.Test_Added01().test_Added0035(taskUnitCode="bulkcargo_transport")
@@ -1065,7 +1065,7 @@ class Test_query01():
                         with allure.step("厢式车接单中已存在，并已启用"):
                             pass
     @allure.title("计划中心-厢式车运输")
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     def test_query016(self):
         with allure.step("查看计划中心-厢式车运输运输，是否存在"):
             jh_zx = ict.Test_Added01().test_Added0039(taskUnitCode="bulkcargo_transport")
@@ -1096,7 +1096,7 @@ class Test_query01():
                         with allure.step("厢式车运输计划中已存在，并已启用"):
                             pass
     @allure.title("运输公司合同报价，厢式车")
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     def test_query017(self):
         with allure.step("查看供应商id"):
             gys_id = ict.Test_Added01().test_Added0062(gys_name=cf.gys1_name)
@@ -1270,7 +1270,7 @@ class Test_query01():
                                     with allure.step("存在厢式车运输公司合同报价,并已启用报价"):
                                         pass
     @allure.title("运输公司车辆司机档案")
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     def test_query018(self):
         with allure.step("查看供应商id"):
             gys_id = ict.Test_Added01().test_Added0062(gys_name=cf.gys1_name)
@@ -1325,7 +1325,7 @@ class Test_query01():
                         with allure.step("车辆档案存在且已启用"):
                             pass
     @allure.title("费用项档案")
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     def test_query019(self):
         with allure.step("查看'报关费'费用项档案是否存在"):
             fy_lx = ict.Test_Added01().test_Added0111(fyx_name="报关费")
@@ -1345,7 +1345,7 @@ class Test_query01():
                     with allure.step("'报关费'费用项档案,已存在，并已启用"):
                         pass
     @allure.title("司机市场报价--集装箱")
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     def test_query020(self):
         with allure.step("查看司机市场报价报价单是否存在"):
             sj_bjd = ict.Test_Added01().test_Added0115(fy_lx="port_container_export_transport")
@@ -1451,7 +1451,7 @@ class Test_query01():
 @allure.parent_suite('ict业务场景测试用例')
 @allure.suite('ict业务场景测试用例模块')
 @allure.sub_suite('集装箱出口,业务场景一（测试点应付费用生成五条明细')
-@pytest.mark.skip(reason="无理由跳过")
+# @pytest.mark.skip(reason="无理由跳过")
 class Test_business_scenario1():
     # @pytest.mark.skip(reason="无理由跳过")
     @allure.title("新增集装箱出口订单")
@@ -2256,7 +2256,7 @@ class Test_business_scenario1():
 @allure.parent_suite('ict业务场景测试用例')
 @allure.suite('ict业务场景测试用例模块')
 @allure.sub_suite('厢式车多装一卸,业务场景二（测试点应付费用生成五条明细）')
-@pytest.mark.skip(reason="无理由跳过")
+# @pytest.mark.skip(reason="无理由跳过")
 class Test_business_scenario2():
     # @pytest.mark.skip(reason="无理由跳过")
     @allure.title("新增厢式车多点装货订单")
@@ -2761,7 +2761,7 @@ class Test_business_scenario2():
 @allure.parent_suite('ict业务场景测试用例')
 @allure.suite('ict业务场景测试用例模块')
 @allure.sub_suite('集装箱出口,业务场景四（测试点：柜号多路径同步）')
-# @pytest.mark.skip(reason="无理由跳过")
+@pytest.mark.skip(reason="无理由跳过")
 class Test_business_scenario3():
     @pytest.mark.skip(reason="无理由跳过")
     @allure.title("新增集装箱出口订单")

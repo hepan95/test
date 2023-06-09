@@ -2337,7 +2337,7 @@ class Test_Added01():
         url = self.host + "/api/platform/customerContact/list"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        data ={"itemFrom":0,"itemTo":10,"filter":{"customerId":hz_id,"type":"customer"}}
+        data ={"itemFrom":0,"itemTo":10,"filter":{"customerId":hz_id,"contactName":"测试货主1-联系人1","type":"customer"}}
         A=requests.post(url=url,headers=headers,data=json.dumps(data))
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
@@ -2930,10 +2930,10 @@ class Test_Added01():
         weituo_hao = A.json()["result"]["data"][0]["customerDelegateCode"] #客户委托号
         cz_qy = A.json()["result"]["data"][0]["operationGroup"] #操作区域
         zh_time = A.json()["result"]["data"][0]["pickupTime"] #装货时间
-        data1 = A.json()["result"]["data"][0]["sealNumber"]
+        # data1 = A.json()["result"]["data"][0]["sealNumber"]
         # print(taskUnitCode,hz_name,dd_hao,weituo_hao)
-        print(data1)
-        return returnMsg,taskUnitCode,hz_name,dd_hao,weituo_hao,zh_time,data1
+        # print(data1)
+        return returnMsg,taskUnitCode,hz_name,dd_hao,weituo_hao,zh_time
     '''计划管理-集装箱出口拆单 查询''' #
     def test_Added0057(self,dd_hao="MCSZ-MCO-20230605-0001"):  # 传的是报价id
         url = self.host + "/api/platform/planPortTransport/list"
