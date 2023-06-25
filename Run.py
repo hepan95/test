@@ -33,18 +33,18 @@ if __name__ == '__main__':
 
 '''生成allure测试报告，存放本地'''
 # if __name__ == '__main__':
-    # import os
-    # reprot_name="Reprot{}.html".format(lj.Common_page().get_today())      #测试报告的名字（当天时间命名）
-    # # file_path 是自动化脚本文件
-    # # file_path = "./Test_casa/test_ict_long.py"
-    # file_path = "./Test_casa"
-    # # xmlpth是生成的xml数据文件，用来生成最终报告
-    # xmlpath = "./xml"
-    # xmlStr = "pytest -vs -q {file_path} --alluredir {xmlpath}".format(file_path=file_path, xmlpath=xmlpath)
-    # # print("xmlStr", xmlStr)
-    # # 执行命令，生成xml文件
-    # a = os.system(xmlStr)
-    # # 生成报告，--clean会清除旧文件
-    # htmlStr = "allure generate {xmlpath} -o ./apache-tomcat-10.0.20/webapps/ROOT/Report/{reprot_name}/ --clean".format(xmlpath=xmlpath,reprot_name=reprot_name)
-    # r=os.system(htmlStr)
-
+#     import os
+#     reprot_name="Reprot{}.html".format(lj.Common_page().get_today())      #测试报告的名字（当天时间命名）
+#     # file_path 是自动化脚本文件
+#     # file_path = "./Test_casa/test_ict_long.py"
+#     file_path = "./Test_casa"
+#     # xmlpth是生成的xml数据文件，用来生成最终报告
+#     xmlpath = "./xml"
+#     xmlStr = "pytest -vs -q {file_path} --alluredir {xmlpath}".format(file_path=file_path, xmlpath=xmlpath)
+#     # print("xmlStr", xmlStr)
+#     # 执行命令，生成xml文件
+#     a = os.system(xmlStr)
+#     # 生成报告，--clean会清除旧文件
+#     htmlStr = "allure generate {xmlpath} -o ./apache-tomcat-10.0.20/webapps/ROOT/Report/{reprot_name}/ --clean".format(xmlpath=xmlpath,reprot_name=reprot_name)
+#     r=os.system(htmlStr)
+#

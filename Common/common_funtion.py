@@ -72,7 +72,7 @@ class Common_page():
 
 if __name__ == '__main__':
     run=Common_page()
-    # run.projects_path()
+    run.projects_path()
     # run.get_today()
     # run.read_excel001()
     run.get_today001()

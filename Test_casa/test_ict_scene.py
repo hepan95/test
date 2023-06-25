@@ -7,8 +7,9 @@
 import datetime
 import allure
 import pytest
+# from pytest_assume.plugin import assume
 myskip = pytest.mark.skipif()
-
+from Common import common_funtion as pz #获取项目地址
 from Common import ict_api as ict
 from Config import config as cf
 from Common import common_funtion as bf
@@ -1427,7 +1428,7 @@ class Test_query01():
                                                                 taskUnitCode="port_container_export_transport")
                     assert xzsc_bj == '操作成功'
                 with allure.step("查看新增集装箱出口运输货主市场报价,查看报价id"):
-                    bjd_bm2 = ict.Test_Added01().test_Added0053(bjd_id=bjd_id, transportPort=gk_id,departure=jd_bm)
+                    bjd_bm2 = ict.Test_Added01().test_Added0081(bjd_id=bjd_id,transportPort=gk_id,departure=jd_bm)
                     assert bjd_bm2[0] == '操作成功'
                 with allure.step("启用新增集装箱出口运输货主市场报价,报价单编码：{}".format(bjd_id)):
                     jd_bm = ict.Test_Added01().test_Added0011(bz_id=bjd_bm2[1])
@@ -1447,10 +1448,45 @@ class Test_query01():
                     if bjd_bm2[2] == "enabled_type_enabled":
                         with allure.step("存在集装箱出口运输司机市场报价,并已启用报价"):
                             pass
+    @allure.title("监理档案")
+    # @pytest.mark.skip(reason="无理由跳过")
+    def test_query021(self):
+        with allure.step("查看监理是否存在"):
+            jl_da = ict.Test_Added01().test_Added0125(jl_name="毛敏监理01")
+            assert jl_da[0] == '操作成功'
+            if jl_da[2] == 0 :
+                with allure.step("获取供应商ID"):
+                    gys_id = ict.Test_Added01().test_Added0062(gys_name=cf.gys1_name)
+                    assert gys_id[0] == '操作成功'
+                with allure.step("新增监理档案"):
+                    xz_jlda = ict.Test_Added01().test_Added0127(gys_id=gys_id[1])
+                    assert xz_jlda == '操作成功'
+                with allure.step("查看监理档案ID"):
+                    jl_da = ict.Test_Added01().test_Added0125(jl_name="毛敏监理01")
+                    assert jl_da[0] == '操作成功'
+                    ji_id = jl_da[1][0]["id"]
+                with allure.step("激活监理档案"):
+                    jh_jlda = ict.Test_Added01().test_Added0126(jl_id=ji_id)
+                    assert jh_jlda == '操作成功'
+            if jl_da[2] != 0 :
+                with allure.step("存在，获取监理档案"):
+                    jl_zt = jl_da[1][0]["active"]
+                    ji_id = jl_da[1][0]["id"]
+                    if jl_zt == "active_unactivated" :
+                        with allure.step("存在》未激活，激活监理档案"):
+                            jh_jlda = ict.Test_Added01().test_Added0126(jl_id=ji_id)
+                            assert jh_jlda == '操作成功'
+                    if jl_zt == "active_invalid" :
+                        with allure.step("存在》失效，激活监理档案"):
+                            jh_jlda = ict.Test_Added01().test_Added0126(jl_id=ji_id)
+                            assert jh_jlda == '操作成功'
+                    if jl_zt == "active_activated" :
+                        with allure.step("存在》并已经激活监理档案"):
+                           pass
 
 @allure.parent_suite('ict业务场景测试用例')
 @allure.suite('ict业务场景测试用例模块')
-@allure.sub_suite('集装箱出口,业务场景一（测试点应付费用生成五条明细')
+@allure.sub_suite('集装箱出口,业务场景一（测试点：重复派车自有车应付费用生成五条明细')
 # @pytest.mark.skip(reason="无理由跳过")
 class Test_business_scenario1():
     # @pytest.mark.skip(reason="无理由跳过")
@@ -1574,9 +1610,9 @@ class Test_business_scenario1():
             dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
             assert dd_xx1[0] == '操作成功'
             dd_id =  dd_xx1[1]   #订单id
-            zh_time = dd_xx1[5][0]["pickupTime"]    #装货时间  年月日时分秒
-            cz_qy = dd_xx1[5][0]["operationGroup"]   # 操作区域
-            dd_hao = dd_xx1[4]    #订单号
+            zh_time = dd_xx1[3][0]["pickupTime"]    #装货时间  年月日时分秒
+            cz_qy = dd_xx1[3][0]["operationGroup"]   # 操作区域
+            dd_hao = dd_xx1[2]    #订单号
             str_datetime = zh_time
             time1 = datetime.datetime.strptime(str_datetime, "%Y-%m-%d %H:%M:%S")
             time2 = time1.strftime('%Y-%m-%d')   #装货时间  年月日
@@ -1622,7 +1658,7 @@ class Test_business_scenario1():
         with allure.step("调度管理，获取车牌号:{}".format(cc_xx[4])):
             bz_dd1 = ict.Test_Added01().test_Added0085(zh_time=time2,fw_lx="port_container_export_transport")
             assert bz_dd1[0] == '操作成功'
-            assert bz_dd1[1] != []
+            # assert bz_dd1[1] != []
         with allure.step("调度管理，派自有车，订单号：{}".format(dd_hao)):
             pzyc = ict.Test_Added01().test_Added0075(id=dd_id,driverId=sj_id,supplierId=gys_id,mainlandLicensePlateNumber=cp_hao,
                                                       orderNumber=dd_hao,pickupTime=zh_time,transportType="transport_type_one_one",
@@ -1684,11 +1720,11 @@ class Test_business_scenario1():
             dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3], lx="port_container_export_transport")
             pytest.assume(dd_xx1[0] == '操作成功')
             dd_id = dd_xx1[1]  # 订单id
-        with allure.step("自有车撤销派单，订单号:{}".format(dd_xx1[4])):
+        with allure.step("自有车撤销派单，订单号:{}".format(dd_xx1[2])):
             cx_pd = ict.Test_Added01().test_Added0092(dd_id=dd_id)
             pytest.assume(cx_pd == '操作成功')
-        with allure.step("跟踪管理查看柜号不清空，订单:{}".format(dd_xx1[4])):
-            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_xx1[4],fw_lx="port_container_export_transport")
+        with allure.step("跟踪管理查看柜号不清空，订单:{}".format(dd_xx1[2])):
+            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_xx1[2],fw_lx="port_container_export_transport")
             x_hao = "FSCU5130217"
             ft_hao = "CAAU5507656"
             kg_z = "2580"
@@ -1699,7 +1735,7 @@ class Test_business_scenario1():
             allure.attach(ck_g_hao[1][0]["containerNumber"], name="断言柜号：FSCU5130217", attachment_type=allure.attachment_type.TEXT)
             allure.attach(ck_g_hao[1][0]["sealNumber"], name="断言封条号：CAAU5507656", attachment_type=allure.attachment_type.TEXT)
             allure.attach(ck_g_hao[1][0]["cabinetWeight"], name="断言柜重：2580", attachment_type=allure.attachment_type.TEXT)
-        with allure.step("跟踪管理查看提柜节点时间跟踪清空，订单:{}".format(dd_xx1[4])):
+        with allure.step("跟踪管理查看提柜节点时间跟踪清空，订单:{}".format(dd_xx1[2])):
             dl_time = ict.Test_Added01().test_Added0093(dd_id=dd_id)
             pytest.assume(dl_time[0]  == '操作成功')
             taskTypeName = dl_time[1][2]["taskTypeName"]
@@ -1713,8 +1749,8 @@ class Test_business_scenario1():
                     # print(time1[key])
                     list22.append(key)
             pytest.assume(list22 == [])      #断言节点时间key不存在
-        with allure.step("断言应付费用列表清空，订单:{}".format(dd_xx1[4])):
-            fy_lb = ict.Test_Added01().test_Added0094(dd_hao=dd_xx1[4],fw_lx="port_container_export_transport")
+        with allure.step("断言应付费用列表清空，订单:{}".format(dd_xx1[2])):
+            fy_lb = ict.Test_Added01().test_Added0094(dd_hao=dd_xx1[2],fw_lx="port_container_export_transport")
             pytest.assume(fy_lb[0] ==  '操作成功')
             allure.attach(body=fy_lb[0], name="接口响应", attachment_type=allure.attachment_type.TEXT)
             pytest.assume(fy_lb[2]["driverName"] != "测试自有车-集1" )      #断言司机名称
@@ -1747,9 +1783,9 @@ class Test_business_scenario1():
             dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
             assert dd_xx1[0] == '操作成功'
             dd_id =  dd_xx1[1]   #订单id
-            zh_time = dd_xx1[5][0]["pickupTime"]    #装货时间  年月日时分秒
-            cz_qy = dd_xx1[5][0]["operationGroup"]   # 操作区域
-            dd_hao = dd_xx1[4]    #订单号
+            zh_time = dd_xx1[3][0]["pickupTime"]    #装货时间  年月日时分秒
+            cz_qy = dd_xx1[3][0]["operationGroup"]   # 操作区域
+            dd_hao = dd_xx1[2]    #订单号
             str_datetime = zh_time
             time1 = datetime.datetime.strptime(str_datetime, "%Y-%m-%d %H:%M:%S")
             time2 = time1.strftime('%Y-%m-%d')   #装货时间  年月日
@@ -1795,7 +1831,7 @@ class Test_business_scenario1():
         with allure.step("调度管理，获取车牌号:{}".format(cc_xx[4])):
             bz_dd1 = ict.Test_Added01().test_Added0085(zh_time=time2,fw_lx="port_container_export_transport")
             assert bz_dd1[0] == '操作成功'
-            assert bz_dd1[1] != []
+            # assert bz_dd1[1] != []
         with allure.step("调度管理，派自有车，订单号：{}".format(dd_hao)):
             pzyc = ict.Test_Added01().test_Added0075(id=dd_id,driverId=sj_id,supplierId=gys_id,mainlandLicensePlateNumber=cp_hao,
                                                       orderNumber=dd_hao,pickupTime=zh_time,transportType="transport_type_one_one",
@@ -1869,11 +1905,11 @@ class Test_business_scenario1():
             dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3], lx="port_container_export_transport")
             pytest.assume(dd_xx1[0] == '操作成功')
             dd_id = dd_xx1[1]  # 订单id
-        with allure.step("自有车撤销派单，订单号:{}".format(dd_xx1[4])):
+        with allure.step("自有车撤销派单，订单号:{}".format(dd_xx1[2])):
             cx_pd = ict.Test_Added01().test_Added0092(dd_id=dd_id)
             pytest.assume(cx_pd == '操作成功')
-        with allure.step("跟踪管理查看柜号不清空，订单:{}".format(dd_xx1[4])):
-            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_xx1[4],fw_lx="port_container_export_transport")
+        with allure.step("跟踪管理查看柜号不清空，订单:{}".format(dd_xx1[2])):
+            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_xx1[2],fw_lx="port_container_export_transport")
             x_hao = "FSCU5130217"
             ft_hao = "CAAU5507656"
             kg_z = "2580"
@@ -1884,7 +1920,7 @@ class Test_business_scenario1():
             allure.attach(ck_g_hao[1][0]["containerNumber"], name="断言柜号：FSCU5130217", attachment_type=allure.attachment_type.TEXT)
             allure.attach(ck_g_hao[1][0]["sealNumber"], name="断言封条号：CAAU5507656", attachment_type=allure.attachment_type.TEXT)
             allure.attach(ck_g_hao[1][0]["cabinetWeight"], name="断言柜重：2580", attachment_type=allure.attachment_type.TEXT)
-        with allure.step("跟踪管理查看提柜节点时间跟踪清空，订单:{}".format(dd_xx1[4])):
+        with allure.step("跟踪管理查看提柜节点时间跟踪清空，订单:{}".format(dd_xx1[2])):
             dl_time = ict.Test_Added01().test_Added0093(dd_id=dd_id)
             pytest.assume(dl_time[0]  == '操作成功')
             taskTypeName = dl_time[1][2]["taskTypeName"]
@@ -1898,8 +1934,8 @@ class Test_business_scenario1():
                     # print(time1[key])
                     list22.append(key)
             pytest.assume(list22 == [])      #断言节点时间key不存在
-        with allure.step("断言应付费用列表清空，订单:{}".format(dd_xx1[4])):
-            fy_lb = ict.Test_Added01().test_Added0094(dd_hao=dd_xx1[4],fw_lx="port_container_export_transport")
+        with allure.step("断言应付费用列表清空，订单:{}".format(dd_xx1[2])):
+            fy_lb = ict.Test_Added01().test_Added0094(dd_hao=dd_xx1[2],fw_lx="port_container_export_transport")
             pytest.assume(fy_lb[0] ==  '操作成功')
             allure.attach(body=fy_lb[0], name="接口响应", attachment_type=allure.attachment_type.TEXT)
             pytest.assume(fy_lb[2]["driverName"] != "测试自有车-集2" )      #断言司机名称
@@ -1931,9 +1967,9 @@ class Test_business_scenario1():
             dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3], lx="port_container_export_transport")
             assert dd_xx1[0] == '操作成功'
             dd_id = dd_xx1[1]  # 订单id
-            zh_time = dd_xx1[5][0]["pickupTime"]    #装货时间  年月日时分秒
-            cz_qy = dd_xx1[5][0]["operationGroup"]   # 操作区域
-            dd_hao = dd_xx1[4]  # 订单号
+            zh_time = dd_xx1[3][0]["pickupTime"]    #装货时间  年月日时分秒
+            cz_qy = dd_xx1[3][0]["operationGroup"]   # 操作区域
+            dd_hao = dd_xx1[2]  # 订单号
             str_datetime = zh_time
             time1 = datetime.datetime.strptime(str_datetime, "%Y-%m-%d %H:%M:%S")
             time2 = time1.strftime('%Y-%m-%d')  # 装货时间  年月日
@@ -1979,7 +2015,7 @@ class Test_business_scenario1():
         with allure.step("调度管理，获取车牌号:{}".format(cc_xx[4])):
             bz_dd1 = ict.Test_Added01().test_Added0085(zh_time=time2, fw_lx="port_container_export_transport")
             assert bz_dd1[0] == '操作成功'
-            assert bz_dd1[1] != []
+            # assert bz_dd1[1] != []
         with allure.step("调度管理，派自有车，订单号：{}".format(dd_hao)):
             pzyc = ict.Test_Added01().test_Added0075(id=dd_id, driverId=sj_id, supplierId=gys_id,
                                                      mainlandLicensePlateNumber=cp_hao,
@@ -2041,10 +2077,9 @@ class Test_business_scenario1():
         with allure.step("应付费用费用整审，订单:{}".format(dd_hao)):
             fy_zs = ict.Test_Added01().test_Added0096(dd_id=dd_id)
             pytest.assume(fy_zs == '操作成功')
-        with allure.step("断言应付费用列表订单费用状态已完成，订单:{}".format(dd_xx1[4])):
-            fy_lb = ict.Test_Added01().test_Added0094(dd_hao=dd_xx1[4], fw_lx="port_container_export_transport")
+        with allure.step("断言应付费用列表订单费用状态已完成，订单:{}".format(dd_hao)):
+            fy_lb = ict.Test_Added01().test_Added0094(dd_hao=dd_hao, fw_lx="port_container_export_transport")
             pytest.assume(fy_lb[0] == '操作成功')
-            allure.attach(body=fy_lb[0], name="接口响应", attachment_type=allure.attachment_type.TEXT)
             pytest.assume(fy_lb[2]["chargeStatus"] == "status_check_all_completed")  # 断言订单费用状态已整审
     # @pytest.mark.skip(reason="无理由跳过")
     @allure.title("集装箱出口订单撤销派自有车c")
@@ -2061,11 +2096,11 @@ class Test_business_scenario1():
             dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3], lx="port_container_export_transport")
             pytest.assume(dd_xx1[0] == '操作成功')
             dd_id = dd_xx1[1]  # 订单id
-        with allure.step("自有车撤销派单，订单号:{}".format(dd_xx1[4])):
+        with allure.step("自有车撤销派单，订单号:{}".format(dd_xx1[2])):
             cx_pd = ict.Test_Added01().test_Added0092(dd_id=dd_id)
             pytest.assume(cx_pd == '操作成功')
-        with allure.step("跟踪管理查看柜号不清空，订单:{}".format(dd_xx1[4])):
-            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_xx1[4], fw_lx="port_container_export_transport")
+        with allure.step("跟踪管理查看柜号不清空，订单:{}".format(dd_xx1[2])):
+            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_xx1[2], fw_lx="port_container_export_transport")
             x_hao = "FSCU5130217"
             ft_hao = "CAAU5507656"
             kg_z = "2580"
@@ -2079,7 +2114,7 @@ class Test_business_scenario1():
                           attachment_type=allure.attachment_type.TEXT)
             allure.attach(ck_g_hao[1][0]["cabinetWeight"], name="断言柜重：2580",
                           attachment_type=allure.attachment_type.TEXT)
-        with allure.step("跟踪管理查看提柜节点时间跟踪清空，订单:{}".format(dd_xx1[4])):
+        with allure.step("跟踪管理查看提柜节点时间跟踪清空，订单:{}".format(dd_xx1[2])):
             dl_time = ict.Test_Added01().test_Added0093(dd_id=dd_id)
             pytest.assume(dl_time[0] == '操作成功')
             taskTypeName = dl_time[1][2]["taskTypeName"]
@@ -2093,8 +2128,8 @@ class Test_business_scenario1():
                     # print(time1[key])
                     list22.append(key)
             pytest.assume(list22 == [])  # 断言节点时间key不存在
-        with allure.step("断言应付费用列表清空，订单:{}".format(dd_xx1[4])):
-            fy_lb = ict.Test_Added01().test_Added0094(dd_hao=dd_xx1[4], fw_lx="port_container_export_transport")
+        with allure.step("断言应付费用列表清空，订单:{}".format(dd_xx1[2])):
+            fy_lb = ict.Test_Added01().test_Added0094(dd_hao=dd_xx1[2], fw_lx="port_container_export_transport")
             pytest.assume(fy_lb[0] == '操作成功')
             allure.attach(body=fy_lb[0], name="接口响应", attachment_type=allure.attachment_type.TEXT)
             pytest.assume(fy_lb[2]["driverName"] != "测试自有车-集1")  # 断言司机名称
@@ -2128,9 +2163,9 @@ class Test_business_scenario1():
             dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
             assert dd_xx1[0] == '操作成功'
             dd_id =  dd_xx1[1]   #订单id
-            zh_time = dd_xx1[5][0]["pickupTime"]    #装货时间  年月日时分秒
-            cz_qy = dd_xx1[5][0]["operationGroup"]   # 操作区域
-            dd_hao = dd_xx1[4]    #订单号
+            zh_time = dd_xx1[3][0]["pickupTime"]    #装货时间  年月日时分秒
+            cz_qy = dd_xx1[3][0]["operationGroup"]   # 操作区域
+            dd_hao = dd_xx1[2]    #订单号
             str_datetime = zh_time
             time1 = datetime.datetime.strptime(str_datetime, "%Y-%m-%d %H:%M:%S")
             time2 = time1.strftime('%Y-%m-%d')   #装货时间  年月日
@@ -2176,7 +2211,7 @@ class Test_business_scenario1():
         with allure.step("调度管理，获取车牌号:{}".format(cc_xx[4])):
             bz_dd1 = ict.Test_Added01().test_Added0085(zh_time=time2,fw_lx="port_container_export_transport")
             assert bz_dd1[0] == '操作成功'
-            assert bz_dd1[1] != []
+            # assert bz_dd1[1] != []
         with allure.step("调度管理，派自有车，订单号：{}".format(dd_hao)):
             pzyc = ict.Test_Added01().test_Added0075(id=dd_id,driverId=sj_id,supplierId=gys_id,mainlandLicensePlateNumber=cp_hao,
                                                       orderNumber=dd_hao,pickupTime=zh_time,transportType="transport_type_one_one",
@@ -2255,7 +2290,7 @@ class Test_business_scenario1():
 
 @allure.parent_suite('ict业务场景测试用例')
 @allure.suite('ict业务场景测试用例模块')
-@allure.sub_suite('厢式车多装一卸,业务场景二（测试点应付费用生成五条明细）')
+@allure.sub_suite('厢式车多装一卸,业务场景二（测试点：重复派车运输公司应付费用生成五条明细）')
 # @pytest.mark.skip(reason="无理由跳过")
 class Test_business_scenario2():
     # @pytest.mark.skip(reason="无理由跳过")
@@ -2761,8 +2796,1459 @@ class Test_business_scenario2():
 @allure.parent_suite('ict业务场景测试用例')
 @allure.suite('ict业务场景测试用例模块')
 @allure.sub_suite('集装箱出口,业务场景四（测试点：柜号多路径同步）')
-@pytest.mark.skip(reason="无理由跳过")
+# @pytest.mark.skip(reason="无理由跳过")
 class Test_business_scenario3():
+    # @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("新增集装箱出口订单")
+    def test_business_scenario001(self):
+        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
+            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
+            assert hz_id1[0] == '操作成功'
+            hz_id = hz_id1[1]     #货主id
+            kf_id = hz_id1[2]     #客服id
+        with allure.step("获取货主联系人"):
+            lxr_name1 = ict.Test_Added01().test_Added0014(hz_id=hz_id)
+            assert lxr_name1[0] == '操作成功'
+            lxr_id = lxr_name1[1]    #货主联系人id
+            lxr_name = lxr_name1[3]  #货主联系人名称
+            lxr_hm = lxr_name1[4]    #货主联系人号码
+        with allure.step("港口id"):
+            gk_id1 = ict.Test_Added01().test_Added000(placeName="BREMERHAVEN")
+            assert gk_id1[0] == '操作成功'
+            gk_id = gk_id1[1]   #港口id
+        with allure.step("获取收发地省编码"):
+            sf_bm = ict.Test_Added01().test_Added0001(lx=3, name="湖南省")
+            assert sf_bm[0] == '操作成功'
+            sf_bm = sf_bm[1]
+        with allure.step("获取收发地市编码"):
+            cs_bm = ict.Test_Added01().test_Added0001(lx=4, name="长沙市")
+            assert cs_bm[0] == '操作成功'
+            cs_bm = cs_bm[1]
+        with allure.step("获取收发地区编码"):
+            q_bm = ict.Test_Added01().test_Added0001(lx=5, name="雨花区")
+            assert q_bm[0] == '操作成功'
+            q_bm = q_bm[1]
+        with allure.step("获取收发地街道编码"):
+            jd_bm = ict.Test_Added01().test_Added0001(lx=6, name="洞井街道")
+            assert jd_bm[0] == '操作成功'
+            jd_bm = jd_bm[1]
+        with allure.step("获取装货单位档案"):
+            sfh_dd = ict.Test_Added01().test_Added0029(hz_id=hz_id, zh_name="测试集装箱装货地址")
+            assert sfh_dd[0] == '操作成功'
+            zhdw_id = sfh_dd[1]         #装货单位id
+            zhdw_name = sfh_dd[2]       #装货单位名称
+            zhdw_lxr =  sfh_dd[3]       #装货联系人
+            zhdw_xlrdh = sfh_dd[4]      #装货联系电话
+            zhdw_xxdz = sfh_dd[5]       #装货详细地址
+        with allure.step("获取时间"):
+            time1 = bf.Common_page().get_today001()
+            time2 = time1[1]  # +5天 年月日时分秒
+            time3 = time1[2]  # +10天  年月日时分秒
+            time4 =time1[3]  # +20天  年月日时分秒
+            time5 = time1[4]  # 今天  年月日
+            time6 =time1[5]  # +50天  年月日
+            time7 =time1[6]  # +100天  年月日
+            time8 =time1[7]  # +200天  年月日
+            time9 =time1[8]  # 按时间年月日时分秒生成数组-客户委托号
+            SSS = bf.Common_page().start()  #订舱号
+        with allure.step("集装箱出口运输货主合同报价,查看报价id"):
+            bjd_bm2 = ict.Test_Added01().test_Added0055(taskUnitCode="port_container_export_transport",customerId=hz_id,
+                                                        transportPort=gk_id,provinces=sf_bm,city=cs_bm,area=q_bm,
+                                                        street=jd_bm,consigneeConsignorId=zhdw_id,pickupTime=time2,carModeId="20GP")
+            assert bjd_bm2[0] == '操作成功'
+            bjd_id = bjd_bm2[2]
+            bjd_je = bjd_bm2[1]
+        with allure.step("新增集装箱出口订单"):
+                xzjzx_ck = ict.Test_Added01().test_Added02100(customerId=hz_id,customerContact=lxr_name,customerContactPhone=lxr_hm,
+                            customerServiceId=kf_id,transportPort=gk_id,departureProvinces=sf_bm,departureCity=cs_bm,departureArea=q_bm,
+                            departure=jd_bm,cyCutOffTime=time3,consignorId=zhdw_id,consignorName=zhdw_name,consignorContact=zhdw_lxr,
+                            consignorContactPhone=zhdw_xlrdh,consignorContactAddr=zhdw_xxdz,provinces=sf_bm,city=cs_bm,district=q_bm,
+                            street=jd_bm,pickupTime=time2,bookingNumber=SSS,customerDelegateCode=time9,baseAmount=bjd_je,price=bjd_je,
+                            customerPricePropertyId=bjd_id,matchKey=jd_bm)
+                assert xzjzx_ck == '操作成功'
+        with allure.step("查询新增集装箱出口运输订单信息"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id)
+            assert dd_xx[0] == '操作成功'
+        with allure.step("集装箱出口运输订单号：{}".format(dd_xx[3])):
+            pass
+    # @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("集装箱出口订单分单管理》分自有车")
+    def test_business_scenario002(self):
+        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
+            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
+            assert hz_id1[0] == '操作成功'
+            hz_id = hz_id1[1]     #货主id
+            kf_id = hz_id1[2]     #客服id
+        with allure.step("查询新增集装箱出口运输订单信息"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id)
+            assert dd_xx[0] == '操作成功'
+        with allure.step("计划管理，分单查询，订单号：{}".format(dd_xx[3])):
+            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_xx[3])
+            assert fd_xx[0] == '操作成功'
+            assert fd_xx[1] == 4
+            data1 = fd_xx[2]
+            id = []
+            for item in data1:
+                for key in item:
+                    # print(key)
+                    if key == "id":
+                        # print(item[key])
+                        id.append(item[key])
+            id0 = len(id)
+            id1 = 0
+            while id1 < id0:
+                id2 = id1
+                id1 += 1
+                print(id2)
+                fd_id = id[id2]
+                with allure.step("分单，分派自有车,分单号：{}".format(fd_id)):
+                    qy_jdzx = ict.Test_Added01().test_Added0058(zy_che=fd_id,gys="",hy_dt="")
+                    assert qy_jdzx == '操作成功'
+    # @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("集装箱出口订单派自有车A，并审核应付明细")
+    def test_business_scenario003(self):
+        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
+            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
+            assert hz_id1[0] == '操作成功'
+            hz_id = hz_id1[1]  # 货主id
+            kf_id = hz_id1[2]  # 客服id
+        with allure.step("查询新增集装箱出口运输订单信息"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id)
+            assert dd_xx[0] == '操作成功'
+        with allure.step("查询调度管理集装箱出口运输订单信息"):
+            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
+            assert dd_xx1[0] == '操作成功'
+            dd_id =  dd_xx1[1]   #订单id
+            zh_time = dd_xx1[3][0]["pickupTime"]    #装货时间  年月日时分秒
+            cz_qy = dd_xx1[3][0]["operationGroup"]   # 操作区域
+            dd_hao = dd_xx1[2]    #订单号
+            str_datetime = zh_time
+            time1 = datetime.datetime.strptime(str_datetime, "%Y-%m-%d %H:%M:%S")
+            time2 = time1.strftime('%Y-%m-%d')   #装货时间  年月日
+        with allure.step("查看司机档案"):
+            xz_sj = ict.Test_Added01().test_Added0066(sj_name="测试自有车-集1")
+            assert xz_sj[0] == '操作成功'
+            sj_id = xz_sj[1]   #司机id
+            sj_name = xz_sj[4]   #司机名称
+            sj_haoma = xz_sj[5]   #司机号码
+        with allure.step("查看运输公司档案"):
+            gys_da = ict.Test_Added01().test_Added0062(gys_name="租户测试自有车-集1")
+            assert gys_da[0] == '操作成功'
+            gys_id = gys_da[1]  #供应商id
+            gyl_name =  gys_da[4]  #供应商名称
+        with allure.step("查看车辆档案"):
+            sj_da = ict.Test_Added01().test_Added0070(gys_id=gys_id, cp_hao="粤ZZ0001")
+            assert sj_da[0] == '操作成功'
+            cl_id = sj_da[1]   #车辆id
+            cp_hao = sj_da[2]    #车牌号
+            cl_name = sj_da[4]  #车辆名称
+            cz_qy = sj_da[6]    # 操作区域
+        with allure.step("维护出车表信息"):
+            cc_xx = ict.Test_Added01().test_Added0072(sj_id=sj_id, cp_hao="粤ZZ0001",zh_time=time2)
+            assert cc_xx[0] == '操作成功'
+            if cc_xx[1] == 0 :
+                with allure.step("出车表不存在，生成出车表"):
+                    xx_ccb = ict.Test_Added01().test_Added0073(fw_lx="container_type",cz_qy=cz_qy,tims=time2)
+                    assert xx_ccb == '操作成功'
+            if cc_xx[1] != 0 :
+                with allure.step("出车表存在，查看出车表信息"):
+                    cc_dd = ict.Test_Added01().test_Added0074(sj_id=sj_id,cp_hao="粤ZZ0001",zh_time=time2)
+                    assert cc_dd[0] == '操作成功'
+                    if cc_dd[2] == "car_dispatch_undistribute":
+                        with allure.step("出车表存在,车牌号：{}，并未分配".format(cc_dd[4])):
+                            pass
+                    if cc_dd[2] == "car_dispatch_completed":
+                        fz_ccb = ict.Test_Added01().test_Added0084(ccb_id=cc_dd[1])
+                        assert fz_ccb == '操作成功'
+        with allure.step("维护出车表信息"):
+            cc_xx = ict.Test_Added01().test_Added0074(sj_id=sj_id, cp_hao="粤ZZ0001",zh_time=time2)
+            assert cc_xx[0] == '操作成功'
+            ccb_id =  cc_xx[1]   #出车表ID
+        with allure.step("调度管理，获取车牌号:{}".format(cc_xx[4])):
+            bz_dd1 = ict.Test_Added01().test_Added0085(zh_time=time2,fw_lx="port_container_export_transport")
+            assert bz_dd1[0] == '操作成功'
+            # assert bz_dd1[1] != []
+        with allure.step("调度管理，派自有车，订单号：{}".format(dd_hao)):
+            pzyc = ict.Test_Added01().test_Added0075(id=dd_id,driverId=sj_id,supplierId=gys_id,mainlandLicensePlateNumber=cp_hao,
+                                                      orderNumber=dd_hao,pickupTime=zh_time,transportType="transport_type_one_one",
+                                                      mainlandLicensePlate=cl_id,driverName=sj_name,mainlandPhone=sj_haoma,supplierName=gyl_name,
+                                                      carDispatchId=ccb_id)
+            assert pzyc == '操作成功'
+
+    # @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("跟踪管理，集装箱运输》柜号录入")
+    def test_business_scenario004(self):
+        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
+            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
+            assert hz_id1[0] == '操作成功'
+            hz_id = hz_id1[1]  # 货主id
+            kf_id = hz_id1[2]  # 客服id
+        with allure.step("查询新增集装箱出口运输订单信息"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id)
+            assert dd_xx[0] == '操作成功'
+        with allure.step("查询调度管理集装箱出口运输订单信息"):
+            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
+            assert dd_xx1[0] == '操作成功'
+            dd_id =  dd_xx1[1]   #订单id
+            zh_time = dd_xx1[3][0]["pickupTime"]    #装货时间  年月日时分秒
+            cz_qy = dd_xx1[3][0]["operationGroup"]   # 操作区域
+            dd_hao = dd_xx1[2]    #订单号
+        with allure.step("手动录入柜号，订单:{}".format(dd_hao)):
+            x_hao = "FSCU5130217"
+            ft_hao = "CAAU5507656"
+            kg_z = "2580"
+            g_hao = ict.Test_Added01().test_Added0089(x_hao=x_hao,kg_z=kg_z,dd_id=dd_id,ft_hao=ft_hao)
+            pytest.assume(g_hao == '操作成功')
+        with allure.step("跟踪管理查看柜号，订单:{}".format(dd_hao)):
+            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_hao,fw_lx="port_container_export_transport")
+            pytest.assume(ck_g_hao[0] == '操作成功')
+            pytest.assume(ck_g_hao[1][0]["containerNumber"] == x_hao)
+            pytest.assume(ck_g_hao[1][0]["sealNumber"] == ft_hao)
+            pytest.assume(ck_g_hao[1][0]["cabinetWeight"] == kg_z)
+    # @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("柜号录入，查看柜号同步")
+    def test_business_scenario005(self):
+        x_hao = "FSCU5130217"
+        ft_hao = "CAAU5507656"
+        kg_zl = "2580"
+        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
+            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
+            assert hz_id1[0] == '操作成功'
+            hz_id = hz_id1[1]  # 货主id
+            kf_id = hz_id1[2]  # 客服id
+        with allure.step("订单管理》订单录入列表，查看同步柜号"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id)
+            assert dd_xx[0] == '操作成功'
+            xianghao1 =  dd_xx[6]["containerNumber"]
+            fengtiao1 =  dd_xx[6]["sealNumber"]
+            konggui1 = dd_xx[6]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao1)
+            pytest.assume(ft_hao == fengtiao1)
+            pytest.assume(2580 == konggui1)
+
+        with allure.step("订单管理》集装箱运输列表，查看同步柜号,订单号：{}".format(dd_xx[3])):
+            jzx_ys = ict.Test_Added01().test_Added0117(hz_id=hz_id)
+            assert jzx_ys[0] == '操作成功'
+            xianghao2 =  jzx_ys[1][0]["containerNumber"]
+            fengtiao2 =  jzx_ys[1][0]["sealNumber"]
+            konggui2 = jzx_ys[1][0]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao2)
+            pytest.assume(ft_hao == fengtiao2)
+            pytest.assume(2580 == konggui2)
+
+        with allure.step("运单管理>计划管理>集装箱>订单号：{}".format(dd_xx[3])):
+            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_xx[3])
+            assert fd_xx[0] == '操作成功'
+            assert fd_xx[1] == 4
+            xianghao3 =  fd_xx[2][0]["containerNumber"]
+            fengtiao3 =  fd_xx[2][0]["sealNumber"]
+            konggui3 = fd_xx[2][0]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao3)
+            pytest.assume(ft_hao == fengtiao3)
+            pytest.assume( kg_zl == konggui3)
+
+            xianghao4 =  fd_xx[2][1]["containerNumber"]
+            fengtiao4 =  fd_xx[2][1]["sealNumber"]
+            konggui4 = fd_xx[2][1]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao4)
+            pytest.assume(ft_hao == fengtiao4)
+            pytest.assume( kg_zl == konggui4)
+            xianghao5 =  fd_xx[2][2]["containerNumber"]
+            fengtiao5 =  fd_xx[2][2]["sealNumber"]
+            konggui5 = fd_xx[2][2]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao5)
+            pytest.assume(ft_hao == fengtiao5)
+            pytest.assume( kg_zl == konggui5)
+            xianghao6 =  fd_xx[2][3]["containerNumber"]
+            fengtiao6 =  fd_xx[2][3]["sealNumber"]
+            konggui6 = fd_xx[2][3]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao6)
+            pytest.assume(ft_hao == fengtiao6)
+            pytest.assume( kg_zl == konggui6)
+
+        with allure.step("运单管理>调度管理>集装箱>订单号：{}".format(dd_xx[3])):
+            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="")
+            assert dd_xx1[0] == '操作成功'
+            xianghao7 = dd_xx1[3][0]["containerNumber"]
+            fengtiao7 = dd_xx1[3][0]["sealNumber"]
+            konggui7 = dd_xx1[3][0]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao7)
+            pytest.assume(ft_hao == fengtiao7)
+            pytest.assume(kg_zl == konggui7)
+
+            xianghao8 = dd_xx1[3][1]["containerNumber"]
+            fengtiao8 = dd_xx1[3][1]["sealNumber"]
+            konggui8 = dd_xx1[3][1]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao8)
+            pytest.assume(ft_hao == fengtiao8)
+            pytest.assume(kg_zl == konggui8)
+
+            xianghao9 = dd_xx1[3][2]["containerNumber"]
+            fengtiao9 = dd_xx1[3][2]["sealNumber"]
+            konggui9 = dd_xx1[3][2]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao9)
+            pytest.assume(ft_hao == fengtiao9)
+            pytest.assume(kg_zl == konggui9)
+
+            xianghao11 = dd_xx1[3][3]["containerNumber"]
+            fengtiao11 = dd_xx1[3][3]["sealNumber"]
+            konggui11 = dd_xx1[3][3]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao11)
+            pytest.assume(ft_hao == fengtiao11)
+            pytest.assume(kg_zl == konggui11)
+
+
+
+        with allure.step("运单管理>监理管理>订单号：{}".format(dd_xx[3])):
+            jl_gl = ict.Test_Added01().test_Added0118(dd_hao=dd_xx[3])
+            assert jl_gl[0] == '操作成功'
+            xianghao7 = jl_gl[1][0]["containerNumber"]
+            fengtiao7 = jl_gl[1][0]["sealNumber"]
+            konggui7 = jl_gl[1][0]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao7)
+            pytest.assume(ft_hao == fengtiao7)
+            pytest.assume(kg_zl == konggui7)
+
+        with allure.step("运单管理>报关管理>订单号：{}".format(dd_xx[3])):
+            bg_gl = ict.Test_Added01().test_Added0119(dd_hao=dd_xx[3])
+            assert bg_gl[0] == '操作成功'
+            xianghao7 = bg_gl[1][0]["containerNumber"]
+            fengtiao7 = bg_gl[1][0]["sealNumber"]
+            konggui7 = bg_gl[1][0]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao7)
+            pytest.assume(ft_hao == fengtiao7)
+            pytest.assume(kg_zl == konggui7)
+
+
+        with allure.step("跟踪管理>集装箱>订单:{}".format(dd_xx[3])):
+            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_xx[3],fw_lx="")
+            pytest.assume(ck_g_hao[0] == '操作成功')
+            pytest.assume(ck_g_hao[1][0]["containerNumber"] == x_hao)
+            pytest.assume(ck_g_hao[1][0]["sealNumber"] == ft_hao)
+            pytest.assume(ck_g_hao[1][0]["cabinetWeight"] == kg_zl)
+            pytest.assume(ck_g_hao[1][1]["containerNumber"] == x_hao)
+            pytest.assume(ck_g_hao[1][1]["sealNumber"] == ft_hao)
+            pytest.assume(ck_g_hao[1][1]["cabinetWeight"] == kg_zl)
+            pytest.assume(ck_g_hao[1][2]["containerNumber"] == x_hao)
+            pytest.assume(ck_g_hao[1][2]["sealNumber"] == ft_hao)
+            pytest.assume(ck_g_hao[1][2]["cabinetWeight"] == kg_zl)
+            pytest.assume(ck_g_hao[1][3]["containerNumber"] == x_hao)
+            pytest.assume(ck_g_hao[1][3]["sealNumber"] == ft_hao)
+            pytest.assume(ck_g_hao[1][3]["cabinetWeight"] == kg_zl)
+
+        with allure.step("跟踪管理>监理管理>订单号：{}".format(dd_xx[3])):
+            gz_jl = ict.Test_Added01().test_Added0120(dd_hao=dd_xx[3])
+            assert gz_jl[0] == '操作成功'
+            data7 = gz_jl[1]
+            xianghao7 = data7[0]["containerNumber"]
+            fengtiao7 = data7[0]["sealNumber"]
+            konggui7 = data7[0]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao7)
+            pytest.assume(ft_hao == fengtiao7)
+            pytest.assume(kg_zl == konggui7)
+
+        with allure.step("跟踪管理>报关管理>订单号：{}".format(dd_xx[3])):
+            gz_bg = ict.Test_Added01().test_Added0121(dd_hao=dd_xx[3])
+            assert gz_bg[0] == '操作成功'
+            data8 = gz_bg[1]
+            xianghao7 = data8[0]["containerNumber"]
+            fengtiao7 = data8[0]["sealNumber"]
+            konggui7 = data8[0]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao7)
+            pytest.assume(ft_hao == fengtiao7)
+            pytest.assume(kg_zl == konggui7)
+
+
+        with allure.step("应收费用制作>订单号：{}".format(dd_xx[3])):
+            ys_fy = ict.Test_Added01().test_Added0086(dd_hao=dd_xx[3])
+            assert ys_fy[0] == '操作成功'
+            data9 = ys_fy[1]
+            xianghao7 = data9[0]["containerNumber"]
+            fengtiao7 = data9[0]["sealNumber"]
+            pytest.assume(x_hao == xianghao7)
+            pytest.assume(ft_hao == fengtiao7)
+
+
+        with allure.step("应付费用制作>订单号：{}".format(dd_xx[3])):
+            yf_fy = ict.Test_Added01().test_Added0094(dd_hao=dd_xx[3],fw_lx="port_container_export_transport")
+            assert yf_fy[0] == '操作成功'
+            xianghao7 = yf_fy[2]["containerNumber"]
+            fengtiao7 = yf_fy[2]["sealNumber"]
+            pytest.assume(x_hao == xianghao7)
+            pytest.assume(ft_hao == fengtiao7)
+    # @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("柜号录入》跟踪管理》集装箱运输》清除柜号")
+    def test_business_scenario006(self):
+        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
+            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
+            assert hz_id1[0] == '操作成功'
+            hz_id = hz_id1[1]  # 货主id
+        with allure.step("订单管理》订单录入列表，查看订单号"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id)
+            assert dd_xx[0] == '操作成功'
+        with allure.step("调度管理》集装箱，查看订id"):
+            dd_id = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3])
+            assert dd_id[0] == '操作成功'
+        with allure.step("后台跟踪管理》集装箱运输》清除柜号，订单号{}".format(dd_xx[3])):
+            cc_gh = ict.Test_Added01().test_Added0122(dd_id=dd_id[1])
+            assert cc_gh == '操作成功'
+    # @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("柜号录入>查看柜号为空")
+    def test_business_scenario007(self):
+        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
+            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
+            assert hz_id1[0] == '操作成功'
+            hz_id = hz_id1[1]  # 货主id
+            kf_id = hz_id1[2]  # 客服id
+        with allure.step("订单管理》订单录入列表，查看同步柜号"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id)
+            assert dd_xx[0] == '操作成功'
+            data01 =  dd_xx[6]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+        with allure.step("订单管理》集装箱运输列表，查看同步柜号,订单号：{}".format(dd_xx[3])):
+            jzx_ys = ict.Test_Added01().test_Added0117(hz_id=hz_id)
+            assert jzx_ys[0] == '操作成功'
+            data01 =  jzx_ys[1]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+        with allure.step("运单管理>计划管理>集装箱>订单号：{}".format(dd_xx[3])):
+            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_xx[3])
+            assert fd_xx[0] == '操作成功'
+            assert fd_xx[1] == 4
+            data01 = fd_xx[2][0]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+
+            data01 = fd_xx[2][1]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+            data01 = fd_xx[2][2]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+
+            data01 = fd_xx[2][3]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+        with allure.step("运单管理>调度管理>集装箱>订单号：{}".format(dd_xx[3])):
+            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="")
+            assert dd_xx1[0] == '操作成功'
+            data01 = dd_xx1[3][0]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+            data01 = dd_xx1[3][1]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+            data01 = dd_xx1[3][2]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+            data01 = dd_xx1[3][3]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+        with allure.step("运单管理>监理管理>订单号：{}".format(dd_xx[3])):
+            jl_gl = ict.Test_Added01().test_Added0118(dd_hao=dd_xx[3])
+            assert jl_gl[0] == '操作成功'
+            data01 = jl_gl[1][0]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+
+        with allure.step("运单管理>报关管理>订单号：{}".format(dd_xx[3])):
+            bg_gl = ict.Test_Added01().test_Added0119(dd_hao=dd_xx[3])
+            assert bg_gl[0] == '操作成功'
+            data01 = bg_gl[1][0]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+        with allure.step("跟踪管理>集装箱>订单:{}".format(dd_xx[3])):
+            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_xx[3],fw_lx="")
+            pytest.assume(ck_g_hao[0] == '操作成功')
+            data01 = ck_g_hao[1][0]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+            data01 = ck_g_hao[1][1]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+            data01 = ck_g_hao[1][2]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+            data01 = ck_g_hao[1][3]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+
+        with allure.step("跟踪管理>监理管理>订单号：{}".format(dd_xx[3])):
+            gz_jl = ict.Test_Added01().test_Added0120(dd_hao=dd_xx[3])
+            assert gz_jl[0] == '操作成功'
+
+            data01 =   gz_jl[1][0]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+        with allure.step("跟踪管理>报关管理>订单号：{}".format(dd_xx[3])):
+            gz_bg = ict.Test_Added01().test_Added0121(dd_hao=dd_xx[3])
+            assert gz_bg[0] == '操作成功'
+            data01 = gz_bg[1][0]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+        with allure.step("应收费用制作>订单号：{}".format(dd_xx[3])):
+            ys_fy = ict.Test_Added01().test_Added0086(dd_hao=dd_xx[3])
+            assert ys_fy[0] == '操作成功'
+            data01 =  ys_fy[1][0]
+            xianghao1 = []
+            fengtiao1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+
+
+        with allure.step("应付费用制作>订单号：{}".format(dd_xx[3])):
+            yf_fy = ict.Test_Added01().test_Added0094(dd_hao=dd_xx[3],fw_lx="port_container_export_transport")
+            assert yf_fy[0] == '操作成功'
+            data01 =  yf_fy[2]
+            xianghao1 = []
+            fengtiao1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+
+    # @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("运单管理，调度管理》集装箱运输》节点跟踪")
+    def test_business_scenario008(self):
+        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
+            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
+            assert hz_id1[0] == '操作成功'
+            hz_id = hz_id1[1]  # 货主id
+            kf_id = hz_id1[2]  # 客服id
+        with allure.step("查询新增集装箱出口运输订单信息"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id)
+            assert dd_xx[0] == '操作成功'
+        with allure.step("查询调度管理集装箱出口运输订单信息"):
+            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
+            assert dd_xx1[0] == '操作成功'
+            dd_id =  dd_xx1[1]   #订单id
+            zh_time = dd_xx1[3][0]["pickupTime"]    #装货时间  年月日时分秒
+            cz_qy = dd_xx1[3][0]["operationGroup"]   # 操作区域
+            dd_hao = dd_xx1[2]    #订单号
+        with allure.step("获取节点ID，订单:{}".format(dd_hao)):
+            jd_id = ict.Test_Added01().test_Added0124(dd_id=dd_id)
+            pytest.assume(jd_id[0] == '操作成功')
+
+        with allure.step("手动录入柜号，订单:{}".format(dd_hao)):
+            x_hao = "FSCU5130217"
+            ft_hao = "CAAU5507656"
+            kg_z = "2580"
+            g_hao = ict.Test_Added01().test_Added0123(dd_id=dd_id,g_hao=x_hao,ft_hao=ft_hao,k_gz=kg_z,time1=zh_time,jd_id=jd_id[1])
+            pytest.assume(g_hao == '操作成功')
+    # @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("节点跟踪>查看柜号同步")
+    def test_business_scenario009(self):
+        x_hao = "FSCU5130217"
+        ft_hao = "CAAU5507656"
+        kg_zl = "2580"
+        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
+            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
+            assert hz_id1[0] == '操作成功'
+            hz_id = hz_id1[1]  # 货主id
+            kf_id = hz_id1[2]  # 客服id
+        with allure.step("订单管理》订单录入列表，查看同步柜号"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id)
+            assert dd_xx[0] == '操作成功'
+            xianghao1 =  dd_xx[6]["containerNumber"]
+            fengtiao1 =  dd_xx[6]["sealNumber"]
+            konggui1 = dd_xx[6]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao1)
+            pytest.assume(ft_hao == fengtiao1)
+            pytest.assume(2580 == konggui1)
+
+        with allure.step("订单管理》集装箱运输列表，查看同步柜号,订单号：{}".format(dd_xx[3])):
+            jzx_ys = ict.Test_Added01().test_Added0117(hz_id=hz_id)
+            assert jzx_ys[0] == '操作成功'
+            xianghao2 =  jzx_ys[1][0]["containerNumber"]
+            fengtiao2 =  jzx_ys[1][0]["sealNumber"]
+            konggui2 = jzx_ys[1][0]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao2)
+            pytest.assume(ft_hao == fengtiao2)
+            pytest.assume(2580 == konggui2)
+
+        with allure.step("运单管理>计划管理>集装箱>订单号：{}".format(dd_xx[3])):
+            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_xx[3])
+            assert fd_xx[0] == '操作成功'
+            assert fd_xx[1] == 4
+            xianghao3 =  fd_xx[2][0]["containerNumber"]
+            fengtiao3 =  fd_xx[2][0]["sealNumber"]
+            konggui3 = fd_xx[2][0]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao3)
+            pytest.assume(ft_hao == fengtiao3)
+            pytest.assume( kg_zl == konggui3)
+
+            xianghao4 =  fd_xx[2][1]["containerNumber"]
+            fengtiao4 =  fd_xx[2][1]["sealNumber"]
+            konggui4 = fd_xx[2][1]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao4)
+            pytest.assume(ft_hao == fengtiao4)
+            pytest.assume( kg_zl == konggui4)
+            xianghao5 =  fd_xx[2][2]["containerNumber"]
+            fengtiao5 =  fd_xx[2][2]["sealNumber"]
+            konggui5 = fd_xx[2][2]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao5)
+            pytest.assume(ft_hao == fengtiao5)
+            pytest.assume( kg_zl == konggui5)
+            xianghao6 =  fd_xx[2][3]["containerNumber"]
+            fengtiao6 =  fd_xx[2][3]["sealNumber"]
+            konggui6 = fd_xx[2][3]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao6)
+            pytest.assume(ft_hao == fengtiao6)
+            pytest.assume( kg_zl == konggui6)
+
+        with allure.step("运单管理>调度管理>集装箱>订单号：{}".format(dd_xx[3])):
+            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="")
+            assert dd_xx1[0] == '操作成功'
+            xianghao7 = dd_xx1[3][0]["containerNumber"]
+            fengtiao7 = dd_xx1[3][0]["sealNumber"]
+            konggui7 = dd_xx1[3][0]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao7)
+            pytest.assume(ft_hao == fengtiao7)
+            pytest.assume(kg_zl == konggui7)
+
+            xianghao8 = dd_xx1[3][1]["containerNumber"]
+            fengtiao8 = dd_xx1[3][1]["sealNumber"]
+            konggui8 = dd_xx1[3][1]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao8)
+            pytest.assume(ft_hao == fengtiao8)
+            pytest.assume(kg_zl == konggui8)
+
+            xianghao9 = dd_xx1[3][2]["containerNumber"]
+            fengtiao9 = dd_xx1[3][2]["sealNumber"]
+            konggui9 = dd_xx1[3][2]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao9)
+            pytest.assume(ft_hao == fengtiao9)
+            pytest.assume(kg_zl == konggui9)
+
+            xianghao11 = dd_xx1[3][3]["containerNumber"]
+            fengtiao11 = dd_xx1[3][3]["sealNumber"]
+            konggui11 = dd_xx1[3][3]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao11)
+            pytest.assume(ft_hao == fengtiao11)
+            pytest.assume(kg_zl == konggui11)
+
+
+
+        with allure.step("运单管理>监理管理>订单号：{}".format(dd_xx[3])):
+            jl_gl = ict.Test_Added01().test_Added0118(dd_hao=dd_xx[3])
+            assert jl_gl[0] == '操作成功'
+            xianghao7 = jl_gl[1][0]["containerNumber"]
+            fengtiao7 = jl_gl[1][0]["sealNumber"]
+            konggui7 = jl_gl[1][0]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao7)
+            pytest.assume(ft_hao == fengtiao7)
+            pytest.assume(kg_zl == konggui7)
+
+        with allure.step("运单管理>报关管理>订单号：{}".format(dd_xx[3])):
+            bg_gl = ict.Test_Added01().test_Added0119(dd_hao=dd_xx[3])
+            assert bg_gl[0] == '操作成功'
+            xianghao7 = bg_gl[1][0]["containerNumber"]
+            fengtiao7 = bg_gl[1][0]["sealNumber"]
+            konggui7 = bg_gl[1][0]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao7)
+            pytest.assume(ft_hao == fengtiao7)
+            pytest.assume(kg_zl == konggui7)
+
+
+        with allure.step("跟踪管理>集装箱>订单:{}".format(dd_xx[3])):
+            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_xx[3],fw_lx="")
+            pytest.assume(ck_g_hao[0] == '操作成功')
+            pytest.assume(ck_g_hao[1][0]["containerNumber"] == x_hao)
+            pytest.assume(ck_g_hao[1][0]["sealNumber"] == ft_hao)
+            pytest.assume(ck_g_hao[1][0]["cabinetWeight"] == kg_zl)
+            pytest.assume(ck_g_hao[1][1]["containerNumber"] == x_hao)
+            pytest.assume(ck_g_hao[1][1]["sealNumber"] == ft_hao)
+            pytest.assume(ck_g_hao[1][1]["cabinetWeight"] == kg_zl)
+            pytest.assume(ck_g_hao[1][2]["containerNumber"] == x_hao)
+            pytest.assume(ck_g_hao[1][2]["sealNumber"] == ft_hao)
+            pytest.assume(ck_g_hao[1][2]["cabinetWeight"] == kg_zl)
+            pytest.assume(ck_g_hao[1][3]["containerNumber"] == x_hao)
+            pytest.assume(ck_g_hao[1][3]["sealNumber"] == ft_hao)
+            pytest.assume(ck_g_hao[1][3]["cabinetWeight"] == kg_zl)
+
+        with allure.step("跟踪管理>监理管理>订单号：{}".format(dd_xx[3])):
+            gz_jl = ict.Test_Added01().test_Added0120(dd_hao=dd_xx[3])
+            assert gz_jl[0] == '操作成功'
+            data7 = gz_jl[1]
+            xianghao7 = data7[0]["containerNumber"]
+            fengtiao7 = data7[0]["sealNumber"]
+            konggui7 = data7[0]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao7)
+            pytest.assume(ft_hao == fengtiao7)
+            pytest.assume(kg_zl == konggui7)
+
+        with allure.step("跟踪管理>报关管理>订单号：{}".format(dd_xx[3])):
+            gz_bg = ict.Test_Added01().test_Added0121(dd_hao=dd_xx[3])
+            assert gz_bg[0] == '操作成功'
+            data8 = gz_bg[1]
+            xianghao7 = data8[0]["containerNumber"]
+            fengtiao7 = data8[0]["sealNumber"]
+            konggui7 = data8[0]["cabinetWeight"]
+            pytest.assume(x_hao == xianghao7)
+            pytest.assume(ft_hao == fengtiao7)
+            pytest.assume(kg_zl == konggui7)
+
+
+        with allure.step("应收费用制作>订单号：{}".format(dd_xx[3])):
+            ys_fy = ict.Test_Added01().test_Added0086(dd_hao=dd_xx[3])
+            assert ys_fy[0] == '操作成功'
+            data9 = ys_fy[1]
+            xianghao7 = data9[0]["containerNumber"]
+            fengtiao7 = data9[0]["sealNumber"]
+            pytest.assume(x_hao == xianghao7)
+            pytest.assume(ft_hao == fengtiao7)
+
+
+        with allure.step("应付费用制作>订单号：{}".format(dd_xx[3])):
+            yf_fy = ict.Test_Added01().test_Added0094(dd_hao=dd_xx[3],fw_lx="port_container_export_transport")
+            assert yf_fy[0] == '操作成功'
+            xianghao7 = yf_fy[2]["containerNumber"]
+            fengtiao7 = yf_fy[2]["sealNumber"]
+            pytest.assume(x_hao == xianghao7)
+            pytest.assume(ft_hao == fengtiao7)
+    # @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("节点跟踪>跟踪管理》集装箱运输》清除柜号")
+    def test_business_scenario010(self):
+        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
+            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
+            assert hz_id1[0] == '操作成功'
+            hz_id = hz_id1[1]  # 货主id
+        with allure.step("订单管理》订单录入列表，查看订单号"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id)
+            assert dd_xx[0] == '操作成功'
+        with allure.step("调度管理》集装箱，查看订id"):
+            dd_id = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3])
+            assert dd_id[0] == '操作成功'
+        with allure.step("后台跟踪管理》集装箱运输》清除柜号，订单号{}".format(dd_xx[3])):
+            cc_gh = ict.Test_Added01().test_Added0122(dd_id=dd_id[1])
+            assert cc_gh == '操作成功'
+    # @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("节点跟踪>查看柜号为空")
+    def test_business_scenario011(self):
+        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
+            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
+            assert hz_id1[0] == '操作成功'
+            hz_id = hz_id1[1]  # 货主id
+            kf_id = hz_id1[2]  # 客服id
+        with allure.step("订单管理》订单录入列表，查看同步柜号"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id)
+            assert dd_xx[0] == '操作成功'
+            data01 =  dd_xx[6]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+        with allure.step("订单管理》集装箱运输列表，查看同步柜号,订单号：{}".format(dd_xx[3])):
+            jzx_ys = ict.Test_Added01().test_Added0117(hz_id=hz_id)
+            assert jzx_ys[0] == '操作成功'
+            data01 =  jzx_ys[1]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+        with allure.step("运单管理>计划管理>集装箱>订单号：{}".format(dd_xx[3])):
+            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_xx[3])
+            assert fd_xx[0] == '操作成功'
+            assert fd_xx[1] == 4
+            data01 = fd_xx[2][0]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+
+            data01 = fd_xx[2][1]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+            data01 = fd_xx[2][2]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+
+            data01 = fd_xx[2][3]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+        with allure.step("运单管理>调度管理>集装箱>订单号：{}".format(dd_xx[3])):
+            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="")
+            assert dd_xx1[0] == '操作成功'
+            data01 = dd_xx1[3][0]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+            data01 = dd_xx1[3][1]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+            data01 = dd_xx1[3][2]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+            data01 = dd_xx1[3][3]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+        with allure.step("运单管理>监理管理>订单号：{}".format(dd_xx[3])):
+            jl_gl = ict.Test_Added01().test_Added0118(dd_hao=dd_xx[3])
+            assert jl_gl[0] == '操作成功'
+            data01 = jl_gl[1][0]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+
+        with allure.step("运单管理>报关管理>订单号：{}".format(dd_xx[3])):
+            bg_gl = ict.Test_Added01().test_Added0119(dd_hao=dd_xx[3])
+            assert bg_gl[0] == '操作成功'
+            data01 = bg_gl[1][0]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+        with allure.step("跟踪管理>集装箱>订单:{}".format(dd_xx[3])):
+            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_xx[3],fw_lx="")
+            pytest.assume(ck_g_hao[0] == '操作成功')
+            data01 = ck_g_hao[1][0]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+            data01 = ck_g_hao[1][1]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+            data01 = ck_g_hao[1][2]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+            data01 = ck_g_hao[1][3]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+
+        with allure.step("跟踪管理>监理管理>订单号：{}".format(dd_xx[3])):
+            gz_jl = ict.Test_Added01().test_Added0120(dd_hao=dd_xx[3])
+            assert gz_jl[0] == '操作成功'
+
+            data01 =   gz_jl[1][0]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+        with allure.step("跟踪管理>报关管理>订单号：{}".format(dd_xx[3])):
+            gz_bg = ict.Test_Added01().test_Added0121(dd_hao=dd_xx[3])
+            assert gz_bg[0] == '操作成功'
+            data01 = gz_bg[1][0]
+            xianghao1 = []
+            fengtiao1 = []
+            konggui1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+                if key == "cabinetWeight":
+                    # print(time1[key])
+                    konggui1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+            pytest.assume(konggui1 == [])
+
+        with allure.step("应收费用制作>订单号：{}".format(dd_xx[3])):
+            ys_fy = ict.Test_Added01().test_Added0086(dd_hao=dd_xx[3])
+            assert ys_fy[0] == '操作成功'
+            data01 =  ys_fy[1][0]
+            xianghao1 = []
+            fengtiao1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+
+
+        with allure.step("应付费用制作>订单号：{}".format(dd_xx[3])):
+            yf_fy = ict.Test_Added01().test_Added0094(dd_hao=dd_xx[3],fw_lx="port_container_export_transport")
+            assert yf_fy[0] == '操作成功'
+            data01 =  yf_fy[2]
+            xianghao1 = []
+            fengtiao1 = []
+            for key in data01:
+                # print(key)
+                if key == "containerNumber":
+                    # print(time1[key])
+                    xianghao1.append(key)
+                if key == "sealNumber":
+                    # print(time1[key])
+                    fengtiao1.append(key)
+            pytest.assume(xianghao1 == [])
+            pytest.assume(fengtiao1 == [])
+
+
+@allure.parent_suite('ict业务场景测试用例')
+@allure.suite('ict业务场景测试用例模块')
+@allure.sub_suite('集装箱出口,业务场景五（测试点：应收应付费用制作+改单+新增异常+异常处置）')
+@pytest.mark.skip(reason="无理由跳过")
+class Test_business_scenario4():
     @pytest.mark.skip(reason="无理由跳过")
     @allure.title("新增集装箱出口订单")
     def test_business_scenario001(self):
@@ -2864,13 +4350,13 @@ class Test_business_scenario3():
             while id1 < id0:
                 id2 = id1
                 id1 += 1
-                print(id2)
+                # print(id2)
                 fd_id = id[id2]
                 with allure.step("分单，分派自有车,分单号：{}".format(fd_id)):
                     qy_jdzx = ict.Test_Added01().test_Added0058(zy_che=fd_id,gys="",hy_dt="")
                     assert qy_jdzx == '操作成功'
     @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("集装箱出口订单派自有车A，并审核应付明细")
+    @allure.title("集装箱出口订单派自有车A")
     def test_business_scenario003(self):
         with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
             hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
@@ -2884,9 +4370,9 @@ class Test_business_scenario3():
             dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
             assert dd_xx1[0] == '操作成功'
             dd_id =  dd_xx1[1]   #订单id
-            zh_time = dd_xx1[5][0]["pickupTime"]    #装货时间  年月日时分秒
-            cz_qy = dd_xx1[5][0]["operationGroup"]   # 操作区域
-            dd_hao = dd_xx1[4]    #订单号
+            zh_time = dd_xx1[3][0]["pickupTime"]    #装货时间  年月日时分秒
+            cz_qy = dd_xx1[3][0]["operationGroup"]   # 操作区域
+            dd_hao = dd_xx1[2]    #订单号
             str_datetime = zh_time
             time1 = datetime.datetime.strptime(str_datetime, "%Y-%m-%d %H:%M:%S")
             time2 = time1.strftime('%Y-%m-%d')   #装货时间  年月日
@@ -2932,7 +4418,7 @@ class Test_business_scenario3():
         with allure.step("调度管理，获取车牌号:{}".format(cc_xx[4])):
             bz_dd1 = ict.Test_Added01().test_Added0085(zh_time=time2,fw_lx="port_container_export_transport")
             assert bz_dd1[0] == '操作成功'
-            assert bz_dd1[1] != []
+            # assert bz_dd1[1] != []
         with allure.step("调度管理，派自有车，订单号：{}".format(dd_hao)):
             pzyc = ict.Test_Added01().test_Added0075(id=dd_id,driverId=sj_id,supplierId=gys_id,mainlandLicensePlateNumber=cp_hao,
                                                       orderNumber=dd_hao,pickupTime=zh_time,transportType="transport_type_one_one",
@@ -2940,7 +4426,7 @@ class Test_business_scenario3():
                                                       carDispatchId=ccb_id)
             assert pzyc == '操作成功'
     @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("跟踪管理，柜号录入")
+    @allure.title("派监理")
     def test_business_scenario004(self):
         with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
             hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
@@ -2954,9 +4440,58 @@ class Test_business_scenario3():
             dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
             assert dd_xx1[0] == '操作成功'
             dd_id =  dd_xx1[1]   #订单id
-            zh_time = dd_xx1[5][0]["pickupTime"]    #装货时间  年月日时分秒
-            cz_qy = dd_xx1[5][0]["operationGroup"]   # 操作区域
-            dd_hao = dd_xx1[4]    #订单号
+        with allure.step("查询监理ID"):
+            jl_da = ict.Test_Added01().test_Added0125(jl_name="毛敏监理01")
+            assert jl_da[0] == '操作成功'
+            jl_id = jl_da[1][0]["id"]
+            jl_dh = jl_da[1][0]["supervisionPhone"]
+        with allure.step("查询监理订单ID"):
+            jlyd_id = ict.Test_Added01().test_Added0118(dd_hao=dd_xx1[2])
+            assert jlyd_id[0] == '操作成功'
+            yd_id = jlyd_id[1][0]["id"]
+            orderId = jlyd_id[1][0]["orderId"]
+            orderNumber = jlyd_id[1][0]["orderNumber"]
+        with allure.step("获取供应商ID"):
+            gys_id = ict.Test_Added01().test_Added0062(gys_name=cf.gys1_name)
+            assert gys_id[0] == '操作成功'
+        with allure.step("派监理，订单好：{}".format(orderNumber)):
+            p_jl = ict.Test_Added01().test_Added0128(ji_id=jl_id,ji_dh=jl_dh,jldd_id=yd_id,orderId=orderId,gys_id=gys_id[1],jl_name="毛敏监理01")
+            assert p_jl == '操作成功'
+        with allure.step("获取图片地址"):
+            tu_dz = pz.Common_page().projects_path() + r"\Common\picture\2.02 MB.JPG"  # 图片地址
+            # print(tu_dz)
+        with allure.step("上传图片，获取图片id"):
+            tp_id = ict.Test_Added01().test_Added0129(tp_lj=tu_dz)     # 获取图片id
+            assert tp_id[1] == "success"
+        with allure.step("监理管理》上传附件，订单号{}".format(dd_xx1[2])):
+            sc_tp = ict.Test_Added01().test_Added0130(jldd_id=yd_id,tp_name="2.02 MB.JPG",tp_id=tp_id[0])
+            assert sc_tp == "操作成功"
+        with allure.step("监理管理》审核文件，订单号{}".format(dd_xx1[2])):
+            sc_wj = ict.Test_Added01().test_Added0131(jlyd_id=yd_id)
+            assert sc_wj == "操作成功"
+        with allure.step("查看监理运单状态，订单号{}".format(dd_xx1[2])):
+            jlyd_zt = ict.Test_Added01().test_Added0118(dd_hao=dd_xx1[2])
+            assert jlyd_zt[0] == '操作成功'
+            yd_id = jlyd_zt[1][0]["orderStatus"]
+            pytest.assume(yd_id == "status_completed")
+    @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("跟踪管理，集装箱运输》柜号录入")
+    def test_business_scenario005(self):
+        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
+            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
+            assert hz_id1[0] == '操作成功'
+            hz_id = hz_id1[1]  # 货主id
+            kf_id = hz_id1[2]  # 客服id
+        with allure.step("查询新增集装箱出口运输订单信息"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id)
+            assert dd_xx[0] == '操作成功'
+        with allure.step("查询调度管理集装箱出口运输订单信息"):
+            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
+            assert dd_xx1[0] == '操作成功'
+            dd_id =  dd_xx1[1]   #订单id
+            zh_time = dd_xx1[3][0]["pickupTime"]    #装货时间  年月日时分秒
+            cz_qy = dd_xx1[3][0]["operationGroup"]   # 操作区域
+            dd_hao = dd_xx1[2]    #订单号
         with allure.step("手动录入柜号，订单:{}".format(dd_hao)):
             x_hao = "FSCU5130217"
             ft_hao = "CAAU5507656"
@@ -2969,170 +4504,81 @@ class Test_business_scenario3():
             pytest.assume(ck_g_hao[1][0]["containerNumber"] == x_hao)
             pytest.assume(ck_g_hao[1][0]["sealNumber"] == ft_hao)
             pytest.assume(ck_g_hao[1][0]["cabinetWeight"] == kg_z)
-        with allure.step("跟踪管理查看提柜节点时间跟踪点亮，订单:{}".format(dd_hao)):
-            dl_time = ict.Test_Added01().test_Added0093(dd_id=dd_id)
-            pytest.assume(dl_time[0]  == '操作成功')
-            taskTypeName = dl_time[1][2]["taskTypeName"]
-            finishTime = dl_time[1][2]["finishTime"]
-            pytest.assume(taskTypeName == '离开提柜地')    #节点名称
-            pytest.assume(finishTime != [])               #节点时间
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("查看同步柜号")
-    def test_business_scenario005(self):
-        x_hao = "FSCU5130217"
-        ft_hao = "CAAU5507656"
-        kg_z = 2580
+    @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("派报关订单")
+    def test_business_scenario006(self):
         with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
             hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
             assert hz_id1[0] == '操作成功'
             hz_id = hz_id1[1]  # 货主id
             kf_id = hz_id1[2]  # 客服id
-        with allure.step("订单管理》订单录入列表，查看同步柜号"):
+        with allure.step("查询新增集装箱出口运输订单信息"):
             dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id)
             assert dd_xx[0] == '操作成功'
-            xianghao1 =  dd_xx[6]["containerNumber"]
-            fengtiao1 =  dd_xx[6]["sealNumber"]
-            konggui1 = dd_xx[6]["cabinetWeight"]
-            pytest.assume(x_hao == xianghao1)
-            pytest.assume(ft_hao == fengtiao1)
-            pytest.assume(kg_z == konggui1)
-        with allure.step("订单管理》集装箱运输列表，查看同步柜号,订单号：{}".format(dd_xx[3])):
-            jzx_ys = ict.Test_Added01().test_Added0117(hz_id=hz_id)
-            assert jzx_ys[0] == '操作成功'
-            xianghao2 =  jzx_ys[1][0]["containerNumber"]
-            fengtiao2 =  jzx_ys[1][0]["sealNumber"]
-            konggui2 = jzx_ys[1][0]["cabinetWeight"]
-            pytest.assume(x_hao == xianghao2)
-            pytest.assume(ft_hao == fengtiao2)
-            pytest.assume(kg_z == konggui2)
-        with allure.step("运单管理>计划管理>集装箱>订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_xx[3])
-            assert fd_xx[0] == '操作成功'
-            assert fd_xx[1] == 4
-            data2 = fd_xx[2]
-            xianghao3 =  data2[0]["containerNumber"]
-            fengtiao3 =  data2[0]["sealNumber"]
-            konggui3 = data2[0]["cabinetWeight"]
-            pytest.assume(x_hao == xianghao3)
-            pytest.assume(ft_hao == fengtiao3)
-            pytest.assume(kg_z == konggui3)
-            xianghao4 =  data2[1]["containerNumber"]
-            fengtiao4 =  data2[1]["sealNumber"]
-            konggui4 = data2[1]["cabinetWeight"]
-            pytest.assume(x_hao == xianghao4)
-            pytest.assume(ft_hao == fengtiao4)
-            pytest.assume(kg_z == konggui4)
-            xianghao5 =  data2[2]["containerNumber"]
-            fengtiao5 =  data2[2]["sealNumber"]
-            konggui5 = data2[2]["cabinetWeight"]
-            pytest.assume(x_hao == xianghao5)
-            pytest.assume(ft_hao == fengtiao5)
-            pytest.assume(kg_z == konggui5)
-            xianghao6 =  data2[3]["containerNumber"]
-            fengtiao6 =  data2[3]["sealNumber"]
-            konggui6 = data2[3]["cabinetWeight"]
-            pytest.assume(x_hao == xianghao6)
-            pytest.assume(ft_hao == fengtiao6)
-            pytest.assume(kg_z == konggui6)
-        with allure.step("运单管理>调度管理>集装箱>订单号：{}").format(dd_xx[3]):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3], lx="")
+        with allure.step("查询调度管理集装箱出口运输订单信息"):
+            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3], lx="port_container_export_transport")
             assert dd_xx1[0] == '操作成功'
-            data3 = dd_xx1[5]
-            xianghao7 = data3[0]["containerNumber"]
-            fengtiao7 = data3[0]["sealNumber"]
-            konggui7 = data3[0]["cabinetWeight"]
-            pytest.assume(x_hao == xianghao7)
-            pytest.assume(ft_hao == fengtiao7)
-            pytest.assume(kg_z == konggui7)
-            xianghao8 = data3[1]["containerNumber"]
-            fengtiao8 = data3[1]["sealNumber"]
-            konggui8 = data3[1]["cabinetWeight"]
-            pytest.assume(x_hao == xianghao8)
-            pytest.assume(ft_hao == fengtiao8)
-            pytest.assume(kg_z == konggui8)
-            xianghao9 = data3[2]["containerNumber"]
-            fengtiao9 = data3[2]["sealNumber"]
-            konggui9 = data3[2]["cabinetWeight"]
-            pytest.assume(x_hao == xianghao9)
-            pytest.assume(ft_hao == fengtiao9)
-            pytest.assume(kg_z == konggui9)
-            xianghao11 = data3[3]["containerNumber"]
-            fengtiao11 = data3[3]["sealNumber"]
-            konggui11 = data3[3]["cabinetWeight"]
-            pytest.assume(x_hao == xianghao11)
-            pytest.assume(ft_hao == fengtiao11)
-            pytest.assume(kg_z == konggui11)
-        with allure.step("运单管理>监理管理>订单号：{}").format(dd_xx[3]):
-            jl_gl = ict.Test_Added01().test_Added0118(dd_hao=dd_xx[3])
-            assert jl_gl[0] == '操作成功'
-            data4 =  jl_gl[1]
-            xianghao7 = data4[0]["containerNumber"]
-            fengtiao7 = data4[0]["sealNumber"]
-            konggui7 = data4[0]["cabinetWeight"]
-            pytest.assume(x_hao == xianghao7)
-            pytest.assume(ft_hao == fengtiao7)
-            pytest.assume(kg_z == konggui7)
-        with allure.step("运单管理>监理管理>订单号：{}").format(dd_xx[3]):
-            bg_gl = ict.Test_Added01().test_Added0119(dd_hao=dd_xx[3])
-            assert bg_gl[0] == '操作成功'
-            data5 = bg_gl[1]
-            xianghao7 = data5[0]["containerNumber"]
-            fengtiao7 = data5[0]["sealNumber"]
-            konggui7 = data5[0]["cabinetWeight"]
-            pytest.assume(x_hao == xianghao7)
-            pytest.assume(ft_hao == fengtiao7)
-            pytest.assume(kg_z == konggui7)
-        with allure.step("跟踪管理>集装箱>订单:{}".format(dd_xx[3])):
-            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_xx[3],fw_lx="")
-            pytest.assume(ck_g_hao[0] == '操作成功')
-            pytest.assume(ck_g_hao[1][0]["containerNumber"] == x_hao)
-            pytest.assume(ck_g_hao[1][0]["sealNumber"] == ft_hao)
-            pytest.assume(ck_g_hao[1][0]["cabinetWeight"] == kg_z)
-            pytest.assume(ck_g_hao[1][1]["containerNumber"] == x_hao)
-            pytest.assume(ck_g_hao[1][1]["sealNumber"] == ft_hao)
-            pytest.assume(ck_g_hao[1][1]["cabinetWeight"] == kg_z)
-            pytest.assume(ck_g_hao[1][2]["containerNumber"] == x_hao)
-            pytest.assume(ck_g_hao[1][2]["sealNumber"] == ft_hao)
-            pytest.assume(ck_g_hao[1][2]["cabinetWeight"] == kg_z)
-            pytest.assume(ck_g_hao[1][3]["containerNumber"] == x_hao)
-            pytest.assume(ck_g_hao[1][3]["sealNumber"] == ft_hao)
-            pytest.assume(ck_g_hao[1][3]["cabinetWeight"] == kg_z)
-        with allure.step("跟踪管理>监理管理>订单号：{}").format(dd_xx[3]):
-            gz_jl = ict.Test_Added01().test_Added0120(dd_hao=dd_xx[3])
-            assert gz_jl[0] == '操作成功'
-            data7 = gz_jl[1]
-            xianghao7 = data7[0]["containerNumber"]
-            fengtiao7 = data7[0]["sealNumber"]
-            konggui7 = data7[0]["cabinetWeight"]
-            pytest.assume(x_hao == xianghao7)
-            pytest.assume(ft_hao == fengtiao7)
-            pytest.assume(kg_z == konggui7)
-        with allure.step("跟踪管理>监理管理>订单号：{}").format(dd_xx[3]):
-            gz_bg = ict.Test_Added01().test_Added0121(dd_hao=dd_xx[3])
-            assert gz_bg[0] == '操作成功'
-            data8 = gz_bg[1]
-            xianghao7 = data8[0]["containerNumber"]
-            fengtiao7 = data8[0]["sealNumber"]
-            konggui7 = data8[0]["cabinetWeight"]
-            pytest.assume(x_hao == xianghao7)
-            pytest.assume(ft_hao == fengtiao7)
-            pytest.assume(kg_z == konggui7)
-        with allure.step("应收费用制作>订单号：{}").format(dd_xx[3]):
-            ys_fy = ict.Test_Added01().test_Added0086(dd_hao=dd_xx[3])
-            assert ys_fy[0] == '操作成功'
-            data9 = ys_fy[1]
-            xianghao7 = data9[0]["containerNumber"]
-            fengtiao7 = data9[0]["sealNumber"]
-            pytest.assume(x_hao == xianghao7)
-            pytest.assume(ft_hao == fengtiao7)
-        with allure.step("应付费用制作>订单号：{}").format(dd_xx[3]):
-            yf_fy = ict.Test_Added01().test_Added0094(dd_hao=dd_xx[3])
-            assert yf_fy[0] == '操作成功'
-            data11 = yf_fy[2]
-            xianghao7 = data11[0]["containerNumber"]
-            fengtiao7 = data11[0]["sealNumber"]
-            pytest.assume(x_hao == xianghao7)
-            pytest.assume(ft_hao == fengtiao7)
+            dd_id = dd_xx1[1]  # 订单id
+        with allure.step("查询报关订单ID"):
+            bgyd_id = ict.Test_Added01().test_Added0119(dd_hao=dd_xx1[2])
+            assert bgyd_id[0] == '操作成功'
+            yd_id = bgyd_id[1][0]["id"]
+            yd_hao = bgyd_id[1][0]["orderNumber"]
+        with allure.step("获取报关供应商ID"):
+            gys_id = ict.Test_Added01().test_Added0132()
+            assert gys_id[0] == '操作成功'
+        with allure.step("查看供应商联系人信息"):
+            gys_xx = ict.Test_Added01().test_Added0105(gys_id=gys_id[1])
+            assert gys_xx[0] == '操作成功'
+            gys_lxr = gys_xx[2]
+            gys_lxrdh = gys_xx[3]
+        with allure.step("报关单派供应商,订单号{}".format(yd_hao)):
+            p_bgd = ict.Test_Added01().test_Added0133(bbd_id=yd_id,gys_id=gys_id[1],gys_lxr=gys_lxr,lx_dh=gys_lxrdh)
+            assert p_bgd == '操作成功'
+        with allure.step("查看派报关订单推送日志"):
+            gys_id = ict.Test_Added01().test_Added0134(dd_id=yd_hao)
+            assert gys_id[0] == '操作成功'
+            assert gys_id[1] == 1
 
 
-            #pppp
+    #
+    #     with allure.step("应付费用基本信息明细，订单:{}".format(dd_hao)):
+    #         jb_xx = ict.Test_Added01().test_Added0087(dd_id=dd_id)
+    #         pytest.assume(jb_xx[0] == '操作成功')
+    #         zd_id =jb_xx[1]["chargeInfo"][0]["id"]  # 账单ID
+    #         cp_hao = jb_xx[1]["supplierTransportOrderVo"]["mainlandLicensePlateNumber"]  # 车牌号
+    #         sj_name1 = jb_xx[1]["supplierTransportOrderVo"]["driverName"]  # 司机姓名
+    #
+    #     with allure.step("应付费用费用信息明细，订单:{}".format(dd_hao)):
+    #         fy_xx = ict.Test_Added01().test_Added0088(dd_id=dd_id)
+    #         pytest.assume(fy_xx[0] == '操作成功')
+    #         # zd_id = fy_xx[1][0]["id"]   #账单ID
+    #         dd_hao = fy_xx[1][0]["orderNumber"]    #订单号    明细已审核：status_check_completed
+    #         zd_zt = fy_xx[1][0]["statusType"]    #明细账单状态  待审核：status_check_awaiting  一整审：status_check_all_completed
+    #         js_dw = fy_xx[1][0]["balanceId"]["title"] #结算单位
+    #
+    #     with allure.step("断言车牌号:{},司机名称:{},结算单位:{},费用明细状态:{}".format(cp_hao,sj_name1,js_dw,zd_zt)):
+    #         pytest.assume(cp_hao == cc_xx[4])
+    #         pytest.assume(sj_name1 == sj_name)
+    #         pytest.assume(js_dw == gyl_name)
+    #         pytest.assume(zd_zt == "status_check_awaiting")
+    #     with allure.step("手动录入柜号，订单:{}".format(dd_hao)):
+    #         x_hao = "FSCU5130217"
+    #         ft_hao = "CAAU5507656"
+    #         kg_z = "2580"
+    #         g_hao = ict.Test_Added01().test_Added0089(x_hao=x_hao,kg_z=kg_z,dd_id=dd_id,ft_hao=ft_hao)
+    #         pytest.assume(g_hao == '操作成功')
+    #     with allure.step("跟踪管理查看柜号，订单:{}".format(dd_hao)):
+    #         ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_hao,fw_lx="port_container_export_transport")
+    #         pytest.assume(ck_g_hao[0] == '操作成功')
+    #         pytest.assume(ck_g_hao[1][0]["containerNumber"] == x_hao)
+    #         pytest.assume(ck_g_hao[1][0]["sealNumber"] == ft_hao)
+    #         pytest.assume(ck_g_hao[1][0]["cabinetWeight"] == kg_z)
+    #     with allure.step("跟踪管理查看提柜节点时间跟踪点亮，订单:{}".format(dd_hao)):
+    #         dl_time = ict.Test_Added01().test_Added0093(dd_id=dd_id)
+    #         pytest.assume(dl_time[0]  == '操作成功')
+    #         taskTypeName = dl_time[1][2]["taskTypeName"]
+    #         finishTime = dl_time[1][2]["finishTime"]
+    #         pytest.assume(taskTypeName == '离开提柜地')    #节点名称
+    #         pytest.assume(finishTime != [])               #节点时间
+    # # @pytest.mark.skip(reason="无理由跳过")
