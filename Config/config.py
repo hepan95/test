@@ -4,7 +4,7 @@
 # @Time:2022/8/29 8:30
 # @Author:PH
 '''ict测试环境，测试租户'''
-# '''后台端'''
+'''后台端'''
 # test01 = 0                                    #代表测试环境
 # ht_host="http://ict-test.epldcloud.com"      #测试环境api
 # ht_headers={

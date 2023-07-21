@@ -1,1 +1,1 @@
-[{"name":"Jenkins","type":"jenkins","url":"http://10.10.164.60:8800/","buildOrder":26,"buildName":"ict_api #26","buildUrl":"http://10.10.164.60:8800/job/ict_api/26/","reportName":"AllureReport","reportUrl":"http://10.10.164.60:8800/job/ict_api/26/allure"}]
+[{"name":"Jenkins","type":"jenkins","url":"http://10.10.181.157:8800/","buildOrder":1,"buildName":"epld_api #1","buildUrl":"http://10.10.181.157:8800/job/epld_api/1/","reportName":"AllureReport","reportUrl":"http://10.10.181.157:8800/job/epld_api/1/allure"}]

@@ -49,21 +49,21 @@ class Common_page():
         t = t.strftime('%Y-%m-%d ')  #+100天
         w = w.strftime('%Y-%m-%d ')  # + 200天
         n = n.strftime('%Y%m%d%H%M%S')  #+ 20天
-        print(today)
+        # print(today)
         # print(z)
         # print(q)
         # print(h)
         # print(c)
         # print(t)
         # print(w)
-        print(n)
-        return today,y,z,q,h,c,t,w,n
+        # print(n)
+        return today,y,z,q,h,c,t,w,n,h
 
     def start(self):
 
         x =  ''.join(random.sample(string.digits,10))
 
-        print(x)
+        # print(x)
         return x
 
 

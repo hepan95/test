@@ -6,6 +6,21 @@
 import allure
 from Config import config as long
 import requests,json
+'''递归'''
+def get_k(data_json):
+
+    if isinstance(data_json,dict):
+        # if 'value' in data_json.keys():
+        for key in data_json.keys():
+            if isinstance(data_json[key],dict):
+                if 'value' in data_json[key].keys():
+                    data_json[key] = data_json[key]['value']
+
+                else:
+                    get_k(data_json[key])
+    return data_json
+
+
 
 '''登录接口'''
 class Test_login():
@@ -2246,7 +2261,7 @@ class Test_Added01():
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
-    '''后台新增货主市场报价'''
+    '''后台新增货主市场报价》集装箱出口'''
     def test_Added0008(self,marketPriceId="",transportPort="",departure="",departureProvinces="",
                        departureCity="",departureArea="",taskUnitCode="", ):
         url = self.host + "/api/platform/cargoOwnerMarket/addDetail"
@@ -2792,16 +2807,17 @@ class Test_Added01():
         returnMsg = A.json()["returnMsg"]
         return returnMsg
     '''查询货主合同报价是否存在''' #transportPort 港口id   departure 街道id
-    def test_Added0051(self,bjd_id="756a5cea58864b5799fc0aa8e5b3ea63",transportPort="d017a1b4-7056-4734-9b95-86476e40ffc3",departure="430111008000"):  # 传的是报价单id
+    def test_Added0051(self,bjd_id="756a5cea58864b5799fc0aa8e5b3ea63",transportPort="d017a1b4-7056-4734-9b95-86476e40ffc3",departure=["430111008000"],taskUnitCode="port_container_export_transport"):  # 传的是报价单id
         url = self.host + "/api/platform/cargoOwnerContract/detailList/{}".format(bjd_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        data = {"filter":{"transportPort":transportPort,"departure":[departure],"destination":[]},"itemFrom":0,"itemTo":10}
+        data = {"filter": {"transportPort": transportPort, "departure": departure, "taskUnitCode":taskUnitCode, "destination": []}, "itemFrom": 0, "itemTo": 10}
         A = requests.post(url=url, headers=headers, data=json.dumps(data))
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         data = A.json()["result"]["data"]   #[] 表示不存在
         returnTotalItems = A.json()["result"]["returnTotalItems"]
+        # di_id = A.json()["result"]["data"][0]["id"]
         # print(data)
         # print(returnTotalItems)
         return returnMsg,data,returnTotalItems
@@ -2837,13 +2853,13 @@ class Test_Added01():
         returnMsg = A.json()["returnMsg"]
         return returnMsg
     '''查询货主合同报价id+状态''' #transportPort 港口id   departure 街道id
-    def test_Added0053(self,bjd_id="b9fe74a7a26b454dbfb049f9a391b284",transportPort="ed91380f-0a98-4deb-8292-735f52354699",departure="430111008000"):  # 传的是报价单id
+    def test_Added0053(self,bjd_id="ba44d9d278964bb49b06d9b26e2d83ba",transportPort="d017a1b4-7056-4734-9b95-86476e40ffc3",departure=[],taskUnitCode="port_container_import_transport"):  # 传的是报价单id
         url = self.host + "/api/platform/cargoOwnerContract/detailList/{}".format(bjd_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        data = {"filter":{"transportPort":transportPort,"departure":[departure],"destination":[]},"itemFrom":0,"itemTo":10}
+        data = {"filter": {"transportPort": transportPort, "departure": departure, "taskUnitCode":taskUnitCode, "destination": []}, "itemFrom": 0, "itemTo": 10}
         A = requests.post(url=url, headers=headers, data=json.dumps(data))
-        print(A.json())
+        # print(A.json())
         returnMsg = A.json()["returnMsg"]
         di_id = A.json()["result"]["data"][0]["id"]   #未启用：enabled_type_unenabled  已启用：enabled_type_enabled
         bj_zt = A.json()["result"]["data"][0]["enabledType"]# 已禁用：enabled_type_disabled
@@ -2860,7 +2876,7 @@ class Test_Added01():
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
-    '''获取集装箱报价'''
+    '''获取集装箱出口报价'''
     def test_Added0055(self,taskUnitCode="port_container_export_transport",customerId="19b2ccc762484fda99aa28fe7fdea866",
                        transportPort="d017a1b4-7056-4734-9b95-86476e40ffc3",provinces="27514",city="27515",area="27569",
                        street="430111008000",consigneeConsignorId="e5ebf71d3f0046b4aa373c0b1318d226",pickupTime="2023-04-18 14:02:14",
@@ -2935,7 +2951,7 @@ class Test_Added01():
         # print(data1)
         return returnMsg,taskUnitCode,hz_name,dd_hao,weituo_hao,zh_time,data1
     '''计划管理-集装箱出口拆单 查询''' #
-    def test_Added0057(self,dd_hao="MCSZX-MCO-20230609-0009"):  # 传的是报价id
+    def test_Added0057(self,dd_hao="MCSZ-MCO-20230705-0008"):
         url = self.host + "/api/platform/planPortTransport/list"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
@@ -2945,7 +2961,7 @@ class Test_Added01():
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  #分单数量
         data1 = A.json()["result"]["data"]
-        # data2 = A.json()["result"]["data"][0]["sealNumber"]
+        # data2 = A.json()["result"]["data"][0]["tags"]
         # print(data2)
         # print(returnTotalItems,data1)
         return returnMsg,returnTotalItems,data1
@@ -3258,8 +3274,8 @@ class Test_Added01():
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
-    ''' 查看自有车司机报价档案'''
-    def test_Added0081(self,bjd_id="756a5cea58864b5799fc0aa8e5b3ea63",transportPort="d017a1b4-7056-4734-9b95-86476e40ffc3",departure="430111008000"): #传的是报价单id+港口id+街道id
+    ''' 查看自有车司机报价档案》进口'''
+    def test_Added0081(self,bjd_id="3050e8ba351a4de28bab7047ffe61a69",transportPort="d017a1b4-7056-4734-9b95-86476e40ffc3",departure="430111008000"): #传的是报价单id+港口id+街道id
         url = self.host + "/api/platform/cargoOwnerMarket/detailList/{}".format(bjd_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
@@ -3285,7 +3301,7 @@ class Test_Added01():
 
         return returnMsg,returnTotalItems
     '''调度管理集装箱查询'''
-    def test_Added0083(self,dd_hao="MCSZX-MCO-20230609-0009",lx=""):
+    def test_Added0083(self,dd_hao="MCSZ-MCO-20230705-0009",lx="port_container_export_transport"):
         url = self.host + "/api/platform/dispatchPortTransport/list"
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
@@ -3323,8 +3339,8 @@ class Test_Added01():
         result = A.json()["result"]
         # print(result)
         return returnMsg,result
-    ''' 应收费用制作查询费用信息'''
-    def test_Added0086(self,dd_hao="MCSZ-MCO-20230605-0001"):
+    ''' 应收费用制作查询费用信息>待完成页签'''
+    def test_Added0086(self,dd_hao="MCSZ-MCO-20230615-0001"):
         url = self.host + "/api/platform/expensesReceivable/list"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
@@ -3341,6 +3357,7 @@ class Test_Added01():
         # js_je = A.json()["result"]["data"][0]["inComeAmountTotal"]  #结算金额
         # sj_name = A.json()["result"]["data"][0]["driverName"]  #司机姓名
         data1 = A.json()["result"]["data"]
+        # print(zd_id)
         return returnMsg,data1
 
     ''' 应付费用制作查询运单基本信息(费用明细)'''
@@ -3454,7 +3471,7 @@ class Test_Added01():
 
         return returnMsg,data1
     ''' 应付管理》应付制作费用列表（主列表）'''
-    def test_Added0094(self,dd_hao="MCSZX-MCO-20230625-0001",fw_lx="port_container_export_transport"):
+    def test_Added0094(self,dd_hao="MCSZ-MCO-20230627-0007",fw_lx="port_container_export_transport"):
         url = self.host + "/api/platform/expensesPay/list"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
@@ -3463,6 +3480,7 @@ class Test_Added01():
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # sj_name = A.json()["result"]["data"][0]["driverName"]  #司机名称
+        # dd_id = A.json()["result"]["data"][0]["id"]
         # cp_hao = A.json()["result"]["data"][0]["mainlandLicensePlateNumber"]  #车牌号
         # js_dw = A.json()["result"]["data"][0]["supplierId"]["title"] #结算单位  未派单的时候没有结算单位key
         dd_hao = A.json()["result"]["data"][0]["orderNumber"]  #订单号      已整审：status_check_all_completed
@@ -3482,7 +3500,7 @@ class Test_Added01():
         returnMsg = A.json()["returnMsg"]
 
         return returnMsg
-    ''' 应付费用制作明细审核'''
+    ''' 应付费用制作审核'''
     def test_Added0096(self,dd_id="b6633add8f9245d49c6e0458044716c5"):
         url = self.host + "/api/platform/expensesPay/check"
         headers = {'Content-Type': 'application/json',
@@ -3894,9 +3912,10 @@ class Test_Added01():
                      'Cookie':'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"customerId":hz_id,"tagKey":"all","taskUnitCodeType":"container"}}
         A = requests.post(url = url,headers = headers,data=json.dumps(data))
-        # print(A.json())
         returnMsg = A.json()["returnMsg"]
         data1 = A.json()["result"]["data"]
+        # print(data1)
+
         return returnMsg,data1
     '''后台运单管理》监理管理信息查询'''
     def test_Added0118(self,dd_hao="MCSZ-MCO-20230615-0001-02"):
@@ -3905,7 +3924,7 @@ class Test_Added01():
                     'Cookie':'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"tagKey":"","status":"","orderNumber":dd_hao}}
         A = requests.post(url = url,headers = headers,data=json.dumps(data))
-        print(A.json())
+        # print(A.json())
         returnMsg = A.json()["returnMsg"]
         data1 = A.json()["result"]["data"]
         # jldd_id = A.json()["result"]["data"][0]["id"]   #监理订单ID
@@ -3925,7 +3944,7 @@ class Test_Added01():
         data1 = A.json()["result"]["data"]
         return returnMsg,data1
     '''后台跟踪管理》监理管理查询'''
-    def test_Added0120(self,dd_hao="MCSZ-MCO-20230605-0001"):
+    def test_Added0120(self,dd_hao="MCSZ-MCO-20230625-0001"):
         url = self.host + "/api/platform/supervisionManager/list"
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
@@ -3937,7 +3956,7 @@ class Test_Added01():
         return returnMsg,data1
 
     '''后台跟踪管理》报关管理查询'''
-    def test_Added0121(self,dd_hao="MCSZ-MCO-20230605-0001"):
+    def test_Added0121(self,dd_hao="MCSZ-MCO-20230625-0001"):
         url = self.host + "/api/platform/customsClearanceManager/list"
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
@@ -4151,10 +4170,730 @@ class Test_Added01():
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  # 1 表示存在推送日志
-        return returnMsg,returnTotalItems
+        data1 =  A.json()["result"]["data"]
 
+        return returnMsg,returnTotalItems,data1
+    '''跟踪管理》新增异常'''
+    def test_Added0135(self,dd_id="",dd_hao="",yc_time="",):
+        url = self.host + "/api/platform/exceptionManager/add"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = {
+                "isEscalation":"0",
+                "relationOrderType":"1",
+                "exceptionFrom":"source_channel_handle",
+                "relationOrderNumber":dd_hao, #订单号
+                "exceptionDesc":"异常描述异常描述",
+                "taskType":"task_type_leave_pickup_container",
+                "exceptionType":"exception_type_car",
+                "exceptionRank":"exception_rank_ordinary",
+                "exceptionReason":"exception_reason_04",
+                "exceptionTime":yc_time,  #异常发生时间
+                "exceptionLocation":"4",  #异常发生地编码
+                "isLatentLoss":"1",       #是否潜在损失
+                "lossAmount":120,         #潜在损失金额
+                "exceptionLocationName":"深圳市",   #异常发生地
+                "relationId":dd_id  #订单id
+            }
+        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
 
+    '''异常管理'''
+    def test_Added0136(self,dd_hao="MCSZ-MCO-20230625-0001"):
+        url = self.host + "/api/platform/exceptionManager/list"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = {
+                "itemFrom":0,
+                "itemTo":10,
+                "filter":{
+                    "exceptionStatus":"",
+                    "relationOrderNumber":dd_hao
+                }
+            }
+        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        # print(A.json())
+        zt = A.json()["result"]["data"][0]["exceptionLogList"][0]["status"]  #异常状态
+        yc_dhao = A.json()["result"]["data"][0]["exceptionCode"]   #异常单号
+        yc_id =  A.json()["result"]["data"][0]["id"]    #异常id
+        returnMsg = A.json()["returnMsg"]
+        # print(zt)
+        data1 = A.json()["result"]["data"]
+        return returnMsg,data1
 
+    '''异常处理'''
+    def test_Added0137(self,cy_id="",dd_id="",cy_dhao="",dd_hao="",yc_time="",gjr=""):
+        url = self.host + "/api/platform/exceptionManager/edit"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = {
+                "id":cy_id,  #异常id
+                # "insertUser":"c038a360537011edac69fa163e78c411",
+                # "insertTime":"2023-06-25 14:02:56",
+                "exceptionCode":cy_dhao,  #异常单号
+                "relationOrderType":1,                    #关联类型{0 订单 1 运单}
+                "relationId":dd_id, #运单id
+                "relationOrderNumber":dd_hao, #运单号
+                "taskType":"task_type_leave_pickup_container",  #节点状态
+                "exceptionType":"exception_type_car",      #异常类型
+                "exceptionReason":"exception_reason_04",  #异常原因
+                "exceptionTime":yc_time,  #异常发生时间
+                "exceptionLocation":"4",       #异常发生地点(城市下拉)
+                "exceptionDesc":"异常描述异常描述",  #异常描述
+                "isLatentLoss":1,  #是否潜在损失
+                "lossAmount":120,   #潜在损失金额
+                "exceptionFrom":"source_channel_handle",  #异常来源渠道
+                "exceptionRank":"exception_rank_ordinary",  #异常等级
+                "handleDesc":"异常描述异常描述",  #处理描述
+                # "tableTotal":"MCSZ-MEXP-230625-001待处理",
+                "exceptionLogList":[
+                    {
+                        # "id":"fbbb8ed5be164d7b89213306d2ae12f1",
+                        # "insertTime":"2023-06-25 14:02:56",
+                        # "tenantId":"cd2ab17e-52ce-4f59-bdcc-f60c34ec348a",
+                        # "exceptionId":"00c967d96e0a4e68bd0e5ab4d3f74c13",
+                        # "handleDesc":"异常描述异常描述",
+                        # "status":"待处理",
+                        # "type":0
+                    }
+                ],
+                "exceptionTabTotal":[
+                    {
+                        # "value":"00c967d96e0a4e68bd0e5ab4d3f74c13",
+                        # "title":"MCSZ-MEXP-230625-001",
+                        # "remark":"exception_status_awaiting"
+                    }
+                ],
+                "followUserId":gjr, #跟进人-供应商联系人（监理档案联系人）
+                "exceptionOwner":"responsible_party_accident",  #异常责任方
+                "lossNum":10,      #货损数量
+                "lossUnit":"packaging_unit_074", #数量单位
+                "actualLossAmount":120,   #实际损失金额
+                "exceptionStatus":"exception_status_handle", #状态
+                "fileList":[
+
+                ]
+            }
+        A = requests.put(url=url, headers=headers, data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+
+    '''跟踪管理》推送日志'''
+    def test_Added0138(self,cy_id=""):
+        url = self.host + "/api/platform/exceptionManager/complete"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = [cy_id]
+        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+    ''' 应收费用制作查询运单基本信息(费用明细)'''
+    def test_Added0139(self,fy_id="110bfd0cf0ed4514b8f9aef03b72e9bf"):
+        url = self.host + "/api/platform/expensesReceivable/platform/{}".format(fy_id)
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        A = requests.get(url=url, headers=headers)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        # zd_id = A.json()["result"]["incomeList"][0]["id"]   #账单ID
+        # cp_hao = A.json()["result"]["supplierTransportOrderVo"]["mainlandLicensePlateNumber"]  #车牌号
+        # sj_name = A.json()["result"]["supplierTransportOrderVo"]["driverName"]  #司机姓名
+        data1 = A.json()["result"]["incomeList"]
+        # print(zd_id)
+        return returnMsg, data1
+    ''' 应收费用制作查询运单费用明细信息(费用明细)'''
+    def test_Added0140(self,fy_id="110bfd0cf0ed4514b8f9aef03b72e9bf"):  #账单id
+        url = self.host + "/api/platform/inputOrder/info/{}".format(fy_id)
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        A = requests.get(url=url, headers=headers)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        # zd_id = A.json()["result"]["costList"][0]["id"]   #账单ID
+        # dd_hao = A.json()["result"]["costList"][0]["orderNumber"]    #订单号    明细已审核：status_check_completed
+        # zd_zt = A.json()["result"]["costList"][0]["statusType"]    #明细账单状态  待审核：status_check_awaiting  一整审：status_check_all_completed
+        # js_dw = A.json()["result"]["costList"][0]["balanceId"]["title"] #结算单位
+        data1 = A.json()["result"]["costList"]
+        # print(zd_id)
+        return returnMsg, data1
+    ''' 应收费用明细审核'''
+    def test_Added0141(self,zd_id="833240255241338880"):  #明细id
+        url = self.host + "/api/platform/expensesReceivable/examine"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = [zd_id]
+        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+    ''' 应收费用整审'''
+    def test_Added0142(self,zd_id="5e3265d03970424188e46440b3a88211"):  #账单id
+        url = self.host + "/api/platform/expensesReceivable/check"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = [zd_id]
+        A = requests.put(url=url, headers=headers,data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+    ''' 费用项档案'''
+    def test_Added0143(self):
+        url = self.host + "/api/platform/chargeItem/list"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = {"itemFrom":0,"itemTo":10,"filter":{}}
+        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        fy_dw = A.json()["result"]["data"][0]["chargeUnit"] #计量单位
+        fy_id = A.json()["result"]["data"][0]["id"]  #费用id
+        fy_lx = A.json()["result"]["data"][0]["chargeType"]  #费用类型
+        # print(fy_lx)
+        return returnMsg,fy_dw,fy_id,fy_lx
+
+    ''' 新增应收改单明细费用'''
+    def test_Added0144(self,dd_hao,hz_id,dd_id,fy_id,fy_lx,fy_dw,gdlx):
+        url = self.host + "/api/platform/changePay/submit/{}".format(gdlx)
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = {
+                    "title":{
+                        "renewalMode":"renewal_type_average", #改单类别
+                        "orderNumber":dd_hao,  #订单号
+                        "customerId":hz_id, #货主id
+                        "secondCustomer":"",
+                        "statusType":"status_check_all_completed",  #状态
+                        "orderId":dd_id, #订单id
+                        # "transportPort":"d017a1b4-7056-4734-9b95-86476e40ffc3",
+                        # "taskUnitCode":"port_container_export_transport",
+                        # "transportType":"transport_type_one_one",
+                        "defaultBalanceCompany":[
+
+                        ],
+                        "responsibleParty":"responsible_party_haige",#改单责任方
+                        "renewalReason":"responsible_party_haige_01",#改单原因
+                        "chargeDirection":gdlx  #费用方向（0:应收/1;应付）
+                    },
+                    "detail":[
+                        {
+                            "currency":"CNY",
+                            "balanceId":hz_id,  #结算单位货主id
+                            "chargeItemId":fy_id, #费用名称费用类型id
+                            "chargeType":fy_lx,#费用类型
+                            "number":1,
+                            "price":1000,
+                            "chargeUnit":fy_dw,  #计量单位
+                            "mainlandLicensePlateNumber":None
+                        }
+                    ]
+                }
+        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+
+    ''' 应收费用制作查询费用信息>待完成页签'''
+    def test_Added0145(self,dd_hao="MCSZ-MCO-20230625-0001"):
+        url = self.host + "/api/platform/expensesReceivable/list"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = {"itemFrom":0,"itemTo":10,"filter":{"chargeStatusArray":["status_check_all_completed"],"orderNumber":dd_hao}}
+        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        # zd_id = A.json()["result"]["data"][0]["id"]   #账单ID
+        # dd_hao = A.json()["result"]["data"][0]["orderNumber"]    #订单号    明细已审核：status_check_completed
+        # zd_zt = A.json()["result"]["data"][0]["chargeStatus"]    #账单状态  待审核：status_check_awaiting  一整审：status_check_all_completed
+        # cp_hao = A.json()["result"]["data"][0]["mainlandLicensePlateNumber"]  #车牌号
+        # js_dw = A.json()["result"]["data"][0]["supplierName"]  #结算单位
+        # js_je = A.json()["result"]["data"][0]["inComeAmountTotal"]  #结算金额
+        # sj_name = A.json()["result"]["data"][0]["driverName"]  #司机姓名
+        data1 = A.json()["result"]["data"]
+        return returnMsg,data1
+
+    '''应收管理》应收改单类表查询'''
+    def test_Added0146(self,dd_hao="MCSZX-MCO-20230721-0006"):
+        url = self.host + "/api/platform/changePay/list/0"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data ={"itemFrom":0,"itemTo":10,"filter":{"status":[],"orderNumber":dd_hao}}
+        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        # gd_id =  A.json()["result"]["data"][0]["id"]
+        # gd_zt = A.json()["result"]["data"][0]["statusType"]
+        data1 =  A.json()["result"]["data"]
+        # print(data1)
+        return returnMsg,data1
+
+    '''应收管理》应收改单审核'''
+    def test_Added0147(self,gd_id="1bb373f74b814493836a9e617cd1b535"): #账单id
+        url = self.host + "/api/platform/changePay/check/0/{}".format(gd_id)
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        A = requests.put(url=url, headers=headers)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+    '''应收管理》对账单提交'''
+    def test_Added0148(self,zd_id="1bb373f74b814493836a9e617cd1b535"): #账单id
+        url = self.host + "/api/platform/accountStatementReceivable/order"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = [zd_id]
+        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+
+    '''应收对账单》待生成对账单数据获取'''
+    def test_Added0149(self,dd_hao="MCSZ-MCO-20230625-0001"):
+        url = self.host + "/api/platform/accountStatementReceivable/listTab1"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = {"itemFrom":0,"itemTo":10,"filter":{"orderNumber":dd_hao,"statusType":"status_check_all_completed"}}
+        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        # zd_id =  A.json()["result"]["data"][0]["id"]
+        # sf_gd = A.json()["result"]["data"][0]["isRenewal"]  # 1表示改单
+        data1 =  A.json()["result"]["data"]
+        # print(sf_gd)
+        return returnMsg,data1
+
+    '''确认对账'''
+    def test_Added0150(self,zd_id="675cc364dfe94a9d890eabb590d78e89"): #账单id
+        url = self.host + "/api/platform/accountStatementReceivable/confirm"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = [zd_id]
+        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+
+    '''对账单合计列表查询'''
+    def test_Added0151(self,dd_hao="MCSZ-MCO-20230627-0004"):
+        url = self.host + "/api/platform/accountStatementReceivable/listTab2"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = {"itemFrom":0,"itemTo":10,"filter":{"statusType":"","orderNumber":dd_hao}}
+        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        # zd_id =  A.json()["result"]["data"][0]["id"]         #已对账：   status_bill_complete
+        # sf_gd = A.json()["result"]["data"][0]["statusType"]  # 状态 待对账：status_bill_awaiting
+        # dzd_hao = A.json()["result"]["data"][0]["billOrderNumber"]  #对账单号
+        data1 =  A.json()["result"]["data"]
+        # print(sf_gd)
+        return returnMsg,data1
+
+    '''对账单生成结算单并确认'''
+    def test_Added0152(self,zd_id="675cc364dfe94a9d890eabb590d78e89"):
+        url = self.host + "/api/platform/accountStatementReceivable/bill/2"   #1生成 2生成并确认
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = [zd_id]
+        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+
+    '''应收月结账单》确认收款'''
+    def test_Added0153(self,zd_id="MCSZ-MDN-20230626-0003",tp_name="",tp_id=""):
+        url = self.host + "/api/platform/monthlyAccountsReceivable/receivable"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data ={
+                "id":zd_id,
+                "payAmountMode":"pay_amount_mode_offline",
+                "payOrderNumber":"流水号123",
+                "orderFileList":[
+                    {
+                        "fileFormat":"id",
+                        "fileName":tp_name,
+                        "fileUrl":tp_id
+                    }
+                ]
+            }
+        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+
+    '''应收月结账单列表查询'''
+    def test_Added0154(self,zd_hao="MCSZ-MDN-20230627-0002"):
+        url = self.host + "/api/platform/monthlyAccountsReceivable/list"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = {"itemFrom":0,"itemTo":10,"filter":{"billNumber":zd_hao}}
+        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        data1 = A.json()["result"]["data"]
+        # print(data1)
+        return returnMsg,data1
+    '''应付费用改单'''
+    def test_Added0155(self,dd_hao,hz_id,dd_id,fy_id,fy_lx,fy_dw,gdlx,gys_id,cp_hao):
+        url = self.host + "/api/platform/changePay/submit/1"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = {
+                "title":{
+                    "renewalMode":"renewal_type_average",
+                    "orderNumber":dd_hao,
+                    "customerId":hz_id,
+                    "supplierId":gys_id, #供应商id
+                    # "transportPort":"d017a1b4-7056-4734-9b95-86476e40ffc3",
+                    "secondCustomer":"",
+                    "statusType":"status_check_all_completed",
+                    "orderId":dd_id, #订单id
+                    # "taskUnitCode":"port_container_export_transport",
+                    # "transportType":"transport_type_one_one",
+                    "responsibleParty":"responsible_party_haige", #改单责任方
+                    "renewalReason":"responsible_party_haige_01", #改单原因
+                    "chargeDirection":gdlx  #费用方向（0:应收/1;应付）
+                },
+                "detail":[
+                    {
+                        "currency":"CNY",
+                        "balanceId":gys_id, #结算单位货主id
+                        "mainlandLicensePlateNumber":cp_hao,   #结算单位车牌
+                        "isReadonly":[
+
+                        ],
+                        "chargeItemId":fy_id, #费用名称费用类型id
+                        "chargeType":fy_lx, #费用类型
+                        "number":1,
+                        "price":222,
+                        "chargeUnit":fy_dw #计量单位
+                    }
+                ]
+            }
+        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+
+        # print(data1)
+        return returnMsg
+    '''撤销派车'''
+    def test_Added0156(self,dd_id="c882163fbd4b44ca92403137e9ddb49d"):
+        url = self.host + "/api/platform/dispatchPortTransport/revoke"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = {"cancelDispatchType":"cancel_dispatch_type_01","cancelDispatchReason":"测试撤销派车","ids":[dd_id]}
+        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+    '''撤销分单'''
+    def test_Added0157(self,dd_id="c882163fbd4b44ca92403137e9ddb49d"):
+        url = self.host + "/api/platform/planPortTransport/revoke"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = {"idList":[dd_id]}
+        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+    '''取消订单'''
+    def test_Added0157(self,dd_id="c882163fbd4b44ca92403137e9ddb49d"):
+        url = self.host + "/api/owner/order/cancel"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = {"idList":[dd_id],"cancelType":"cancel_order_reason_001","cancelRemark":"测试取消订单"}
+        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+    '''后台新增货主市场合同报价-集装箱进口运输'''
+    def test_Added0158(self, customerPriceId="c344642fec0242a293fa9f186945bb71",
+                       taskUnitCode="port_container_export_transport",
+                       taskUnitTypeName="集装箱出口运输", transportPort="d017a1b4-7056-4734-9b95-86476e40ffc3",
+                       departure="430111008000", departureProvinces="27514", departureCity="27515",
+                       departureArea="27569", ):
+        url = self.host + "/api/platform/cargoOwnerContract/addDetail"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = [
+            {
+                "customerPriceId": customerPriceId,  # 报价单id
+                "taskUnitCode": taskUnitCode,  # 运输类型
+                "taskUnitTypeName": taskUnitTypeName,  # 运输类型
+                "transportPort": transportPort,  # 港口id
+                "destination": departure,  # 街道id
+                "destinationProvinces": departureProvinces,  # 省份
+                "destinationCity": departureCity,  # 装货城市
+                "destinationArea": departureArea,  # 装货行政区
+                "20GP":"5000",
+                "20RF":"6000",
+                "20OT":"6100",
+                "20HQ":"6200",
+                "20HT":"6300",
+                "20TK":"6400",
+                "20FR":"6500",
+                "20RH":"6600",
+                "40GP":"6700",
+                "40HQ":"6800",
+                "40OT":"6900",
+                "40RH":"7000",
+                "40RF":"7100",
+                "40HT":"7200",
+                "40FR":"7300",
+                "40TK":"7400",
+                "45HQ":"7500",
+                "53HQ":"7600",
+                "20GP DG":"7700",
+                "40GP DG ":"7800",
+                "40HQ DG":"7900",
+                "currencyType":"CNY",
+                "detailList": [
+                    {
+                "20GP":"5000",
+                "20RF":"6000",
+                "20OT":"6100",
+                "20HQ":"6200",
+                "20HT":"6300",
+                "20TK":"6400",
+                "20FR":"6500",
+                "20RH":"6600",
+                "40GP":"6700",
+                "40HQ":"6800",
+                "40OT":"6900",
+                "40RH":"7000",
+                "40RF":"7100",
+                "40HT":"7200",
+                "40FR":"7300",
+                "40TK":"7400",
+                "45HQ":"7500",
+                "53HQ":"7600",
+                "20GP DG":"7700",
+                "40GP DG ":"7800",
+                "40HQ DG":"7900",
+                    }
+                ]
+            }
+        ]
+        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+    '''获取集装箱进口报价'''
+    def test_Added0159(self, taskUnitCode="port_container_export_transport",
+                       customerId="19b2ccc762484fda99aa28fe7fdea866",
+                       transportPort="d017a1b4-7056-4734-9b95-86476e40ffc3", provinces="27514", city="27515",
+                       area="27569",
+                       street="430111008000", consigneeConsignorId="e5ebf71d3f0046b4aa373c0b1318d226",
+                       pickupTime="2023-04-18 14:02:14",
+                       carModeId="20GP"):
+        url = self.host + "/api/platform/inputOrder/getPrice"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = {
+            "taskUnitCode": taskUnitCode,  # 服务类型
+            "customerId": customerId,  # 货主id
+            "transportPort": transportPort,  # 港口id
+            "destination": [
+                {
+                    "provinces": provinces,  # 省id
+                    "city": city,  # 市id
+                    "area": area,  # 区id
+                    "street": street,  # 街道id
+                    "consigneeConsignorId": consigneeConsignorId  # 装货单位id
+                }
+            ],
+            "listDetail": [
+                {
+                    "pickupTime": pickupTime,  # 装货时间
+                    "carModeId": carModeId,  # 柜型
+                    "sequence": 0
+                }
+            ],
+            # "institutionId":"49f596d8-b126-4046-a23a-cc76277f4fa2", #机构id
+            "isMultipoint": 0,
+            # "combinationStreet":combinationStreet  #街道名称
+        }
+        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        bj_je = A.json()["result"][0]["price"]
+        bj_id = A.json()["result"][0]["customerPricePropertyId"]
+        # print(bj_je,bj_id)
+        return returnMsg, bj_je, bj_id
+    '''修改申请'''
+    def test_Added0160(self,data1,id):
+        url = self.host + "/api/platform/inputOrder/submitModify"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        content = str(data1)
+        data = {
+            "id":id,
+            "editType":"change_order_reason_003",
+            "editRemark":"修改说明修改说明",
+            "content":content
+        }
+        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+    '''获取个人信息'''
+    def test_Added0161(self):
+        url = self.host + "/api/login/person"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        A=requests.get(url=url,headers=headers)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        institutionGuid = A.json()["result"]["institutionGuid"]["value"]  #所属租户id
+        name = A.json()["result"]["institutionGuid"]["title"]  #所属租户
+        # print(institutionGuid)
+        return returnMsg,institutionGuid,name
+    '''集装箱运输订单详情页'''
+    def test_Added0162(self,dd_id="57f7fea3e85f4791bb38a9c417392ef9"):
+        url = self.host + "/api/platform/inputOrder/info/{}".format(dd_id)
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        A=requests.get(url=url,headers=headers)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        data1 = A.json()["result"]
+        # print(data1)
+        # baseInfo = data1["baseInfo"]
+        # addrList = data1["addrList"]
+        # costList = data1["costList"]
+        # goodsList = data1["goodsList"]
+        # priceList = data1["priceList"]
+        # baseInfo.update([('orderStatus','status_execution'),("customerDelegateCode","11111")])  # 修改状态
+        # data = {"baseInfo": baseInfo, "addrList": addrList, "costList": costList, "goodsList": goodsList,
+        #         "priceList": priceList}
+        # print(str(data))
+        return returnMsg,data1
+
+    '''改单审核'''
+    def test_Added0163(self,data,dd_id,dd_hao,editType,editRemark):
+        url = self.host + "/api/platform/receiveOrder/changeAudit"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        content = data
+        data = {
+                "id":dd_id,
+                "editType":editType,
+                "editRemark":editRemark,
+                "content":content
+
+                ,
+                "changeList":[],
+                "orderNumber":dd_hao,  #订单号
+                "resultType":1
+            }
+        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+
+    '''获取改单详情页信息'''
+    def test_Added0164(self,dd_id="597fe94eef004220b02aa0492fe4691f"):
+        url = self.host + "/api/platform/receiveOrder/changeAuditInfo/{}".format(dd_id)
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        A = requests.get(url=url,headers=headers)
+        # print(A.json())
+        returnMsg1 = A.json()["returnMsg"]
+        result = A.json()["result"]
+        # print(result)
+        returnMsg = A.json()["result"]["content"]
+        data1 = json.loads(returnMsg)  #json.load(f)之后，返回的对象是python的字典对象。
+        # addrList = json.loads(returnMsg)['addrList'][0]
+        # baseInfo = json.loads(returnMsg)['baseInfo']
+        # costList = json.loads(returnMsg)['costList'][0]
+        # # print(addrList)
+        # # print(baseInfo)
+        # # print(costList)
+        # aa = get_k(addrList)
+        # bb = get_k(baseInfo)
+        # cc = get_k(costList)
+        # # print(aa)
+        # # print(bb)
+        # # print(cc)
+        # data2 = {"baseInfo": bb, "addrList": [aa], "costList": [cc]}
+        # print(data2)
+        return returnMsg,data1,result,returnMsg1
+
+    '''计划管理》通改、执改确认'''
+    def test_Added0165(self,customerOrderId="14bbcc978a0a476aba870097d5f8f22a"):
+        url = self.host + "/api/platform/planPortTransport/modifyInfoConfirm/{}".format(customerOrderId)
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        A=requests.put(url=url,headers=headers)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+
+    '''后台新增报价》集装箱进口'''
+    def test_Added0166(self, marketPriceId="", transportPort="", departure="", departureProvinces="",
+                       departureCity="", departureArea="", taskUnitCode="", ):
+        url = self.host + "/api/platform/cargoOwnerMarket/addDetail"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = [{"marketPriceId": marketPriceId,  # 报价单id  bjd_id
+                 "transportPort": transportPort,  # 港口id
+                 "destination": departure,  # 街道
+                 "destinationProvinces": departureProvinces,  # 省
+                 "destinationCity": departureCity,  # 市
+                 "destinationArea": departureArea,  # 区
+                 "taskUnitCode": taskUnitCode,  # 服务类型
+                 "20GP": "3500",  # 报价
+                 "20RF": "100",
+                 "20OT": "100",
+                 "20HQ": "100",
+                 "20HT": "100",
+                 "20TK": "100",
+                 "20FR": "100",
+                 "20RH": "100",
+                 "40GP": "100",
+                 "40HQ": "100",
+                 "40OT": "100",
+                 "currencyType": "CNY",
+                 "detailList": [
+                {"20GP": "3500",
+                 "20RF": "100",
+                 "20OT": "100",
+                 "20HQ": "100",
+                 "20HT": "100",
+                 "20TK": "100",
+                 "20FR": "100",
+                 "20RH": "100",
+                 "40GP": "100",
+                 "40HQ": "100",
+                 "40OT": "100",}  # 报价
+                 ]}]
+        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        # bj_id = A.json()["result"]["data"][0]["id"]   #报价id
+        # bjd_bm =  A.json()["result"]["data"][0]["priceNumber"]   #报价单编码
+        return returnMsg
+    ''' 查看自有车司机报价档案》进口'''
+    def test_Added0167(self, bjd_id="3050e8ba351a4de28bab7047ffe61a69",
+                       transportPort="d017a1b4-7056-4734-9b95-86476e40ffc3",
+                       departure="430111008000"):  # 传的是报价单id+港口id+街道id
+        url = self.host + "/api/platform/cargoOwnerMarket/detailList/{}".format(bjd_id)
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = {"itemFrom": 0, "itemTo": 10, "filter": {"transportPort": transportPort, "destination": [departure]}}
+        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        di_id = A.json()["result"]["data"][0]["id"]  # 未启用：enabled_type_unenabled  已启用：enabled_type_enabled
+        bj_zt = A.json()["result"]["data"][0]["enabledType"]  # 已禁用：enabled_type_disabled
+        bj_je = A.json()["result"]["data"][0]["20GP"]
+        returnTotalItems = A.json()["result"]["returnTotalItems"]  # =0表示不存在
+        # print(bj_zt, di_id)
+        return returnMsg, di_id, bj_zt, bj_je,returnTotalItems
 
 
 
@@ -4454,6 +5193,173 @@ class Test_Added01():
         return returnMsg
 
 
+    '''后台新增集装箱进口订单'''
+    def test_Added02102(self,customerId,customerContact,customerContactPhone,customerServiceId,transportPort,departureProvinces,
+                       departureCity,departureArea,departure,cyCutOffTime,consignorId,consignorName,consignorContact,consignorContactPhone,
+                       consignorContactAddr,provinces,city,district,street,pickupTime,bookingNumber,customerDelegateCode,baseAmount,price,
+                       customerPricePropertyId,matchKey):
+        url = self.host + "/api/platform/inputOrder/submit"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data =[{
+                "isAgentOperate": 1,  #是否代操作
+                "baseInfo": {
+                    "isSanitaryTreatment": "", #是否存重还柜
+                    "customerId": customerId,  #委托客户id（货主id）
+                    "customerContact": customerContact,  #货主联系人名称
+                    "customerContactPhone": customerContactPhone,   #货主联系电话
+                    "customerContactMail": "",  #客户邮箱
+                    "customerServiceId": customerServiceId, #货主客服id 用户档案，监理客服
+                    "customerServiceEmail": "",   #po
+                    "balanceId": "",
+                    "balancePhone": "",
+                    "balanceMail": "",
+                    "payerId": "",
+                    "payerPhone": "",
+                    "payerMail": "",
+                    "consignorId": "",
+                    "consigneeId": "",
+                    "balanceWay": "balance_way_bill",    #结算方式
+                    "isMultiLoad": True,
+                    "discount": "0.85",  #折扣系数
+                    "transportPort": transportPort,  #港口id
+
+                    "destinationProvinces": departureProvinces,  #卸货省份
+                    "destinationCity": departureCity,  #卸货城市
+                    "destinationArea": departureArea,  #卸货行政区
+                    "destination": departure,  #卸货街道
+                    "isTwinDrag": 0,
+                    "cyCutOffTime": cyCutOffTime, #截重/空柜时间
+
+                    "isCustoms": "0",   #是否委托报关
+                    "customsType": "",  #报关方式
+                    "otherFile": None,
+                    # "isSanitaryTreatment":"1",  #是否监理
+                    "bookingNumberFile": None,
+                    "hblNumberFile": None,
+                    "taskUnitCode": "port_container_import_transport",  #服务类型
+                    "taskUnitTypeName": "集装箱进口运输",   #服务类型
+                    "id": ""
+                },
+                "priceList": [],
+                "addrList": [
+                    {
+                        # "lineNo": "15c1c7f586510e4f1555f2233d256ab35350",
+                        "pickupDeliveryType": 1,
+                        "options": "",
+                        "consignorId": consignorId,  #装货单位id（收发货人档案）
+                        "consignorName": consignorName,  #装货单位名称
+                        "consignorContact": consignorContact,             #装货联系人
+                        "consignorContactPhone": consignorContactPhone,   #装货联系电话
+                        "consignorContactAddr": consignorContactAddr,   #装货详细地址
+                        "provinces": provinces,    #装货始发省份
+                        "city": city,         #装货始发城市
+                        "district": district,     #装货始发行政区
+                        "street": street,#装货街道
+                        "departureProvinces": "",
+                        "departureCity": "",
+                        "departureArea": "",
+                        "departure": "",
+                        "driverRemark": "装卸货注意事项",
+                        "supervisionRemark": "监理注意事项",
+                        "sequence": 1
+                    }
+                ],
+                "planList": [
+                    {
+                        "goodsCurrency": "USD",
+                        "isReserveCabinet": "0",   #是否预提柜
+                        "weighingMethod": "weighing_method_needless",  #过磅方式
+                        "goodsValueType": "goods_value_type_001",  #货物价值
+
+                        "pickupTime": pickupTime,  #装货时间
+                        "bookingNumber": bookingNumber,   #提单号
+                        "customerDelegateCode":customerDelegateCode,  #客户委托号
+                        "carModeId": "20GP",   #柜型
+                        "containerNumber": "FSCU5130217",
+                        "isWeightStorage": "",
+                        "saveContainerTime": "",
+                        "isReturnWeightStorage": "",
+                        "containerLocation": "container_location_003",  #集装箱摆放要求
+                        "weight": 2,    #毛重
+                        # "lineNo": "47802372c1638f975380b70ec79d51f3a042",
+                        "isReadonly": [
+                            "cabinetPickupTime",
+                            "saveContainerTime",
+                            "returnContainerTime"
+                        ],
+                        "isRequired": [
+                            "containerLocation"
+                        ],
+                        "baseAmount": baseAmount,        #报价
+                        "priceType": "",
+                        "chargeInfo": {
+                            "currencyType": "CNY",
+                            "exchangeRate": 1,
+                            "price": price,                #报价
+                            "pickupTime": pickupTime,  #装货时间
+                            "sequence": 0,
+                            "carModeId": "20GP",    #柜型
+                            "customerPricePropertyId": customerPricePropertyId, #报价单id（明细）
+                            "destination": departure, #装货街道
+                            "destinationArea": departureArea,  #装货始发行政区
+                            "destinationCity": departureCity,   #装货始发城市
+                            "destinationProvinces": departureProvinces,  #始装货发省份
+                            "balanceCompany": "",
+                            "matchKey": "null:null:{}".format(matchKey) #装货街道
+                        }
+                    }
+                ]
+            }
+        ]
+        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return  returnMsg
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4609,7 +5515,7 @@ class Test_transport_company01():
 
 if __name__ == '__main__':
     run=Test_Added01()
-    run.test_Added0053()
+    run.test_Added0146()
 
     # run=Test_transport_company01()
     # run.test_transport0010()
