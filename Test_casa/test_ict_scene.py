@@ -273,7 +273,7 @@ class Test_query002():
                     if sfh_dd[6] == "enabled_type_enabled":
                         with allure.step("装货单位已存在，并已启用"):
                             pass
-    @allure.title("集装箱出口货主市场报价")
+    @allure.title("货主市场报价--集装箱出口")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query007(self):
         with allure.step("查看货主id"):
@@ -412,7 +412,7 @@ class Test_query002():
                                 if bjd_bm2[2] == "enabled_type_enabled":
                                     with allure.step("存在集装箱出口运输货主合同报价,并已启用报价"):
                                         pass
-    @allure.title("自有车集装箱出口报价")
+    @allure.title("集装箱出口报价--自有车")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query008(self):
         with allure.step("查看自有车报价单是否存在"):
@@ -832,7 +832,7 @@ class Test_query002():
                     if sfh_dd[6] == "enabled_type_enabled":
                         with allure.step("装货单位已存在，并已启用"):
                             pass
-    @allure.title("厢式车货主市场报价")
+    @allure.title("货主市场报价--厢式车内陆运输")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query013(self):
         with allure.step("查看货主id"):
@@ -919,89 +919,89 @@ class Test_query002():
                     if bjd_bm[1] == "status_type_enabled":
                         with allure.step("已存在货主市场报价单，并已启用,报价单编码：{}".format(bjd_bm[3])):
                             pass
+        with allure.step("获取装货地街道编码"):
+            jd_bm1 = ict.Test_Added01().test_Added0001(lx=6, name="海山街道")
+            assert jd_bm1[0] == '操作成功'
+            zjd_bm = jd_bm1[1]
+            xjd_name = jd_bm1[2]
+        with allure.step("查看是否存在厢式车运输货主合同报价"):
+            bjd_bm3 = ict.Test_Added01().test_Added0101(bjd_id=bjd_bm[2],taskUnitCode="bulkcargo_transport",jd_bm=zjd_bm)
+            assert bjd_bm3[0] == '操作成功'
+            if bjd_bm3[1] == 0 :
+                with allure.step("获取卸货地省编码"):
+                    sf_bm1 = ict.Test_Added01().test_Added0001(lx=3, name="湖南省")
+                    assert sf_bm1[0] == '操作成功'
+                    xsf_bm = sf_bm1[1]
+                    xsf_name = sf_bm1[2]
+                with allure.step("获取卸货地市编码"):
+                    cs_bm1 = ict.Test_Added01().test_Added0001(lx=4, name="长沙市")
+                    assert cs_bm1[0] == '操作成功'
+                    xcs_bm = cs_bm1[1]
+                    xcs_name = cs_bm1[2]
+                with allure.step("获取卸货地区编码"):
+                    q_bm1 = ict.Test_Added01().test_Added0001(lx=5, name="雨花区")
+                    assert q_bm1[0] == '操作成功'
+                    xq_bm = q_bm1[1]
+                    xq_name = q_bm1[2]
+                with allure.step("获取卸货地街道编码"):
+                    jd_bm1 = ict.Test_Added01().test_Added0001(lx=6, name="洞井街道")
+                    assert jd_bm1[0] == '操作成功'
+                    xjd_bm = jd_bm1[1]
+                    xjd_name = jd_bm1[2]
+                with allure.step("获取装货地省编码"):
+                    sf_bm1 = ict.Test_Added01().test_Added0001(lx=3, name="广东省")
+                    assert sf_bm1[0] == '操作成功'
+                    zsf_bm = sf_bm1[1]
+                    zsf_name = sf_bm1[2]
+                with allure.step("获取装货地市编码"):
+                    cs_bm1 = ict.Test_Added01().test_Added0001(lx=4, name="深圳市")
+                    assert cs_bm1[0] == '操作成功'
+                    zcs_bm = cs_bm1[1]
+                    zcs_name = cs_bm1[2]
+                with allure.step("获取装货地区编码"):
+                    q_bm1 = ict.Test_Added01().test_Added0001(lx=5, name="盐田区")
+                    assert q_bm1[0] == '操作成功'
+                    zq_bm = q_bm1[1]
+                    zq_name = q_bm1[2]
                 with allure.step("获取装货地街道编码"):
                     jd_bm1 = ict.Test_Added01().test_Added0001(lx=6, name="海山街道")
                     assert jd_bm1[0] == '操作成功'
                     zjd_bm = jd_bm1[1]
                     xjd_name = jd_bm1[2]
-                with allure.step("查看是否存在厢式车运输货主合同报价"):
-                    bjd_bm3 = ict.Test_Added01().test_Added0101(bjd_id=bjd_bm[2],taskUnitCode="bulkcargo_transport",jd_bm=zjd_bm)
-                    assert bjd_bm3[0] == '操作成功'
-                    if bjd_bm3[1] == 0 :
-                        with allure.step("获取卸货地省编码"):
-                            sf_bm1 = ict.Test_Added01().test_Added0001(lx=3, name="湖南省")
-                            assert sf_bm1[0] == '操作成功'
-                            xsf_bm = sf_bm1[1]
-                            xsf_name = sf_bm1[2]
-                        with allure.step("获取卸货地市编码"):
-                            cs_bm1 = ict.Test_Added01().test_Added0001(lx=4, name="长沙市")
-                            assert cs_bm1[0] == '操作成功'
-                            xcs_bm = cs_bm1[1]
-                            xcs_name = cs_bm1[2]
-                        with allure.step("获取卸货地区编码"):
-                            q_bm1 = ict.Test_Added01().test_Added0001(lx=5, name="雨花区")
-                            assert q_bm1[0] == '操作成功'
-                            xq_bm = q_bm1[1]
-                            xq_name = q_bm1[2]
-                        with allure.step("获取卸货地街道编码"):
-                            jd_bm1 = ict.Test_Added01().test_Added0001(lx=6, name="洞井街道")
-                            assert jd_bm1[0] == '操作成功'
-                            xjd_bm = jd_bm1[1]
-                            xjd_name = jd_bm1[2]
-                        with allure.step("获取装货地省编码"):
-                            sf_bm1 = ict.Test_Added01().test_Added0001(lx=3, name="广东省")
-                            assert sf_bm1[0] == '操作成功'
-                            zsf_bm = sf_bm1[1]
-                            zsf_name = sf_bm1[2]
-                        with allure.step("获取装货地市编码"):
-                            cs_bm1 = ict.Test_Added01().test_Added0001(lx=4, name="深圳市")
-                            assert cs_bm1[0] == '操作成功'
-                            zcs_bm = cs_bm1[1]
-                            zcs_name = cs_bm1[2]
-                        with allure.step("获取装货地区编码"):
-                            q_bm1 = ict.Test_Added01().test_Added0001(lx=5, name="盐田区")
-                            assert q_bm1[0] == '操作成功'
-                            zq_bm = q_bm1[1]
-                            zq_name = q_bm1[2]
-                        with allure.step("获取装货地街道编码"):
-                            jd_bm1 = ict.Test_Added01().test_Added0001(lx=6, name="海山街道")
-                            assert jd_bm1[0] == '操作成功'
-                            zjd_bm = jd_bm1[1]
-                            xjd_name = jd_bm1[2]
-                        with allure.step("新增厢式车运输货主合同报价，"):
-                            xz_bj = ict.Test_Added01().test_Added0100(customerPriceId=bjd_bm[2],
-                                                                      taskUnitCode="bulkcargo_transport",
-                                                                      taskUnitTypeName="厢式车运输",
-                                                                      departure=zjd_bm, departureProvinces=zsf_bm,
-                                                                      departureCity=zcs_bm, departureArea=zq_bm,
-                                                                      destination=xjd_bm,
-                                                                      destinationProvinces=xsf_bm,
-                                                                      destinationCity=xcs_bm, destinationArea=xq_bm)
-                            assert xz_bj == '操作成功'
-                        with allure.step("新增厢式车运输货主合同报价，查看报价单信息"):
-                            bjd_bm5 = ict.Test_Added01().test_Added0101(bjd_id=bjd_bm[2],taskUnitCode="bulkcargo_transport",jd_bm=zjd_bm)
-                            assert bjd_bm5[0] == '操作成功'
-                            bj_id = bjd_bm5[2][0]["id"]
-                        with allure.step("启用新增厢式车运输货主合同报价,报价单编码：{},{}".format(bjd_bm[3],bj_id)):
-                            jd_bm = ict.Test_Added01().test_Added0054(bj_id=bj_id)
-                            assert jd_bm == '操作成功'
-                    if bjd_bm3[1] != 0:
-                        with allure.step("存在厢式车运输货主合同报价，查看报价单信息"):
-                                bjd_bm4 = ict.Test_Added01().test_Added0101(bjd_id=bjd_bm[2],taskUnitCode="bulkcargo_transport",jd_bm=zjd_bm)
-                                assert bjd_bm4[0] == '操作成功'
-                                bj_id = bjd_bm4[2][0]["id"]
-                                bjd_zt = bjd_bm4[2][0]["enabledType"]
-                                if bjd_zt == "enabled_type_unenabled":
-                                    with allure.step("启用存在(未启用)厢式车运输货主合同报价"):
-                                        jd_bm = ict.Test_Added01().test_Added0054(bj_id=bj_id)
-                                        assert jd_bm == '操作成功'
-                                if bjd_zt == "enabled_type_disabled":
-                                    with allure.step("启用存在(禁用)厢式车运输货主合同报价"):
-                                        jd_bm = ict.Test_Added01().test_Added0054(bj_id=bj_id)
-                                        assert jd_bm == '操作成功'
-                                if bjd_zt == "enabled_type_enabled":
-                                    with allure.step("存在厢式车货主合同报价,并已启用报价"):
-                                        pass
+                with allure.step("新增厢式车运输货主合同报价，"):
+                    xz_bj = ict.Test_Added01().test_Added0100(customerPriceId=bjd_bm[2],
+                                                              taskUnitCode="bulkcargo_transport",
+                                                              taskUnitTypeName="厢式车运输",
+                                                              departure=zjd_bm, departureProvinces=zsf_bm,
+                                                              departureCity=zcs_bm, departureArea=zq_bm,
+                                                              destination=xjd_bm,
+                                                              destinationProvinces=xsf_bm,
+                                                              destinationCity=xcs_bm, destinationArea=xq_bm)
+                    assert xz_bj == '操作成功'
+                with allure.step("新增厢式车运输货主合同报价，查看报价单信息"):
+                    bjd_bm5 = ict.Test_Added01().test_Added0101(bjd_id=bjd_bm[2],taskUnitCode="bulkcargo_transport",jd_bm=zjd_bm)
+                    assert bjd_bm5[0] == '操作成功'
+                    bj_id = bjd_bm5[2][0]["id"]
+                with allure.step("启用新增厢式车运输货主合同报价,报价单编码：{},{}".format(bjd_bm[3],bj_id)):
+                    jd_bm = ict.Test_Added01().test_Added0054(bj_id=bj_id)
+                    assert jd_bm == '操作成功'
+            if bjd_bm3[1] != 0:
+                    with allure.step("存在厢式车运输货主合同报价，查看报价单信息"):
+                            bjd_bm4 = ict.Test_Added01().test_Added0101(bjd_id=bjd_bm[2],taskUnitCode="bulkcargo_transport",jd_bm=zjd_bm)
+                            assert bjd_bm4[0] == '操作成功'
+                            bj_id = bjd_bm4[2][0]["id"]
+                            bjd_zt = bjd_bm4[2][0]["enabledType"]
+                            if bjd_zt == "enabled_type_unenabled":
+                                with allure.step("启用存在(未启用)厢式车运输货主合同报价"):
+                                    jd_bm = ict.Test_Added01().test_Added0054(bj_id=bj_id)
+                                    assert jd_bm == '操作成功'
+                            if bjd_zt == "enabled_type_disabled":
+                                with allure.step("启用存在(禁用)厢式车运输货主合同报价"):
+                                    jd_bm = ict.Test_Added01().test_Added0054(bj_id=bj_id)
+                                    assert jd_bm == '操作成功'
+                            if bjd_zt == "enabled_type_enabled":
+                                with allure.step("存在厢式车货主合同报价,并已启用报价"):
+                                    pass
     @allure.title("区域规则-厢式车运输,操作区域蛇口")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query014(self):
@@ -1096,7 +1096,7 @@ class Test_query002():
                     if jhzx_id[2] == "enabled_type_enabled":
                         with allure.step("厢式车运输计划中已存在，并已启用"):
                             pass
-    @allure.title("运输公司合同报价，厢式车")
+    @allure.title("运输公司合同报价--厢式车内陆运输")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query017(self):
         with allure.step("查看供应商id"):
@@ -1345,7 +1345,7 @@ class Test_query002():
                 else:
                     with allure.step("'报关费'费用项档案,已存在，并已启用"):
                         pass
-    @allure.title("司机市场报价--集装箱")
+    @allure.title("司机市场报价--集装箱出口")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query020(self):
         with allure.step("查看司机市场报价报价单是否存在"):
@@ -1583,7 +1583,7 @@ class Test_query002():
                     if jhzx_id[2] == "enabled_type_enabled":
                         with allure.step("计划中已存在，并已启用"):
                             pass
-    @allure.title("集装箱进口货主市场报价")
+    @allure.title("货主市场报价--集装箱进口")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query025(self):
         with allure.step("查看货主id"):
@@ -1731,7 +1731,7 @@ class Test_query002():
                                 if bjd_bm2[2] == "enabled_type_enabled":
                                     with allure.step("存在集装箱进口运输货主合同报价,并已启用报价"):
                                         pass
-    @allure.title("自有车集装箱进口报价")
+    @allure.title("自有司机报价--集装箱进口")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query026(self):
         with allure.step("查看自有车报价单是否存在"):
@@ -1768,7 +1768,7 @@ class Test_query002():
             gk_id = gk_id1[1]  # 港口id
             gk_name = gk_id1[2]  # 港口名称
         with allure.step("获取收发地街道编码"):
-            jd_bm1 = ict.Test_Added01().test_Added0001(lx=6, name="洞井街道")
+            jd_bm1 = ict.Test_Added01().test_Added0001(lx=6,name="洞井街道")
             assert jd_bm1[0] == '操作成功'
             jd_bm = jd_bm1[1]
             jd_name = jd_bm1[2]
@@ -1778,7 +1778,7 @@ class Test_query002():
         with allure.step("存在自有车集装箱进口报价单，查看是否存在区域报价报价信息"):
             bjd_bm1 = ict.Test_Added01().test_Added0167(bjd_id=bz_dd[1],transportPort=gk_id,departure=jd_bm)
             assert bjd_bm1[0] == '操作成功'
-            if  bjd_bm1[4] == 0 :
+            if  bjd_bm1[1] == 0 :
                 with allure.step("获取港口id"):
                     gk_id1 = ict.Test_Added01().test_Added000(placeName="BREMERHAVEN")
                     assert gk_id1[0] == '操作成功'
@@ -1814,32 +1814,247 @@ class Test_query002():
                 with allure.step("新增自有车集装箱进口运输自有车报价，查看报价信息"):
                     bjd_bm2 = ict.Test_Added01().test_Added0167(bjd_id=bz_dd[1],transportPort=gk_id,departure=jd_bm)
                     assert bjd_bm2[0] == '操作成功'
+                    bz_id =  bjd_bm2[2][0]["id"]
                     with allure.step("启用新增集装箱进口运输自有车报价，报价单id：{}".format(bjd_bm2[1])):
-                        jd_bm = ict.Test_Added01().test_Added0011(bz_id=bjd_bm2[1])
+                        jd_bm = ict.Test_Added01().test_Added0011(bz_id=bz_id)
                         assert jd_bm == '操作成功'
 
 
-            if bjd_bm1[4] != 0:
+            if bjd_bm1[1] != 0:
                 with allure.step("存在集装箱进口运输自有车报价,查看报价id"):
                     bjd_bm2 = ict.Test_Added01().test_Added0167(bjd_id=bz_dd[1],transportPort=gk_id,departure=jd_bm)
                     assert bjd_bm2[0] == '操作成功'
-                    if  bjd_bm2[2] == "enabled_type_unenabled":
+                    bz_zt =  bjd_bm2[2][0]["enabledType"]
+                    if  bz_zt == "enabled_type_unenabled":
                         with allure.step("启用存在(未启用)集装箱进口运输自有车报价，报价单id：{}".format(bjd_bm2[1])):
                             jd_bm = ict.Test_Added01().test_Added0011(bz_id=bjd_bm2[1])
                             assert jd_bm == '操作成功'
-                    if  bjd_bm2[2] == "enabled_type_disabled":
+                    if  bz_zt == "enabled_type_disabled":
                         with allure.step("启用存在(禁用)集装箱进口运输自有车报价"):
                             jd_bm = ict.Test_Added01().test_Added0011(bz_id=bjd_bm2[1])
                             assert jd_bm == '操作成功'
-                    if bjd_bm2[2] == "enabled_type_enabled":
+                    if bz_zt == "enabled_type_enabled":
                         with allure.step("存在集装箱进口运输自有车报价,并已启用报价"):
                             pass
+    @allure.title("司机市场报价--厢式车进口运输")
+    # @pytest.mark.skip(reason="无理由跳过")
+    def test_query027(self):
+        with allure.step("查看厢式车进口司机市场报价是否存在"):
+            sj_bjd = ict.Test_Added01().test_Added0115(fy_lx="port_container_import_transport")
+            assert sj_bjd[0] == '操作成功'
+            if  sj_bjd[1] == 0 :
+                with allure.step("新增司机市场报价报价单"):
+                    xz_bjd = ict.Test_Added01().test_Added0116(fy_lx="port_container_import_transport",fy_name="集装箱进口运输")
+                    assert xz_bjd == '操作成功'
+                with allure.step("查看司机市场报价报价单id"):
+                    ck_bjd = ict.Test_Added01().test_Added0115(fy_lx="port_container_import_transport")
+                    assert ck_bjd[0] == '操作成功'
+                    bjd_id = ck_bjd[2][0]["id"]
+                with allure.step("启用司机市场报价报价单，报价单id{}".format(bjd_id)):
+                    qy_bjd = ict.Test_Added01().test_Added0005(bjd_id=bjd_id)
+                    assert qy_bjd == '操作成功'
+            if  sj_bjd[1] != 0 :
+                bjd_id = sj_bjd[2][0]["id"]
+                bjd_zt = sj_bjd[2][0]["statusType"]
+                if bjd_zt == "status_type_unenabled" :
+                    with allure.step("报价单未启用，启用司机市场报价报价单，报价单id{}".format(bjd_id)):
+                        qy_bjd = ict.Test_Added01().test_Added0005(bjd_id=bjd_id)
+                        assert qy_bjd == '操作成功'
+                if bjd_zt == "status_disabled" :
+                    with allure.step("报价单已禁用，启用司机市场报价报价单，报价单id{}".format(bjd_id)):
+                        qy_bjd = ict.Test_Added01().test_Added0005(bjd_id=bjd_id)
+                        assert qy_bjd == '操作成功'
+                if bjd_zt == "status_type_enabled" :
+                    with allure.step("司机市场报价报价单已存在并已启用，报价单id{}".format(bjd_id)):
+                        pass
+        with allure.step("查看厢式车进口司机市场报价id"):
+            sj_bjd = ict.Test_Added01().test_Added0115(fy_lx="port_container_import_transport")
+            assert sj_bjd[0] == '操作成功'
+            bjd_id = sj_bjd[2][0]["id"]
+        with allure.step("获取港口id"):
+            gk_id1 = ict.Test_Added01().test_Added000(placeName="BREMERHAVEN")
+            assert gk_id1[0] == '操作成功'
+            gk_id = gk_id1[1]  # 港口id
+            gk_name = gk_id1[2]  # 港口名称
+        with allure.step("获取卸货地街道编码"):
+            jd_bm1 = ict.Test_Added01().test_Added0001(lx=6, name="海山街道")
+            assert jd_bm1[0] == '操作成功'
+            zjd_bm = jd_bm1[1]
+            xjd_name = jd_bm1[2]
+        with allure.step("存在厢式车进口司机市场报价单，查看是否存在区域报价报价信息"):
+            bjd_bm1 = ict.Test_Added01().test_Added0167(bjd_id=bjd_id,transportPort=gk_id,departure=zjd_bm)
+            assert bjd_bm1[0] == '操作成功'
+            if  bjd_bm1[1] == 0 :
+                with allure.step("获取收发地省编码"):
+                    sf_bm1 = ict.Test_Added01().test_Added0001(lx=3, name="广东省")
+                    assert sf_bm1[0] == '操作成功'
+                    sf_bm = sf_bm1[1]
+                    sf_name = sf_bm1[2]
+                with allure.step("获取收发地市编码"):
+                    cs_bm1 = ict.Test_Added01().test_Added0001(lx=4, name="深圳市")
+                    assert cs_bm1[0] == '操作成功'
+                    cs_bm = cs_bm1[1]
+                    cs_name = cs_bm1[2]
+                with allure.step("获取收发地区编码"):
+                    q_bm1 = ict.Test_Added01().test_Added0001(lx=5, name="盐田区")
+                    assert q_bm1[0] == '操作成功'
+                    q_bm = q_bm1[1]
+                    q_name = q_bm1[2]
+                with allure.step("新增厢式车进口司机市场报价:港口：{},{}{}{}{}".format(gk_name, sf_name, cs_name, q_name,xjd_name)):
+                    xzsc_bj = ict.Test_Added01().test_Added0166(marketPriceId=bjd_id, transportPort=gk_id,
+                                                                departure=zjd_bm,
+                                                                departureProvinces=sf_bm, departureCity=cs_bm,
+                                                                departureArea=q_bm,
+                                                                taskUnitCode="port_container_import_transport")
+                    assert xzsc_bj == '操作成功'
+                with allure.step("新增厢式车进口司机市场报价，查看报价信息"):
+                    bjd_bm2 = ict.Test_Added01().test_Added0167(bjd_id=bjd_id,transportPort=gk_id,departure=zjd_bm)
+                    assert bjd_bm2[0] == '操作成功'
+                    bz_id =  bjd_bm2[2][0]["id"]
+                    with allure.step("启用新增厢式车进口司机市场报价，报价单id：{}".format(bjd_bm2[1])):
+                        jd_bm = ict.Test_Added01().test_Added0011(bz_id=bz_id)
+                        assert jd_bm == '操作成功'
+
+            if bjd_bm1[1] != 0:
+                with allure.step("存在厢式车进口司机市场报价,查看报价id"):
+                    bjd_bm2 = ict.Test_Added01().test_Added0167(bjd_id=bjd_id,transportPort=gk_id,departure=zjd_bm)
+                    assert bjd_bm2[0] == '操作成功'
+                    bz_zt =  bjd_bm2[2][0]["enabledType"]
+                    bz_id =  bjd_bm2[2][0]["id"]
+                    if  bz_zt == "enabled_type_unenabled":
+                        with allure.step("启用存在(未启用)厢式车进口司机市场报价，报价单id：{}".format(bz_id)):
+                            jd_bm = ict.Test_Added01().test_Added0011(bz_id=bz_id)
+                            assert jd_bm == '操作成功'
+                    if  bz_zt == "enabled_type_disabled":
+                        with allure.step("启用存在(禁用)厢式车进口司机市场报价"):
+                            jd_bm = ict.Test_Added01().test_Added0011(bz_id=bz_id)
+                            assert jd_bm == '操作成功'
+                    if bz_zt == "enabled_type_enabled":
+                        with allure.step("存在厢式车进口司机市场报价,并已启用报价"):
+                            pass
+    @allure.title("司机市场报价--厢式车内陆运输")
+    # @pytest.mark.skip(reason="无理由跳过")
+    def test_query028(self):
+        with allure.step("查看货主id"):
+            hz_id = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
+            assert hz_id[0] == '操作成功'
+        with allure.step("查看厢式车司机市场报价单是否存在"):
+            bz_dd1 = ict.Test_Added01().test_Added0115(fy_lx="bulkcargo_transport")
+            assert bz_dd1[0] == '操作成功'
+            if  bz_dd1[1] == 0 :
+                with allure.step("新增司机市场报价报价单"):
+                    xz_bjd = ict.Test_Added01().test_Added0116(fy_lx="bulkcargo_transport",fy_name="厢式车运输")
+                    assert xz_bjd == '操作成功'
+                with allure.step("查看司机市场报价报价单id"):
+                    ck_bjd = ict.Test_Added01().test_Added0115(fy_lx="bulkcargo_transport")
+                    assert ck_bjd[0] == '操作成功'
+                    bjd_id = ck_bjd[2][0]["id"]
+                with allure.step("启用司机市场报价报价单，报价单id{}".format(bjd_id)):
+                    qy_bjd = ict.Test_Added01().test_Added0005(bjd_id=bjd_id)
+                    assert qy_bjd == '操作成功'
+            if  bz_dd1[1] != 0 :
+                bjd_id = bz_dd1[2][0]["id"]
+                bjd_zt = bz_dd1[2][0]["statusType"]
+                if bjd_zt == "status_type_unenabled" :
+                    with allure.step("报价单未启用，启用司机市场报价报价单，报价单id{}".format(bjd_id)):
+                        qy_bjd = ict.Test_Added01().test_Added0005(bjd_id=bjd_id)
+                        assert qy_bjd == '操作成功'
+                if bjd_zt == "status_disabled" :
+                    with allure.step("报价单已禁用，启用司机市场报价报价单，报价单id{}".format(bjd_id)):
+                        qy_bjd = ict.Test_Added01().test_Added0005(bjd_id=bjd_id)
+                        assert qy_bjd == '操作成功'
+                if bjd_zt == "status_type_enabled" :
+                    with allure.step("司机市场报价报价单已存在并已启用，报价单id{}".format(bjd_id)):
+                        pass
+        with allure.step("查看厢式车司机市场报价单ID"):
+            bz_dd1 = ict.Test_Added01().test_Added0115(fy_lx="bulkcargo_transport")
+            assert bz_dd1[0] == '操作成功'
+            bjd_id = bz_dd1[2][0]["id"]
+        with allure.step("获取装货地街道编码"):
+            jd_bm1 = ict.Test_Added01().test_Added0001(lx=6, name="海山街道")
+            assert jd_bm1[0] == '操作成功'
+            zjd_bm = jd_bm1[1]
+            xjd_name = jd_bm1[2]
+        with allure.step("查看是否存在厢式车司机市场报价"):
+            bjd_bm3 = ict.Test_Added01().test_Added0169(bjd_id=bjd_id,departure=zjd_bm)
+            assert bjd_bm3[0] == '操作成功'
+            if bjd_bm3[1] == 0 :
+                with allure.step("获取卸货地省编码"):
+                    sf_bm1 = ict.Test_Added01().test_Added0001(lx=3, name="湖南省")
+                    assert sf_bm1[0] == '操作成功'
+                    xsf_bm = sf_bm1[1]
+                    xsf_name = sf_bm1[2]
+                with allure.step("获取卸货地市编码"):
+                    cs_bm1 = ict.Test_Added01().test_Added0001(lx=4, name="长沙市")
+                    assert cs_bm1[0] == '操作成功'
+                    xcs_bm = cs_bm1[1]
+                    xcs_name = cs_bm1[2]
+                with allure.step("获取卸货地区编码"):
+                    q_bm1 = ict.Test_Added01().test_Added0001(lx=5, name="雨花区")
+                    assert q_bm1[0] == '操作成功'
+                    xq_bm = q_bm1[1]
+                    xq_name = q_bm1[2]
+                with allure.step("获取卸货地街道编码"):
+                    jd_bm1 = ict.Test_Added01().test_Added0001(lx=6, name="洞井街道")
+                    assert jd_bm1[0] == '操作成功'
+                    xjd_bm = jd_bm1[1]
+                    xjd_name = jd_bm1[2]
+                with allure.step("获取装货地省编码"):
+                    sf_bm1 = ict.Test_Added01().test_Added0001(lx=3, name="广东省")
+                    assert sf_bm1[0] == '操作成功'
+                    zsf_bm = sf_bm1[1]
+                    zsf_name = sf_bm1[2]
+                with allure.step("获取装货地市编码"):
+                    cs_bm1 = ict.Test_Added01().test_Added0001(lx=4, name="深圳市")
+                    assert cs_bm1[0] == '操作成功'
+                    zcs_bm = cs_bm1[1]
+                    zcs_name = cs_bm1[2]
+                with allure.step("获取装货地区编码"):
+                    q_bm1 = ict.Test_Added01().test_Added0001(lx=5, name="盐田区")
+                    assert q_bm1[0] == '操作成功'
+                    zq_bm = q_bm1[1]
+                    zq_name = q_bm1[2]
+                with allure.step("获取装货地街道编码"):
+                    jd_bm1 = ict.Test_Added01().test_Added0001(lx=6, name="海山街道")
+                    assert jd_bm1[0] == '操作成功'
+                    zjd_bm = jd_bm1[1]
+                    xjd_name = jd_bm1[2]
+                with allure.step("新增厢式车司机市场报价"):
+                    xzsc_bj = ict.Test_Added01().test_Added0170(bjd_id=bjd_id,zh_jd=zjd_bm, zh_s=zsf_bm,zh_cs=zcs_bm, zh_q=zq_bm,
+                                                                xh_jd=xjd_bm,xh_s=xsf_bm,xh_cs=xcs_bm,xh_q=xq_bm,fu_lx="bulkcargo_transport")
+                    assert xzsc_bj == '操作成功'
+                with allure.step("新增厢式车司机市场报价，查看报价信息"):
+                    bjd_bm2 = ict.Test_Added01().test_Added0169(bjd_id=bjd_id,departure=zjd_bm)
+                    assert bjd_bm2[0] == '操作成功'
+                    bz_id = bjd_bm2[2][0]["id"]
+                    with allure.step("启用新增厢式车进口司机市场报价，报价单id：{}".format(bjd_bm2[1])):
+                        jd_bm = ict.Test_Added01().test_Added0011(bz_id=bz_id)
+                        assert jd_bm == '操作成功'
+            if bjd_bm3[1] != 0:
+                    with allure.step("存在厢式车司机市场报价，查看报价单信息"):
+                        bjd_bm2 = ict.Test_Added01().test_Added0169(bjd_id=bjd_id, departure=zjd_bm)
+                        assert bjd_bm2[0] == '操作成功'
+                        bj_id = bjd_bm2[2][0]["id"]
+                        bjd_zt = bjd_bm2[2][0]["enabledType"]
+                        if bjd_zt == "enabled_type_unenabled":
+                            with allure.step("启用存在(未启用)厢式车司机市场报价"):
+                                jd_bm = ict.Test_Added01().test_Added0054(bj_id=bj_id)
+                                assert jd_bm == '操作成功'
+                        if bjd_zt == "enabled_type_disabled":
+                            with allure.step("启用存在(禁用)厢式车司机市场报价"):
+                                jd_bm = ict.Test_Added01().test_Added0054(bj_id=bj_id)
+                                assert jd_bm == '操作成功'
+                        if bjd_zt == "enabled_type_enabled":
+                            with allure.step("存在厢式车司机市场报价,并已启用报价"):
+                                pass
+
+
 
 @allure.parent_suite('ict业务场景测试用例')
 @allure.suite('ict业务场景测试用例模块')
 @allure.sub_suite('业务场景一 集装箱出口（测试点：重复派车自有车应付费用生成五条明细')
 # @pytest.mark.skip(reason="无理由跳过")
-class Test_business_scenario1():
+class Test_businesso1():
     # @pytest.mark.skip(reason="无理由跳过")
     @allure.title("新增集装箱出口订单")
     def test_business_scenario001(self):
@@ -2643,7 +2858,7 @@ class Test_business_scenario1():
 @allure.suite('ict业务场景测试用例模块')
 @allure.sub_suite('业务场景二 厢式车多装一卸（测试点：重复派车运输公司应付费用生成五条明细）')
 # @pytest.mark.skip(reason="无理由跳过")
-class Test_business_scenario2():
+class Test_businesso2():
     # @pytest.mark.skip(reason="无理由跳过")
     @allure.title("新增厢式车多点装货订单")
     def test_business_scenario001(self):
@@ -3148,7 +3363,7 @@ class Test_business_scenario2():
 @allure.suite('ict业务场景测试用例模块')
 @allure.sub_suite('业务场景四 集装箱出口（测试点：柜号多路径同步）')
 # @pytest.mark.skip(reason="无理由跳过")
-class Test_business_scenario3():
+class Test_businesso3():
     # @pytest.mark.skip(reason="无理由跳过")
     @allure.title("新增集装箱出口订单")
     def test_business_scenario001(self):
@@ -4599,7 +4814,7 @@ class Test_business_scenario3():
 @allure.suite('ict业务场景测试用例模块')
 @allure.sub_suite('业务场景五 集装箱出口（测试点：应收应付费用制作+改单+收款+新增异常+异常处置）')
 # @pytest.mark.skip(reason="无理由跳过")
-class Test_business_scenario4():
+class Test_businesso4():
     # @pytest.mark.skip(reason="无理由跳过")
     @allure.title("新增集装箱出口订单")
     def test_business_scenario001(self):
@@ -5222,20 +5437,20 @@ class Test_business_scenario4():
                 id1 += 1
                 # print(id2)
                 fd_id = id[id2]
-                with allure.step("分单，分派自有车,分单号：{}".format(fd_id)):
+                with allure.step("撤销分单,分单号：{}".format(fd_id)):
                     qy_jdzx = ict.Test_Added01().test_Added0157(dd_id=fd_id)
                     assert qy_jdzx == '操作成功'
         with allure.step("集装箱运输》取消订单，订单号：{}".format(dd_xx1[2])):
-            qx_dd = ict.Test_Added01().test_Added0157(dd_id=dd_xx[6]["id"])
+            qx_dd = ict.Test_Added01().test_Added015701(dd_id=dd_xx[6]["id"])
             assert qx_dd == '操作成功'
 
 
 @allure.parent_suite('ict业务场景测试用例')
 @allure.suite('ict业务场景测试用例模块')
-@allure.sub_suite('集装箱进口,业务场景六（测试点：派自有车+通改+改派供应商+获取供应商合同报价）')
-@pytest.mark.skip(reason="无理由跳过")
-class Test_business_scenario5():
-    @pytest.mark.skip(reason="无理由跳过")
+@allure.sub_suite('业务场景六 集装箱进口（测试点：派自有车+通改+改派供应商+供应商手工报价）')
+# @pytest.mark.skip(reason="无理由跳过")
+class Test_businesso5():
+    # @pytest.mark.skip(reason="无理由跳过")
     @allure.title("新增集装箱进口订单")
     def test_business_scenario001(self):
         with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
@@ -5317,7 +5532,7 @@ class Test_business_scenario5():
             assert dd_xx[0] == '操作成功'
         with allure.step("集装箱进口运输订单号：{}".format(dd_xx[3])):
             pass
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     @allure.title("集装箱进口通改")
     def test_business_scenario002(self):
         with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
@@ -5364,7 +5579,6 @@ class Test_business_scenario5():
         with allure.step("查询计划管理》集装箱出现修改申请标识"):
             jx_gl = ict.Test_Added01().test_Added0057(dd_hao=dd_hao)
             assert jx_gl[0] == '操作成功'
-            pytest.assume(jx_gl[2][0]["tags"] == "修改申请")
         with allure.step("获取改单详情页信息"):
             gd_xx = ict.Test_Added01().test_Added0164(dd_id=dd_id)
             assert gd_xx[3] == '操作成功'
@@ -5381,11 +5595,11 @@ class Test_business_scenario5():
         with allure.step("查询计划管理》集装箱出现通改标识"):
             jx_gl = ict.Test_Added01().test_Added0057(dd_hao=dd_hao)
             assert jx_gl[0] == '操作成功'
-            pytest.assume(jx_gl[2][0]["tags"] == "修改申请")
+            pytest.assume(jx_gl[2][0]["tags"] == "通改")
         with allure.step("计划管理》通改确认"):
             tg_qr = ict.Test_Added01().test_Added0165(customerOrderId=jx_gl[2][0]["customerOrderId"])
             assert tg_qr == '操作成功'
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     @allure.title("集装箱出口订单分单管理》分自有车")
     def test_business_scenario003(self):
         with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
@@ -5417,8 +5631,8 @@ class Test_business_scenario5():
                 with allure.step("分单，分派自有车,分单号：{}".format(fd_id)):
                     qy_jdzx = ict.Test_Added01().test_Added0058(zy_che=fd_id, gys="", hy_dt="")
                     assert qy_jdzx == '操作成功'
-    @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("集装箱进口订单派自有车A")
+    # @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("集装箱进口订单派自有车A，撤销派车变更分单，派供应商")
     def test_business_scenario004(self):
         with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
             hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
@@ -5473,18 +5687,18 @@ class Test_business_scenario5():
                     if cc_dd[2] == "car_dispatch_completed":
                         fz_ccb = ict.Test_Added01().test_Added0084(ccb_id=cc_dd[1])
                         assert fz_ccb == '操作成功'
-        with allure.step("维护出车表信息"):
-            cc_xx = ict.Test_Added01().test_Added0074(sj_id=sj_id, cp_hao="粤ZZ0001", zh_time=time2)
+        with allure.step("获取出车表ID"):
+            cc_xx = ict.Test_Added01().test_Added0074(sj_id=sj_id, cp_hao="粤ZZ0001",zh_time=time2)
             assert cc_xx[0] == '操作成功'
             ccb_id = cc_xx[1]  # 出车表ID
         with allure.step("调度管理，获取车牌号:{}".format(cc_xx[4])):
-            bz_dd1 = ict.Test_Added01().test_Added0085(zh_time=time2, fw_lx="port_container_import_transport")
+            bz_dd1 = ict.Test_Added01().test_Added0085(zh_time=time2,fw_lx="port_container_import_transport")
             assert bz_dd1[0] == '操作成功'
             # assert bz_dd1[1] != []
-        with allure.step("调度管理，派自有车，订单号：{}".format(dd_hao)):
-            pzyc = ict.Test_Added01().test_Added0075(id=dd_id, driverId=sj_id, supplierId=gys_id,
+        with allure.step("调度管理，派自有车，订单号：{},".format(dd_hao)):
+            pzyc = ict.Test_Added01().test_Added0075(id=dd_id,driverId=sj_id,supplierId=gys_id,
                                                      mainlandLicensePlateNumber=cp_hao,
-                                                     orderNumber=dd_hao, pickupTime=zh_time,
+                                                     orderNumber=dd_hao,pickupTime=zh_time,
                                                      transportType="transport_type_one_one",
                                                      mainlandLicensePlate=cl_id, driverName=sj_name,
                                                      mainlandPhone=sj_haoma, supplierName=gyl_name,
@@ -5501,7 +5715,300 @@ class Test_business_scenario5():
         with allure.step("变更分单，订单号:{}".format(dd_xx1[2])):
             bg_fd = ict.Test_Added01().test_Added0114(dd_id=dd_id,isSubmit=1)
             pytest.assume(bg_fd == '操作成功')
+    # @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("进口订单派供应商A：手工报价")
+    def test_business_scenario005(self):
+        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
+            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
+            assert hz_id1[0] == '操作成功'
+            hz_id = hz_id1[1]  # 货主id
+            kf_id = hz_id1[2]  # 客服id
+        with allure.step("查询新增集装箱出口运输订单信息"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id)
+            assert dd_xx[0] == '操作成功'
+        with allure.step("查询调度管理集装箱出口运输订单信息,订单号：{}".format(dd_xx[3])):
+            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_import_transport")
+            assert dd_xx1[0] == '操作成功'
+            dd_id = dd_xx1[1]  # 订单id
+        with allure.step("查看供应商id"):
+            gys_id = ict.Test_Added01().test_Added0062(gys_name=cf.gys1_name)
+            assert gys_id[0] == '操作成功'
+        with allure.step("查看供应商联系人信息"):
+            gys_xx = ict.Test_Added01().test_Added0105(gys_id=gys_id[1])
+            assert gys_xx[0] == '操作成功'
+            gys_lxr =  gys_xx[2]
+            gys_lxrdh =  gys_xx[3]
+        with allure.step("派供应商A"):
+            gys_xx = ict.Test_Added01().test_Added0106(dd_id=dd_id,gys_lxr=gys_lxr,gys_lxrdh=gys_lxrdh,gys_id=gys_id[1],je=2500)
+            assert gys_xx == '操作成功'
+    # @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("取消订单")
+    def test_business_scenario006(self):
+        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
+            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
+            assert hz_id1[0] == '操作成功'
+            hz_id = hz_id1[1]  # 货主id
+            kf_id = hz_id1[2]  # 客服id
+        with allure.step("查询新增集装箱出口运输订单信息"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id)
+            assert dd_xx[0] == '操作成功'
+        with allure.step("查询调度管理集装箱出口运输订单信息,订单号：{}".format(dd_xx[3])):
+            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_import_transport")
+            assert dd_xx1[0] == '操作成功'
+            dd_id = dd_xx1[1]  # 订单id
+        with allure.step("调度管理》撤销派单/车，订单号：{}".format(dd_xx1[2])):
+            cx_pc = ict.Test_Added01().test_Added0156(dd_id=dd_id)
+            assert cx_pc == '操作成功'
+        with allure.step("计划管理，分单查询，订单号：{}".format(dd_xx[3])):
+            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_xx[3])
+            assert fd_xx[0] == '操作成功'
+            data1 = fd_xx[2]
+            id = []
+            for item in data1:
+                for key in item:
+                    # print(key)
+                    if key == "id":
+                        # print(item[key])
+                        id.append(item[key])
+            id0 = len(id)
+            id1 = 0
+            while id1 < id0:
+                id2 = id1
+                id1 += 1
+                # print(id2)
+                fd_id = id[id2]
+                with allure.step("撤销分单,分单号：{}".format(fd_id)):
+                    qy_jdzx = ict.Test_Added01().test_Added0157(dd_id=fd_id)
+                    assert qy_jdzx == '操作成功'
+        with allure.step("集装箱运输》取消订单，订单号：{}".format(dd_xx1[2])):
+            qx_dd = ict.Test_Added01().test_Added015701(dd_id=dd_xx[6]["id"])
+            assert qx_dd == '操作成功'
+        with allure.step("订单管理》集装箱运输》查看订单状态，订单号：{}".format(dd_xx1[2])):
+            jzx_ys = ict.Test_Added01().test_Added0117(hz_id=hz_id)
+            assert jzx_ys[0] == '操作成功'
+            assert jzx_ys[1][0]["orderStatus"] == 'status_undo_completed'
 
+
+
+@allure.parent_suite('ict业务场景测试用例')
+@allure.suite('ict业务场景测试用例模块')
+@allure.sub_suite('业务场景七 厢式车多装一卸（测试点：执改+派货源大厅+文件回收+改派自有车+改派供应商）')
+@pytest.mark.skip(reason="无理由跳过")
+class Test_businesso6():
+    @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("新增厢式车多点装货订单")
+    def test_business_scenario001(self):
+        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
+            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
+            assert hz_id1[0] == '操作成功'
+            hz_id = hz_id1[1]     #货主id
+            kf_id = hz_id1[2]     #客服id
+        with allure.step("获取货主联系人"):
+            lxr_name1 = ict.Test_Added01().test_Added0014(hz_id=hz_id)
+            assert lxr_name1[0] == '操作成功'
+            lxr_id = lxr_name1[1]    #货主联系人id
+            lxr_name = lxr_name1[3]  #货主联系人名称
+            lxr_hm = lxr_name1[4]    #货主联系人号码
+        with allure.step("获取卸货地省编码"):
+            sf_bm1 = ict.Test_Added01().test_Added0001(lx=3, name="湖南省")
+            assert sf_bm1[0] == '操作成功'
+            xsf_bm = sf_bm1[1]
+            xsf_name = sf_bm1[2]
+        with allure.step("获取卸货地市编码"):
+            cs_bm1 = ict.Test_Added01().test_Added0001(lx=4, name="长沙市")
+            assert cs_bm1[0] == '操作成功'
+            xcs_bm = cs_bm1[1]
+            xcs_name = cs_bm1[2]
+        with allure.step("获取卸货地区编码"):
+            q_bm1 = ict.Test_Added01().test_Added0001(lx=5, name="雨花区")
+            assert q_bm1[0] == '操作成功'
+            xq_bm = q_bm1[1]
+            xq_name = q_bm1[2]
+        with allure.step("获取卸货地街道编码"):
+            jd_bm1 = ict.Test_Added01().test_Added0001(lx=6, name="洞井街道")
+            assert jd_bm1[0] == '操作成功'
+            xjd_bm = jd_bm1[1]
+            xjd_name = jd_bm1[2]
+
+        with allure.step("获取装货地省编码"):
+            sf_bm1 = ict.Test_Added01().test_Added0001(lx=3, name="广东省")
+            assert sf_bm1[0] == '操作成功'
+            zsf_bm = sf_bm1[1]
+            zsf_name = sf_bm1[2]
+        with allure.step("获取装货地市编码"):
+            cs_bm1 = ict.Test_Added01().test_Added0001(lx=4, name="深圳市")
+            assert cs_bm1[0] == '操作成功'
+            zcs_bm = cs_bm1[1]
+            zcs_name = cs_bm1[2]
+        with allure.step("获取装货地区编码"):
+            q_bm1 = ict.Test_Added01().test_Added0001(lx=5, name="盐田区")
+            assert q_bm1[0] == '操作成功'
+            zq_bm = q_bm1[1]
+            zq_name = q_bm1[2]
+        with allure.step("获取装货地街道编码"):
+            jd_bm1 = ict.Test_Added01().test_Added0001(lx=6, name="海山街道")
+            assert jd_bm1[0] == '操作成功'
+            zjd_bm = jd_bm1[1]
+            xjd_name = jd_bm1[2]
+
+
+        with allure.step("获取装货单位1档案"):
+            sfh_dd = ict.Test_Added01().test_Added0029(hz_id=hz_id, zh_name="厢式车装货地址1")
+            assert sfh_dd[0] == '操作成功'
+            zhdw1_id = sfh_dd[1]         #装货单位id
+            zhdw1_name = sfh_dd[2]       #装货单位名称
+            zhdw1_lxr =  sfh_dd[3]       #装货联系人
+            zhdw1_xlrdh = sfh_dd[4]      #装货联系电话
+            zhdw1_xxdz = sfh_dd[5]       #装货详细地址
+        with allure.step("获取装货单位2档案"):
+            sfh_dd = ict.Test_Added01().test_Added0029(hz_id=hz_id, zh_name="厢式车装货地址2")
+            assert sfh_dd[0] == '操作成功'
+            zhdw2_id = sfh_dd[1]         #装货单位id
+            zhdw2_name = sfh_dd[2]       #装货单位名称
+            zhdw2_lxr =  sfh_dd[3]       #装货联系人
+            zhdw2_xlrdh = sfh_dd[4]      #装货联系电话
+            zhdw2_xxdz = sfh_dd[5]       #装货详细地址
+        with allure.step("获取卸货单位档案"):
+            sfh_dd = ict.Test_Added01().test_Added0029(hz_id=hz_id, zh_name="测试集装箱装货地址")
+            assert sfh_dd[0] == '操作成功'
+            xhdw_id = sfh_dd[1]         #装货单位id
+            xhdw_name = sfh_dd[2]       #装货单位名称
+            xhdw_lxr =  sfh_dd[3]       #装货联系人
+            xhdw_xlrdh = sfh_dd[4]      #装货联系电话
+            xhdw_xxdz = sfh_dd[5]       #装货详细地址
+        with allure.step("获取时间"):
+            time1 = bf.Common_page().get_today001()
+            time2 = time1[1]  # +5天 年月日时分秒
+            time3 = time1[2]  # +10天  年月日时分秒
+            time4 =time1[3]  # +20天  年月日时分秒
+            time5 = time1[4]  # 今天  年月日
+            time6 =time1[5]  # +50天  年月日
+            time7 =time1[6]  # +100天  年月日
+            time8 =time1[7]  # +200天  年月日
+            time9 =time1[8]  # 按时间年月日时分秒生成数组-客户委托号
+            SSS = bf.Common_page().start()  #订舱号
+        with allure.step("厢式车运输货主合同报价,查看报价id"):
+            bjd_bm2 = ict.Test_Added01().test_Added0102(customerId=hz_id,provinces=xsf_bm,city=xcs_bm,area=xq_bm,street=xjd_bm,provinces1=zsf_bm,city1=zcs_bm,area1=zq_bm,street1=zjd_bm,consigneeConsignorId1=zhdw1_id,consigneeConsignorId2=zhdw2_id)
+            assert bjd_bm2[0] == '操作成功'
+            bjd_id = bjd_bm2[2]
+            bjd_je = bjd_bm2[1]
+        with allure.step("新增厢式车运输"):
+            xz_xsc =  ict.Test_Added01().test_Added02101(customerId=hz_id,customerContact=lxr_name,customerContactPhone=lxr_hm,customerServiceId=kf_id,consigneeId=xhdw_id,consigneeName=xhdw_name,consigneeContact=xhdw_lxr,
+                        consigneeContactPhone=xhdw_xlrdh,consigneeContactAddr=xhdw_xxdz,xh_sf=xsf_bm,xh_cs=xcs_bm,xh_q=xq_bm,xh_jd=xjd_bm,zh_sf=zsf_bm,zh_cs=zcs_bm,zh_q=zq_bm,zh_jd=zjd_bm,zh_dz1id=zhdw1_id,zh_dz1name=zhdw1_name,zh_dz1lxr=zhdw1_lxr,
+                        zh_dz1lxrdh=zhdw1_xlrdh,zh_dz1=zhdw1_xxdz,zh_dz2id=zhdw2_id,zh_dz2name=zhdw2_name,zh_dz2lxr=zhdw2_lxr,zh_dz2lxrdh=zhdw2_xlrdh,zh_dz2=zhdw2_xxdz,zh_time=time2,jc_time=time3,bj_je=bjd_je,bj_id=bjd_id,kh_hao=time9)
+            assert xz_xsc == '操作成功'
+        with allure.step("查询新增集装箱出口运输订单信息"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id)
+            assert dd_xx[0] == '操作成功'
+        with allure.step("集装箱出口运输订单号：{}".format(dd_xx[3])):
+            pass
+    @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("厢式车执改")
+    def test_business_scenario002(self):
+        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
+            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
+            assert hz_id1[0] == '操作成功'
+            hz_id = hz_id1[1]  # 货主id
+            kf_id = hz_id1[2]  # 客服id
+        with allure.step("查询厢式车订单信息"):
+            dd_hao = ict.Test_Added01().test_Added0168(hz_id=hz_id)
+            assert dd_hao[0] == '操作成功'
+            id = dd_hao[1][0]["id"]
+            pytest.assume(dd_hao[1][0]["orderStatus"] == "status_execution")
+        with allure.step("获取时间"):
+            time1 = bf.Common_page().get_today001()
+            time2 = time1[1]  # +5天 年月日时分秒
+            time3 = time1[2]  # +10天  年月日时分秒
+            time4 = time1[3]  # +20天  年月日时分秒
+            time5 = time1[4]  # 今天  年月日
+            time6 = time1[5]  # +50天  年月日
+            time7 = time1[6]  # +100天  年月日
+            time8 = time1[7]  # +200天  年月日
+            time9 = time1[8]  # 按时间年月日时分秒生成数组-客户委托号
+        with allure.step("集装箱运输》查看订单详情页，货主：{},{}".format(cf.hz_name,id)):
+            dd_xx = ict.Test_Added01().test_Added0162(dd_id=id)
+            assert dd_xx[0] == '操作成功'
+            data1 = dd_xx[1]
+            dd_hao = dd_xx[1]["baseInfo"]["orderNumber"]
+            dd_id =  dd_xx[1]["baseInfo"]["id"]
+            baseInfo = data1["baseInfo"]
+            addrList = data1["addrList"]
+            costList = data1["costList"]
+            goodsList = data1["goodsList"]
+            priceList = data1["priceList"]
+            baseInfo.update([('orderStatus','status_execution'),("carModeId",'10T')]) #修改状态+车型
+            data = {"baseInfo":baseInfo,"addrList":addrList,"costList":costList,"goodsList":goodsList,"priceList":priceList}
+            # print(str(data))
+        with allure.step("修改订单，订单号：{}".format(dd_hao)):
+            dd_xg = ict.Test_Added01().test_Added0160(data1=data,id=dd_id)
+            assert dd_xg == '操作成功'
+        with allure.step("查询厢式车运输列表订单状态"):
+            dd_zt = ict.Test_Added01().test_Added0168(hz_id=hz_id)
+            assert dd_zt[0] == '操作成功'
+            pytest.assume(dd_zt[1][0]["orderStatus"] == "status_edit_handling_awaiting")
+        with allure.step("查询计划管理》集装箱出现修改申请标识"):
+            jx_gl = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
+            assert jx_gl[0] == '操作成功'
+            pytest.assume(jx_gl[2][0]["tags"] == "修改申请")
+        with allure.step("获取改单详情页信息"):
+            gd_xx = ict.Test_Added01().test_Added0164(dd_id=dd_id)
+            assert gd_xx[3] == '操作成功'
+            baseInfo1 = ict.get_k(gd_xx[1]['baseInfo'])
+            addrList1 = ict.get_k(gd_xx[1]['addrList'][0])
+            costList1 = ict.get_k(gd_xx[1]['costList'][0])
+            id = gd_xx[2]["id"]
+            editType = gd_xx[2]["editType"]
+            editRemark = gd_xx[2]["editRemark"]
+        with allure.step("审核改单申请"):
+            data1 = {"baseInfo":baseInfo1,"addrList":[addrList1],"costList":[costList1]}
+            sh_gd = ict.Test_Added01().test_Added0163(dd_hao=dd_hao,data=data1,dd_id=id,editType=editType,editRemark=editRemark)
+            assert sh_gd == '操作成功'
+        with allure.step("查询计划管理》集装箱出现通改标识"):
+            jx_gl = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
+            assert jx_gl[0] == '操作成功'
+            pytest.assume(jx_gl[2][0]["tags"] == "执改")
+        with allure.step("计划管理》通改确认"):
+            tg_qr = ict.Test_Added01().test_Added0165(customerOrderId=jx_gl[2][0]["customerOrderId"])
+            assert tg_qr == '操作成功'
+  # @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("厢式车订单分单管理》分货源大厅")
+    def test_business_scenario003(self):
+        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
+            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
+            assert hz_id1[0] == '操作成功'
+            hz_id = hz_id1[1]  # 货主id
+            kf_id = hz_id1[2]  # 客服id
+        with allure.step("查询厢式车运输订单信息"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id)
+            assert dd_xx[0] == '操作成功'
+        with allure.step("计划管理，分单查询，订单号：{}".format(dd_xx[3])):
+            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_xx[3])
+            assert fd_xx[0] == '操作成功'
+            assert fd_xx[1] == 1
+            data1 = fd_xx[2]
+            id = []
+            for item in data1:
+                for key in item:
+                    # print(key)
+                    if key == "id":
+                        # print(item[key])
+                        id.append(item[key])
+            id0 = len(id)
+            id1 = 0
+            while id1 < id0:
+                id2 = id1
+                id1 += 1
+                # print(id2)
+                fd_id = id[id2]
+                with allure.step("分单，分派供应商,分单号：{}".format(fd_id)):
+                    qy_jdzx = ict.Test_Added01().test_Added0058(zy_che="", gys="", hy_dt=fd_id)
+                    assert qy_jdzx == '操作成功'
+        with allure.step("查询货源大厅订单状态"):
+            hy_dt = ict.Test_Added01().test_Added0171(dd_hao=dd_xx[3])
+            assert hy_dt[0] == '操作成功'
+            pytest.assume(hy_dt[1]== 1 ) #订单是否存在
+            pytest.assume(hy_dt[2][0]["orderStatus"] == "status_waiting_dispatch") #订单状态=待发布
+            pytest.assume(hy_dt[2][0]["cargoShowStatus"] == "status_send_awaiting") #运单状态= 待派单
 
 
 

@@ -12,7 +12,7 @@ myskip = pytest.mark.skipif()
 @allure.parent_suite('ict登录接口测试包')  # 包的注释
 @allure.suite('ict登录t接口测试模块')   #模块的注释
 @allure.sub_suite('各端登录接口')      #大类的注释
-# @myskip
+
 # @pytest.mark.skip(reason="无理由跳过")
 class Test_login_01():
     '''大类'''
