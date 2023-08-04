@@ -8,18 +8,18 @@ yesterday = date.today() + timedelta(days=-3)  # 前三天
 
 class Query:
 
-    def customerOrder_list(self, login_fixture):
+    def order_accept_list(self, login_fixture):
         """
         客户订单列表查询接口
         :param json_data:
         :return:
         """
-        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {"insertTimeStart": f"{yesterday}"}}
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}", "cs_tag": -1,"orderType": "status_waiting_receipt"}
         token = login_fixture
         headers = {
             "Cookie": 'token={}'.format(token)
         }
-        result = Api.post('/api/warehouse/customerOrder/list', json=json_data, headers=headers)
+        result = Api.post('/api/order/accept/list', json=json_data, headers=headers)
         return result
 
 
