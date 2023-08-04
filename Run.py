@@ -29,7 +29,7 @@ if __name__ == '__main__':
         test = ".//Test_casa"
     # 执行测试用例生成测试数据，如果已经存在报告，那就先清空，然后再生成新的测试报告，使用命令： --clean-alluredir
         pytest.main(['-vs', test, '--clean-alluredir', '--alluredir', './allure-results'])
-
+                                #    删除测试报告             生成测试报告    测试报告路径
 
 '''生成allure测试报告，存放本地'''
 # if __name__ == '__main__':

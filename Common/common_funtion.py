@@ -48,7 +48,9 @@ class Common_page():
         c = c.strftime('%Y-%m-%d ')  #+50天
         t = t.strftime('%Y-%m-%d ')  #+100天
         w = w.strftime('%Y-%m-%d ')  # + 200天
-        n = n.strftime('%Y%m%d%H%M%S')  #+ 20天
+        g = n.strftime('%Y%m%d%H%M%S')  #+ 20天
+        k = n.strftime('%Y-%m-%d %H:%M:%S')  #今天 时分秒
+
         # print(today)
         # print(z)
         # print(q)
@@ -56,8 +58,9 @@ class Common_page():
         # print(c)
         # print(t)
         # print(w)
-        # print(n)
-        return today,y,z,q,h,c,t,w,n,h
+        # print(g)
+        # print(k)
+        return today,y,z,q,h,c,t,w,g,h,k
 
     def start(self):
 
