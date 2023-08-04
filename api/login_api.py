@@ -4,7 +4,7 @@ from core.rest_client import Api
 url = base_data.read_ini()['host']['api_sit_url']
 
 
-class ApiEpld:
+class ApiTms:
 
     def login(self):
         """
@@ -23,4 +23,4 @@ class ApiEpld:
         return result
 
 
-login_outcome = ApiEpld()
+login_outcome = ApiTms()

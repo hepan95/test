@@ -1,39 +1,3 @@
 login_fixture:
   account: px@cloudlinkscm.com
   password: Px123456
-
-
-
-serviceTypeCodePlan:
-  - mainland_native_transport
-  - port_transport
-  - hk_native_transport
-  - native_inshore_sea_shipping
-  - sea_transport
-  - load_unload
-  - mainland_hk_transport
-  - railroad_transport
-
-
-
-serviceTypeCode:
-  - mainland_native_transport
-  - port_transport
-  - hk_native_transport
-  - native_inshore_sea_shipping
-  - sea_transport
-  - load_unload
-  - mainland_hk_transport
-  - railroad_transport
-  - air_transport
-  - express_delivery
-  - mainland_cross_border_transport
-  - bonded_transport
-  - agent_booking_ship
-  - transform_do
-  - agent_operation
-  - native_inshore_trade
-  - warehouse_operation
-  - barge_transport
-  - customs_service
-  - within_port
