@@ -23,13 +23,13 @@ if __name__ == '__main__':
     if test01 == 0 :   # 0 是测试环境
         test="./Test_casa/test_ict_long.py"
     # 执行测试用例生成测试数据，如果已经存在报告，那就先清空，然后再生成新的测试报告，使用命令： --clean-alluredir
-        pytest.main(['-vs', test, '--clean-alluredir', '--alluredir', './allure-results'])
+        pytest.main(['-vs',"--reruns","5","--reruns-delay","5", test,'--clean-alluredir', '--alluredir', './allure-results'])
     if test01 == 1 :   # 1 是生产环境
         # test="./Test_casa/test_ict_long.py"
         test = ".//Test_casa"
     # 执行测试用例生成测试数据，如果已经存在报告，那就先清空，然后再生成新的测试报告，使用命令： --clean-alluredir
-        pytest.main(['-vs', test, '--clean-alluredir', '--alluredir', './allure-results'])
-                                #    删除测试报告             生成测试报告    测试报告路径
+        pytest.main(['-vs',"--reruns","5","--reruns-delay","5",test,'--clean-alluredir', '--alluredir', './allure-results'])
+                         # 失败用例重试5 次       时间间隔5秒       测试文件     删除测试报告             生成测试报告    测试报告路径
 
 '''生成allure测试报告，存放本地'''
 # if __name__ == '__main__':

@@ -2161,7 +2161,7 @@ class Test_query10():
         # print("角色管理获取{}".format(returnMsg))
         return returnMsg
 
-'''后台新增订单接口'''
+'''后台接口'''
 class Test_Added01():
     def __init__(self):
         self.host=long.ht_host
@@ -5338,13 +5338,18 @@ class Test_Added01():
 
 
 
-
-
-
-
-
-
-
+    '''EXCEL配置库》模板ID'''
+    def test_Added0184(self,dd_id="2e9173bc33f3483b8caba7b65d242f09"):
+        url = self.host + "/api/platform/excelConfigLib/list"
+        headers = { 'Content-Type': 'application/json',
+                     'Cookie':'token={}'.format(self.ht_token)}
+        data ={"itemFrom":0,"itemTo":10,"modelName":"询价管理导入-盐田"}
+        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        mb_id =  A.json()["result"]["data"][0]["id"]
+        # print(mb_id)
+        return returnMsg,mb_id
 
 
 
@@ -5879,58 +5884,33 @@ class Test_Added01():
                 }
             ]
         A=requests.post(url=url,headers=headers,data=json.dumps(data))
-        print(A.json())
+        # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return  returnMsg
 
 
 
 
+'''货主端接口'''
+class Shipperapi():
+    def __init__(self):
+        self.host = long.hz_host
+        self.headers = long.ht_headers
+        self.hz_token = Test_login().Test_login002()
+    '''询价导入》'''
+    def test_Added001(self,mb_id="aadaba98a5684432b0dbed74d19ee439",wj_name="AL0.xlsm",wj_dz="D:\work\AL0.xlsm"):
+        url = self.host + "/api/proxy/zuul/integration-service/excelModel/importExcelContent?id={}".format(mb_id)  #模板ID aadaba98a5684432b0dbed74d19ee439
+        headers = {  'Cookie':'token={}'.format(self.hz_token)}
+        # 上传文件的参数
+        filename = wj_name    #模板名称
+        file_path = r"{}".format(wj_dz) #模板地址
+        files = {'file': (filename, open("{}".format(file_path),'rb'))}  # 重点：上传文件请求数据。
+        # print(files)
+        A = requests.post(url = url,files=files ,headers= headers)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return  returnMsg
 
 
 
@@ -6079,8 +6059,8 @@ class Test_transport_company01():
 
 
 if __name__ == '__main__':
-    run=Test_Added01()
-    run.test_Added0183()
+    run=Shipperapi()
+    run.test_Added001()
 
     # run=Test_transport_company01()
     # run.test_transport0010()
