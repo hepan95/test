@@ -52,19 +52,33 @@ class Query:
         result = Api.post('/api/order/complete/list', json=json_data, headers=headers)
         return result
 
-    def track_order_list(self, login_fixture):
+    def track_order_list(self, login_fixture, statusType):
         """
-        订单跟踪-已下单列表查询接口
+        订单跟踪-各个页签列表查询接口
         :param json_data:
         :return:
         """
         json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}",
-                     "statusType": "status_customer_order_completed"}
+                     "statusType": statusType}
         token = login_fixture
         headers = {
             "Cookie": 'token={}'.format(token)
         }
         result = Api.post('/api/track/track_order/list', json=json_data, headers=headers)
+        return result
+
+    def order_total_list(self, login_fixture):
+        """
+        订单汇总列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}"}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/order/total/list', json=json_data, headers=headers)
         return result
 
 

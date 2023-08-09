@@ -1,3 +1,17 @@
 login_fixture:
   account: px@cloudlinkscm.com
   password: Px123456
+
+
+
+
+statusType:
+  - status_customer_order_completed
+  - status_plad_completed
+  - status_cs_send_completed
+  - status_vehicle_completed_check
+  - status_in_transport
+  - status_completed
+  - status_sign_completed
+  - status_settlement_completed
+  - status_cancel_completed
