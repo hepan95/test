@@ -10,16 +10,61 @@ class Query:
 
     def order_accept_list(self, login_fixture):
         """
-        客户订单列表查询接口
+        接入订单查询接口
         :param json_data:
         :return:
         """
-        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}", "cs_tag": -1,"orderType": "status_waiting_receipt"}
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}", "cs_tag": -1,
+                     "orderType": "status_waiting_receipt"}
         token = login_fixture
         headers = {
             "Cookie": 'token={}'.format(token)
         }
         result = Api.post('/api/order/accept/list', json=json_data, headers=headers)
+        return result
+
+    def order_pending_list(self, login_fixture):
+        """
+        待办任务查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}",
+                     "orderType": "status_waiting_perfect"}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/order/pending/list', json=json_data, headers=headers)
+        return result
+
+    def order_complete_list(self, login_fixture):
+        """
+        执行中任务查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}"}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/order/complete/list', json=json_data, headers=headers)
+        return result
+
+    def track_order_list(self, login_fixture):
+        """
+        订单跟踪-已下单列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}",
+                     "statusType": "status_customer_order_completed"}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/track/track_order/list', json=json_data, headers=headers)
         return result
 
 
