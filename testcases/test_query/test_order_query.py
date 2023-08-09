@@ -39,5 +39,6 @@ class TestAnalysisQuery:
         assert result.success is True
         assert result.body["returnMsg"] == "操作成功"
 
+
 if __name__ == '__main__':
     pytest.main()

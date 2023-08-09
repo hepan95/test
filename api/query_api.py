@@ -81,5 +81,122 @@ class Query:
         result = Api.post('/api/order/total/list', json=json_data, headers=headers)
         return result
 
+    def lob_list(self, login_fixture):
+        """
+        配载优化-配载列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 2000, "filter": {"insertTimeFrom": f"{yesterday}"}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/loading/load_optimized/beLoaded', json=json_data, headers=headers)
+        return result
+
+    def lop_list(self, login_fixture):
+        """
+        配载优化-预配载列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {"orderPlanPickupTimeFrom": f"{yesterday}"}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/loading/load_optimized/preLoaded', json=json_data, headers=headers)
+        return result
+
+    def lol_list(self, login_fixture):
+        """
+        配载优化-已配载列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {"insertTimeFrom": f"{yesterday}"}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/loading/load_optimized/loadedList', json=json_data, headers=headers)
+        return result
+
+    def dispatch_todo_list(self, login_fixture):
+        """
+        待办任务-待派单列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}",
+                     "orderType": "status_waiting_delivery", "intelligenceTag": 1}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/dispatch/todo/list', json=json_data, headers=headers)
+        return result
+
+    def dispatch_todo2_list(self, login_fixture):
+        """
+        待办任务-待智能派单列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}",
+                     "orderType": "status_waiting_delivery", "intelligenceTag": 0}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/dispatch/todo/list', json=json_data, headers=headers)
+        return result
+
+    def dispatch_todo3_list(self, login_fixture):
+        """
+        待办任务-待司机确认列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}",
+                     "orderType": "status_waiting_check", "ownerCarTag": 1}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/dispatch/todo/list', json=json_data, headers=headers)
+        return result
+
+    def dispatch_todo4_list(self, login_fixture):
+        """
+        待办任务-待司机确认列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}",
+                     "orderType": "status_waiting_check", "ownerCarTag": 0}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/dispatch/todo/list', json=json_data, headers=headers)
+        return result
+
+    def dispatch_todo5_list(self, login_fixture):
+        """
+        待办任务-已拒绝列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}",
+                     "orderType": "status_reject_completed", "intelligenceTag": 1}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/dispatch/todo/list', json=json_data, headers=headers)
+        return result
+
 
 ApiTms = Query()
