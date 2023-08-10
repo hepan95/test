@@ -7,7 +7,6 @@ from api.query_api import ApiEpld
 @allure.epic("EPLD项目")
 @allure.feature("客户与订单模块")
 class TestWarehouseQuery:
-    @allure.story("验证查询接口")
     @allure.title("客户订单列表查询接口")
     def test_001(self, login_fixture):
         result = ApiEpld.customerOrder_list(login_fixture)
@@ -62,7 +61,7 @@ class TestWarehouseQuery:
         assert result.success is True
         assert result.body["returnMsg"] == "操作成功"
 
-    @allure.title("仓库预约岗---预约单受理查询接口")
+    @allure.title("仓库预约岗---预约单受理接口(查看月台使用情况)")
     def test_010(self, login_fixture):
         result = ApiEpld.acceptAppointment_list(login_fixture)
         assert result.success is True

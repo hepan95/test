@@ -7,7 +7,6 @@ from api.query_api import ApiEpld
 @allure.epic("EPLD项目")
 @allure.feature("档案管理模块")
 class TestFilesQuery:
-    @allure.story("验证查询接口")
     @allure.title("档案管理---客户---基本信息查询接口")
     def test_001(self, login_fixture):
         result = ApiEpld.base_list(login_fixture)

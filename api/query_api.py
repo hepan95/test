@@ -145,12 +145,12 @@ class Query:
             "Cookie": 'token={}'.format(token)
         }
         result = Api.get('/api/standard/search/orderWarehouse?filter=', params='', headers=headers)
-        warehouseGuid = result.body['result'][0]['value']
+        warehouseGuid = result.body['result'][1]['value']
         return warehouseGuid
 
     def warehouse_name(self, login_fixture):
         """
-        根据仓库ID获取仓库名称接口
+        根据仓库ID获取仓库名称接口(列表查询接口)
         :param json_data:
         :return:
         """
@@ -167,7 +167,7 @@ class Query:
 
     def acceptAppointment_list(self, login_fixture):
         """
-        仓库预约岗---预约单受理接口
+        仓库预约岗---预约单受理接口(查看月台使用情况)
         :param json_data:
         :return:
         """

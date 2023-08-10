@@ -7,7 +7,6 @@ from api.query_api import ApiEpld
 @allure.epic("EPLD项目")
 @allure.feature("物流订单模块")
 class TestOrderQuery:
-    @allure.story("验证查询接口")
     @allure.title("物流订单---委托订单列表接口查询接口")
     def test_001(self, login_fixture):
         result = ApiEpld.delegation_list(login_fixture)

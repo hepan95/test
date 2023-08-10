@@ -7,7 +7,6 @@ from api.query_api import ApiEpld
 @allure.epic("EPLD项目")
 @allure.feature("计费与对账模块")
 class TestChargeQuery:
-    @allure.story("验证查询接口")
     @allure.title("计费与对账---应收结算---未完成页签查询接口")
     def test_001(self, login_fixture):
         result = ApiEpld.bill_receive_list(login_fixture)

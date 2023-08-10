@@ -8,7 +8,6 @@ from utils.read import base_data
 @allure.epic("EPLD项目")
 @allure.feature("物流执行模块模块")
 class TestExecuteQuery:
-    @allure.story("验证查询接口")
     @allure.title("物流执行---所有类型---执行中查询接口")
     @pytest.mark.parametrize("serviceTypeCode", base_data.read_data()['serviceTypeCode'])
     def test_001(self, login_fixture, serviceTypeCode):

@@ -7,7 +7,6 @@ from api.query_api import ApiEpld
 @allure.epic("EPLD项目")
 @allure.feature("派单中心模块")
 class TestDispatchQuery:
-    @allure.story("验证查询接口")
     @allure.title("派单中心---空运---待派单接口")
     def test_001(self, login_fixture):
         result = ApiEpld.air_transport_pending(login_fixture)
