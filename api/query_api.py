@@ -479,5 +479,204 @@ class Query:
         result = Api.post('/api/scan/hub/orderList', json=json_data, headers=headers)
         return result
 
+    def brl_list(self, login_fixture, incomeTag):
+        """
+        费用管理-创建应收合并结算单各个页签列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}", "incomeTag": incomeTag}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/bill/receiveCreateBulkloadBill/list', json=json_data, headers=headers)
+        return result
+
+    def brl1_list(self, login_fixture, tab):
+        """
+        费用管理-应收费用制作各个页签列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}", "incomeTag": tab}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/bill/receiveMake/list', json=json_data, headers=headers)
+        return result
+
+    def brc_list(self, login_fixture):
+        """
+        费用管理-应收改单列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}"}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/bill/receive_change/list', json=json_data, headers=headers)
+        return result
+
+    def brl2_list(self, login_fixture, billStatus):
+        """
+        费用管理-应收票结账单列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "statusType": billStatus,
+                     "insertTimeFrom": f"{yesterday}"}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/bill/receiveBill/list', json=json_data, headers=headers)
+        return result
+
+    def brmb_list(self, login_fixture):
+        """
+        费用管理-月结账单列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {"insertTimeFrom": f"{yesterday}"}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/bill/receive_monthly_bill/list', json=json_data, headers=headers)
+        return result
+
+    def br_list(self, login_fixture):
+        """
+        费用管理-应收发票申请列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}"}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/bill/receiveApply/list', json=json_data, headers=headers)
+        return result
+
+    def bre_list(self, login_fixture, chargeStatus):
+        """
+        费用管理-应收额外费用申请各个列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}",
+                     "statusType": chargeStatus}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/bill/receiveExtra/list', json=json_data, headers=headers)
+        return result
+
+    def bpcmb_list(self, login_fixture, tabType):
+        """
+        费用管理-创建应付合并结算单各个列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {"insertTimeFrom": f"{yesterday}", "tabType": tabType}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/bill/payCreateMergeBill/list', json=json_data, headers=headers)
+        return result
+
+    def bpm_list(self, login_fixture, tab):
+        """
+        费用管理-应付费用制作各个列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "costTag": tab, "insertTimeFrom": f"{yesterday}"}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/bill/payMake/list', json=json_data, headers=headers)
+        return result
+
+    def bpc_list(self, login_fixture):
+        """
+        费用管理-应付改单列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}"}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/bill/pay_change/list', json=json_data, headers=headers)
+        return result
+
+    def bpb_list(self, login_fixture):
+        """
+        费用管理-应付票结账单列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}"}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/bill/payBill/list', json=json_data, headers=headers)
+        return result
+
+    def bpmb_list(self, login_fixture):
+        """
+        费用管理-应付月结账单列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {"insertTimeFrom": f"{yesterday}"}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/bill/pay_monthly_bill/list', json=json_data, headers=headers)
+        return result
+
+    def bpe_list(self, login_fixture, chargeStatus):
+        """
+        费用管理-应付额外费申请各个列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}",
+                     "statusType": chargeStatus}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/bill/payExtra/list', json=json_data, headers=headers)
+        return result
+
+    def ba_list(self, login_fixture, supplementType):
+        """
+        费用管理-运单补录列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}", "supplementType": supplementType}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/bill/append/list', json=json_data, headers=headers)
+        return result
+
 
 ApiTms = Query()

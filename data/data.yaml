@@ -53,4 +53,26 @@ appointmentTag:
   - 1
   - 2
 
+incomeTag:
+  - [0]
+  - [1,2]
+
+billStatus:
+  - ["status_draft","status_check_awaiting"]
+  - ["status_check_completed"]
+  - ["status_invoice_completed","status_sign_completed"]
+
+chargeStatus:
+  - status_submit_awaiting
+  - status_check_awaiting
+  - status_fall_back_completed
+  - status_check_completed
+
+tabType:
+  - 0
+  - 1
+
+supplementType:
+  - status_draft
+  - status_submit_completed
 
