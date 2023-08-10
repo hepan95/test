@@ -7,7 +7,7 @@ from utils.read import base_data
 
 @allure.epic("TMS项目")
 @allure.feature("配载及派单模块")
-class TestAnalysisQuery:
+class TestDispatchQuery:
     @allure.title("配载优化-配载列表查询接口")
     def test_001(self, login_fixture):
         result = ApiTms.lob_list(login_fixture)

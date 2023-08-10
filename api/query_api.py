@@ -325,5 +325,159 @@ class Query:
         result = Api.post('/api/track/appointment/list', json=json_data, headers=headers)
         return result
 
+    def spu_list(self, login_fixture):
+        """
+        扫描管理-转仓（提货扫描）-上传管理页签列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {"insertTimeStart": f"{yesterday}"}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/scan/pick/upLoadList', json=json_data, headers=headers)
+        return result
+
+    def spo_list(self, login_fixture):
+        """
+        扫描管理-转仓（提货扫描）-订单汇总页签列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {"planConsignorTime": f"{yesterday}"}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/scan/pick/orderList', json=json_data, headers=headers)
+        return result
+
+    def spt_list(self, login_fixture):
+        """
+        扫描管理-转仓（提货扫描）-运输信息页签列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {"planPickupTimeStart": f"{yesterday}"}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/scan/pick/transportList', json=json_data, headers=headers)
+        return result
+
+    def ss_list(self, login_fixture):
+        """
+        扫描管理-分货（复核扫描）-分货&复核页签列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {"consignorTimeStart": f"{yesterday}"}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/scan/split/list', json=json_data, headers=headers)
+        return result
+
+    def spi_list(self, login_fixture):
+        """
+        扫描管理-分货（复核扫描）-箱码信息页签列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {"consignorTimeStart": f"{yesterday}"}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/scan/split/informationList', json=json_data, headers=headers)
+        return result
+
+    def spp_list(self, login_fixture):
+        """
+        扫描管理-分货（复核扫描）-串货记录页签列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {"insertTimeStart": f"{yesterday}"}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/scan/split/productsRecord', json=json_data, headers=headers)
+        return result
+
+    def sdl_list(self, login_fixture):
+        """
+        扫描管理-配送交接扫描页签列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {"consignorTimeStart": f"{yesterday}"}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/scan/delivery/list', json=json_data, headers=headers)
+        return result
+
+    def srl_list(self, login_fixture):
+        """
+        扫描管理-退货(提货扫描)页签列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {"pickupAppointmentTimeFrom": f"{yesterday}"}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/scan/refund/list', json=json_data, headers=headers)
+        return result
+
+    def spl_list(self, login_fixture):
+        """
+        扫描管理-正向(提货扫描)页签列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {"planPickupTimeStart": f"{yesterday}"}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/scan/positivePick/list', json=json_data, headers=headers)
+        return result
+
+    def shb_list(self, login_fixture):
+        """
+        扫描管理-HUB出入库扫描-箱码扫描记录页签列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {"scannedTimeStart": f"{yesterday}"}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/scan/hub/boxList', json=json_data, headers=headers)
+        return result
+
+    def sho_list(self, login_fixture):
+        """
+        扫描管理-HUB出入库扫描-订单出入库汇总页签列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {"consignorTimeStart": f"{yesterday}"}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/scan/hub/orderList', json=json_data, headers=headers)
+        return result
+
 
 ApiTms = Query()

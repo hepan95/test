@@ -7,7 +7,7 @@ from utils.read import base_data
 
 @allure.epic("TMS项目")
 @allure.feature("运输订单模块")
-class TestAnalysisQuery:
+class TestOrderQuery:
     @allure.title("接入订单列表查询接口")
     def test_001(self, login_fixture):
         result = ApiTms.order_accept_list(login_fixture)

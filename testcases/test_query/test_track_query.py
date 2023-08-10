@@ -7,7 +7,7 @@ from utils.read import base_data
 
 @allure.epic("TMS项目")
 @allure.feature("跟踪管控模块")
-class TestAnalysisQuery:
+class TestTrackQuery:
     @allure.title("跟踪管控-在途跟踪列表查询接口")
     def test_001(self, login_fixture):
         result = ApiTms.ttt_list(login_fixture)
@@ -41,8 +41,6 @@ class TestAnalysisQuery:
         result = ApiTms.ta_list(login_fixture, appointmentTag)
         assert result.success is True
         assert result.body["returnMsg"] == "操作成功"
-
-
 
 
 if __name__ == '__main__':
