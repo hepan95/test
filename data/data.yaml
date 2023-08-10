@@ -31,3 +31,26 @@ tab:
   - 1
   - 2
 
+fileStatus:
+  - 0
+  - 1
+  - 2
+  - 3
+  - -1
+
+carState:
+  - car_state_user
+  - car_state_unuser
+  - car_state_repair
+  - car_state_accident
+  - car_state_stop
+
+abnormalStatus:
+  - status_submit_awaiting
+  - status_submit_completed
+
+appointmentTag:
+  - 1
+  - 2
+
+

@@ -246,12 +246,83 @@ class Query:
         :param json_data:
         :return:
         """
-        json_data = {"itemFrom": 0, "itemTo": 10, "supervisorTag": tab}
+        json_data = {"itemFrom": 0, "itemTo": 10, "dispatchTimeFrom": f"{yesterday}", "supervisorTag": tab}
         token = login_fixture
         headers = {
             "Cookie": 'token={}'.format(token)
         }
         result = Api.post('/api/dispatch/supervisor_task/list', json=json_data, headers=headers)
+        return result
+
+    def ttt_list(self, login_fixture):
+        """
+        跟踪管控-在途跟踪列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}"}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/track/track_transport/list', json=json_data, headers=headers)
+        return result
+
+    def tfm_list(self, login_fixture, fileStatus):
+        """
+        跟踪管控-文件管理各个页签列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}", "fileStatus": fileStatus}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/track/file_manager/list', json=json_data, headers=headers)
+        return result
+
+    def ccm_list(self, login_fixture, carState):
+        """
+        跟踪管控-车辆管理各个页签列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "carState": carState}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/config/car_manager/list', json=json_data, headers=headers)
+        return result
+
+    def tee_list(self, login_fixture, abnormalStatus):
+        """
+        跟踪管控-事件异常各个页签列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "accidentReportDateFrom": f"{yesterday}",
+                     "statusType": abnormalStatus}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/track/event_exception/list', json=json_data, headers=headers)
+        return result
+
+    def ta_list(self, login_fixture, appointmentTag):
+        """
+        跟踪管控-预约管理各个页签列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"appointmentTag": appointmentTag, "itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}"}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/track/appointment/list', json=json_data, headers=headers)
         return result
 
 
