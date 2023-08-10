@@ -56,6 +56,32 @@ class TestAnalysisQuery:
         assert result.success is True
         assert result.body["returnMsg"] == "操作成功"
 
+    @allure.title("执行中任务列表查询接口")
+    def test_008(self, login_fixture):
+        result = ApiTms.dispatch_done_list(login_fixture)
+        assert result.success is True
+        assert result.body["returnMsg"] == "操作成功"
+
+    @allure.title("已完成任务列表查询接口")
+    def test_008(self, login_fixture):
+        result = ApiTms.dispatch_finished_list(login_fixture)
+        assert result.success is True
+        assert result.body["returnMsg"] == "操作成功"
+
+    @allure.title("运单跟踪-各个页签列表查询接口")
+    @pytest.mark.parametrize("waybillStatus", base_data.read_data()['waybillStatus'])
+    def test_008(self, login_fixture, waybillStatus):
+        result = ApiTms.tft_list(login_fixture, waybillStatus)
+        assert result.success is True
+        assert result.body["returnMsg"] == "操作成功"
+
+    @allure.title("监理任务-各个页签列表查询接口")
+    @pytest.mark.parametrize("tab", base_data.read_data()['tab'])
+    def test_008(self, login_fixture, tab):
+        result = ApiTms.dst_list(login_fixture, tab)
+        assert result.success is True
+        assert result.body["returnMsg"] == "操作成功"
+
 
 if __name__ == '__main__':
     pytest.main()

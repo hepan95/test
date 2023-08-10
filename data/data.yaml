@@ -15,3 +15,19 @@ statusType:
   - status_sign_completed
   - status_settlement_completed
   - status_cancel_completed
+
+waybillStatus:
+  - status_cs_send_completed
+  - status_vehicle_completed_check
+  - status_in_transport
+  - status_completed
+  - status_sign_completed
+  - status_settlement_completed
+  - status_cancel_completed
+  -
+
+tab:
+  - 0
+  - 1
+  - 2
+

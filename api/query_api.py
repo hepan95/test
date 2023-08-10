@@ -198,5 +198,61 @@ class Query:
         result = Api.post('/api/dispatch/todo/list', json=json_data, headers=headers)
         return result
 
+    def dispatch_done_list(self, login_fixture):
+        """
+        执行中任务列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}"}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/dispatch/done/list', json=json_data, headers=headers)
+        return result
+
+    def dispatch_finished_list(self, login_fixture):
+        """
+        已完成任务列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}"}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/dispatch/finished/list', json=json_data, headers=headers)
+        return result
+
+    def tft_list(self, login_fixture, waybillStatus):
+        """
+        运单跟踪-各个页签列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "insertTimeFrom": f"{yesterday}", "statusType": waybillStatus}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/track/follow_transport/list', json=json_data, headers=headers)
+        return result
+
+    def dst_list(self, login_fixture, tab):
+        """
+        监理任务-各个页签列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "supervisorTag": tab}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/dispatch/supervisor_task/list', json=json_data, headers=headers)
+        return result
+
 
 ApiTms = Query()
