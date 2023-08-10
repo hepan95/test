@@ -678,5 +678,215 @@ class Query:
         result = Api.post('/api/bill/append/list', json=json_data, headers=headers)
         return result
 
+    def cca_list(self, login_fixture):
+        """
+        档案管理-客户管理-客户档案列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/config/customersArchives/list', json=json_data, headers=headers)
+        return result
+
+    def ccc_list(self, login_fixture):
+        """
+        档案管理-客户管理-联系人档案列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/config/customer_contact/list', json=json_data, headers=headers)
+        return result
+
+    def ccs_list(self, login_fixture):
+        """
+        档案管理-客户管理-客服分配列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/config/customer_service/list', json=json_data, headers=headers)
+        return result
+
+    def ccf_list(self, login_fixture):
+        """
+        档案管理-客户管理-收发货档案列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/config/customer_factory/list', json=json_data, headers=headers)
+        return result
+
+    def cct_list(self, login_fixture):
+        """
+        档案管理-客户管理-税率档案列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/config/customer_tax/list', json=json_data, headers=headers)
+        return result
+
+    def cccu_list(self, login_fixture):
+        """
+        档案管理-客户管理-结算单位档案列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/config/customerClearingUnit/list', json=json_data, headers=headers)
+        return result
+
+    def csa_list(self, login_fixture):
+        """
+        档案管理-供应商管理-供应商档案列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/config/suppliersArchives/list', json=json_data, headers=headers)
+        return result
+
+    def csc_list(self, login_fixture):
+        """
+        档案管理-供应商管理-联系人档案列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/config/supplier_contact/list', json=json_data, headers=headers)
+        return result
+
+    def csc1_list(self, login_fixture):
+        """
+        档案管理-供应商管理-车辆档案列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/config/supplier_car/list', json=json_data, headers=headers)
+        return result
+
+    def csd_list(self, login_fixture):
+        """
+        档案管理-供应商管理-司机档案列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/config/supplierDriver/list', json=json_data, headers=headers)
+        return result
+
+    def cst_list(self, login_fixture):
+        """
+        档案管理-供应商管理-税率档案列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/config/supplier_tax/list', json=json_data, headers=headers)
+        return result
+
+    def cif_list(self, login_fixture):
+        """
+        档案管理-内部档案-收发货档案列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/config/inside_factory/list', json=json_data, headers=headers)
+        return result
+
+    def csci_list(self, login_fixture):
+        """
+        档案管理-内部档案-自有车档案列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/config/supplier_car/inside_list', json=json_data, headers=headers)
+        return result
+
+    def cid_list(self, login_fixture):
+        """
+        档案管理-内部档案-自有司机档案列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/config/insideDriver/list', json=json_data, headers=headers)
+        return result
+
+    def br1_list(self, login_fixture):
+        """
+        档案管理-内部档案-汇率档案列表查询接口
+        :param json_data:
+        :return:
+        """
+        json_data = {"itemFrom": 0, "itemTo": 10, "filter": {}}
+        token = login_fixture
+        headers = {
+            "Cookie": 'token={}'.format(token)
+        }
+        result = Api.post('/api/basic/rate/list', json=json_data, headers=headers)
+        return result
+
 
 ApiTms = Query()
