@@ -59,5 +59,20 @@ class Test_login_01():
     #         cf=ict.Test_login().Test_login005()[1]
     #         assert cf == '操作成功'
 
-
+    @allure.title("后台端UAT登录接口")   #类方法的注释
+    def test_long005(self):
+        '''用例描述'''
+        with allure.step("调取UAT后台端登录接口返回token不为空"):
+            cf=ict.Test_login().Test_login004()
+            # 接口自动化
+            allure.attach(body=cf[1], name="请求地址", attachment_type=allure.attachment_type.TEXT)
+            assert cf[0] !=None
+    @allure.title("货主端UAT登录接口")   #类方法的注释
+    def test_long006(self):
+        '''用例描述'''
+        with allure.step("调取UAT货主端登录接口返回token不为空"):
+            cf=ict.Test_login().Test_login005()
+            # 接口自动化
+            allure.attach(body=cf[1], name="请求地址", attachment_type=allure.attachment_type.TEXT)
+            assert cf[0] !=None
 

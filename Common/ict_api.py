@@ -3,10 +3,21 @@
 # @fileName: ict_api.py
 # @Time:2023/2/28 10:28
 # @Author:PH
-import allure
+# import urllib3
+
+import urllib3
+
+import Common.common_funtion as cc
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+
 from Config import config as long
 import requests,json
-'''递归'''
+ht_host_FBA = long.ht_host_FBA
+hz_host_FBA = long.hz_host_FBA
+tiem3 = cc.Common_page().get_today001()[11]  #今天时间 年月日
+'''递归，获取value'''
 def get_k(data_json):
 
     if isinstance(data_json,dict):
@@ -18,6 +29,7 @@ def get_k(data_json):
 
                 else:
                     get_k(data_json[key])
+
     return data_json
 
 
@@ -39,12 +51,20 @@ class Test_login():
         # self.sj_password=long.siji_password
         # self.sj_headers=long.siji_headers
         # self.sj_host=long.siji_host
+        self.ht_mobile_FBA=long.ht_mobile_FBA
+        self.ht_password_FBA=long.ht_password_FBA
+        self.hz_modile_FBA=long.hz_mobile_FBA
+        self.hz_password_FBA=long.hz_password_FBA
+        self.hz_host_FBA = long.hz_host_FBA
+        self.ht_host_FBA = long.ht_host_FBA
+
+
     '''后台登录接口'''
     def Test_login001(self):
         url =self.ht_host+"/api/login"
         headers=self.headers
         data={"account":self.mobile,"password":self.password}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         token=A.json()["result"]["token"]
         # print(token)
@@ -54,7 +74,7 @@ class Test_login():
         url = self.hz_host + "/api/login"
         headers = self.headers
         data = {"account": self.hz_modile, "password": self.hz_password}
-        r = requests.post(url=url, headers=headers, data=json.dumps(data))
+        r =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(r.json())
         token = r.json()["result"]["token"]
         # print(token)
@@ -64,9 +84,9 @@ class Test_login():
         url = self.gys_host + "/api/login"
         headers = self.headers
         data = {"account": self.ys_modile, "password": self.ys_password }
-        r = requests.post(url=url, headers=headers, data=json.dumps(data))
-        # print(r.json())
-        token = r.json()["result"]["token"]
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
+        token = A.json()["result"]["token"]
         # print(token)
         return token
     '''司机小程序登录接口'''
@@ -93,6 +113,37 @@ class Test_login():
     #     returnMsg=r.json()["returnMsg"]
     #     # print(dl_token,returnMsg)
     #     return dl_token,returnMsg
+
+    '''后台登录接口_FBA'''
+
+
+    def Test_login004(self):
+
+        url =self.ht_host_FBA+"/api/login"
+        headers=self.headers
+        data={"account":self.ht_mobile_FBA,"password":self.ht_password_FBA}
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
+        token=A.json()["result"]["token"]
+        # print(token)
+        return token
+    '''货主端登录接口_FBA'''
+    def Test_login005(self):
+        url = self.hz_host_FBA + "/api/login"
+        headers = self.headers
+        data = {"account": self.hz_modile_FBA, "password": self.hz_password_FBA}
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
+        token = A.json()["result"]["token"]
+        # print(token)
+        return token
+
+
+
+
+
+
+
 '''后台查询基础信息接口'''
 class Test_login01():
     def __init__(self):
@@ -105,7 +156,7 @@ class Test_login01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"customerName":hz_nema}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         hz_id = A.json()["result"]["data"][0]["id"]
         # print("获取货主id:{}".format(hz_id))
@@ -116,7 +167,7 @@ class Test_login01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"active":"active_activated","districtName":zxq_nema}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         xzq_id = A.json()["result"]["data"][0]["guid"]
         # print("获取行政区id:{}".format(xzq_id))
@@ -127,7 +178,7 @@ class Test_login01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"active":"active_activated","placeName":gk_nema}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         gk_id = A.json()["result"]["data"][0]["guid"]
         # print("获取行政区id:{}".format(gk_id))
@@ -138,7 +189,7 @@ class Test_login01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"supplierName":gys_nema}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         gys_id = A.json()["result"]["data"][0]["id"]
         # print("获取运输公司id:{}".format(gys_id))
@@ -155,7 +206,7 @@ class Test_preposition():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"customerId":hz_id,"contractType":"cargo_owner_type"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         ht_id = A.json()["result"]["data"][0]["id"]
         # print("后台查询货主合同id:{}".format(ht_id))
@@ -165,7 +216,7 @@ class Test_preposition():
         url = self.host + "/api/platform/cargoOwnerContract/enable/{}".format(ht_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.put(url=url, headers=headers)
+        A =requests.request("PUT",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("后台货主合同启用:{}".format(returnMsg))
@@ -176,7 +227,7 @@ class Test_preposition():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"filter":{"enabledType":"enabled_type_disabled","departure":[],"destination":[]},"itemFrom":0,"itemTo":10}
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         data1 = A.json()["result"]["data"][0]
         id = []
@@ -198,7 +249,7 @@ class Test_query01():
         url = self.host + "/api/platform/home/client/total/2023-02-01"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.get(url=url, headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("后台工作看板客户数据获取{}".format(returnMsg))
@@ -208,7 +259,7 @@ class Test_query01():
         url = self.host + "/api/platform/home/supplier/total/2023-02-01"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.get(url=url, headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("后台工作看板供应商数据获取{}".format(returnMsg))
@@ -218,7 +269,7 @@ class Test_query01():
         url = self.host + "/api/platform/home/driver/total/2023-02-01"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.get(url=url, headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("后台工作看板个体司机数据获取{}".format(returnMsg))
@@ -228,7 +279,7 @@ class Test_query01():
         url = self.host + "/api/platform/home/bill/total/2023-02-01"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.get(url=url, headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("后台工作看板客户结算方式数据获取{}".format(returnMsg))
@@ -238,7 +289,7 @@ class Test_query01():
         url = self.host + "/api/platform/home/totals/2023-02-01"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.get(url=url, headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("后台工作看板平台管理数据获取{}".format(returnMsg))
@@ -249,7 +300,7 @@ class Test_query01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"pickupTimeFrom":"2023-02-01","pickupTimeTo":"2023-02-28"}
-        A = requests.post(url=url, headers=headers ,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("后台工作看板坪山项目日报表数据获取{}".format(returnMsg))
@@ -260,7 +311,7 @@ class Test_query01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"tagKey":"statusCompleting","orderStatus":["status_completing"],"taskUnitCode":"dangerous_cargo_export_transport"}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("后台订单录入查询获取{}".format(returnMsg))
@@ -271,7 +322,7 @@ class Test_query01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"tagKey":"all","taskUnitCodeType":"container"}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("集装箱运输查询{}".format(returnMsg))
@@ -282,7 +333,7 @@ class Test_query01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"tagKey":"all","taskUnitCodeType":"vanType"}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("厢式车运输查询{}".format(returnMsg))
@@ -293,7 +344,7 @@ class Test_query01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"tagKey":"statusWaitingPlan","planStatusTypes":["status_waiting_plan"]}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("后台配载计划查询{}".format(returnMsg))
@@ -304,7 +355,7 @@ class Test_query01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"orderStatus":"status_waiting_distribute"}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("计划管理集装箱查询{}".format(returnMsg))
@@ -315,7 +366,7 @@ class Test_query01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"orderStatus":"status_waiting_distribute"}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("计划管理厢式车查询{}".format(returnMsg))
@@ -326,7 +377,7 @@ class Test_query01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("调度管理集装箱查询{}".format(returnMsg))
@@ -337,7 +388,7 @@ class Test_query01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"orderStatus":"status_waiting_dispatch"}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("调度管理厢式车查询{}".format(returnMsg))
@@ -348,7 +399,7 @@ class Test_query01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("出车表信息查询{}".format(returnMsg))
@@ -359,7 +410,7 @@ class Test_query01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"tagKey":"supervisionStatusWait","status":"supervision_status_wait"}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("监理管理信息查询{}".format(returnMsg))
@@ -370,7 +421,7 @@ class Test_query01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"orderStatus":"status_waiting_dispatch"}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("报关管理信息查询{}".format(returnMsg))
@@ -381,7 +432,7 @@ class Test_query01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"statusType":"maintained_type"}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("路桥费借款表信息查询{}".format(returnMsg))
@@ -392,7 +443,7 @@ class Test_query01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("路桥费维护表信息查询{}".format(returnMsg))
@@ -403,7 +454,7 @@ class Test_query01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"currentTag":"status_execution"}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("集装箱运输查询{}".format(returnMsg))
@@ -414,7 +465,7 @@ class Test_query01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"currentTag":"status_execution"}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("厢式车运输查询{}".format(returnMsg))
@@ -425,7 +476,7 @@ class Test_query01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"status":"undone"}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("监理管理查询{}".format(returnMsg))
@@ -436,7 +487,7 @@ class Test_query01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"orderStatus":"undone"}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("报关管理查询{}".format(returnMsg))
@@ -447,7 +498,7 @@ class Test_query01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"exceptionStatus":"exception_status_completing"}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("异常管理查询{}".format(returnMsg))
@@ -457,8 +508,8 @@ class Test_query01():
         url = self.host + "/api/platform/fileManagement/list"
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
-        data ={"itemFrom":0,"itemTo":10,"filter":{"currentTag":"undone"}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        data ={"itemFrom":0,"itemTo":10,"filter":{"currentTag":"undone","insertTimeFrom":"2023-02-01"}}
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("异常管理查询{}".format(returnMsg))
@@ -469,7 +520,7 @@ class Test_query01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"tagKey":"all"}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("异常管理查询{}".format(returnMsg))
@@ -486,7 +537,7 @@ class Test_query02():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"chargeStatusArray":["status_check_awaiting","status_check_all_completed_awaiting_upstream","status_check_detail_completed","status_check_completed"]}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("应收费用制作数据获取{}".format(returnMsg))
@@ -497,7 +548,7 @@ class Test_query02():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"status":["status_submit_awaiting","status_checked_awaiting","status_submit_completed","status_undo_completed"]}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("应收改单数据获取{}".format(returnMsg))
@@ -508,7 +559,7 @@ class Test_query02():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"statusType":"status_check_all_completed"}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("待生成对账单数据获取{}".format(returnMsg))
@@ -519,7 +570,7 @@ class Test_query02():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"statusType":"status_bill_awaiting"}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("对账单合计数据获取{}".format(returnMsg))
@@ -530,7 +581,7 @@ class Test_query02():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("应收票结账单数据获取{}".format(returnMsg))
@@ -541,7 +592,7 @@ class Test_query02():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"statusType":["status_draft","status_fall_back_completed"]}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("应收月结账单数据获取{}".format(returnMsg))
@@ -552,7 +603,7 @@ class Test_query02():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("应收发票管理数据获取{}".format(returnMsg))
@@ -563,7 +614,7 @@ class Test_query02():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"chargeStatusArray":["status_check_awaiting","status_check_all_completed_awaiting_upstream","status_check_detail_completed","status_check_completed"]}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("应付费用制作查询{}".format(returnMsg))
@@ -574,7 +625,7 @@ class Test_query02():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"status":["status_submit_awaiting","status_checked_awaiting","status_submit_completed","status_undo_completed"]}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("应付改单查询{}".format(returnMsg))
@@ -585,7 +636,7 @@ class Test_query02():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"statusType":["status_bill_awaiting"]}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("应付月结账单查询{}".format(returnMsg))
@@ -602,7 +653,7 @@ class Test_query03():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("货主认证审核获取{}".format(returnMsg))
@@ -613,7 +664,7 @@ class Test_query03():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"statusType":"status_register"}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("运输公司认证获取{}".format(returnMsg))
@@ -624,7 +675,7 @@ class Test_query03():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"isOwner":0}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("个人司机认证获取{}".format(returnMsg))
@@ -635,7 +686,7 @@ class Test_query03():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("车老板审核获取{}".format(returnMsg))
@@ -646,7 +697,7 @@ class Test_query03():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"statusType":["status_check_awaiting"]}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("司机证件变更管理获取{}".format(returnMsg))
@@ -657,7 +708,7 @@ class Test_query03():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("司机证件监控列表获取{}".format(returnMsg))
@@ -668,7 +719,7 @@ class Test_query03():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"statusType":["all"]}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("货主提额管理获取{}".format(returnMsg))
@@ -679,7 +730,7 @@ class Test_query03():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("货主提额管理获取{}".format(returnMsg))
@@ -690,7 +741,7 @@ class Test_query03():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("司机市场报价获取{}".format(returnMsg))
@@ -701,7 +752,7 @@ class Test_query03():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"contractType":"cargo_owner_type"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("货主合同报价获取{}".format(returnMsg))
@@ -712,7 +763,7 @@ class Test_query03():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("服务类型报价说明获取{}".format(returnMsg))
@@ -723,7 +774,7 @@ class Test_query03():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("服务类型港口报价说明获取{}".format(returnMsg))
@@ -734,7 +785,7 @@ class Test_query03():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"supervisionType":"supervision_type_profession"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("职业监理报价获取{}".format(returnMsg))
@@ -745,7 +796,7 @@ class Test_query03():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"supervisionType":"supervision_type_driver"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("司机监理报价获取{}".format(returnMsg))
@@ -756,7 +807,7 @@ class Test_query03():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"contractType":"transportation_company_type"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("运输公司合同报价获取{}".format(returnMsg))
@@ -767,7 +818,7 @@ class Test_query03():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("自有司机报价获取{}".format(returnMsg))
@@ -778,7 +829,7 @@ class Test_query03():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("附加费获取{}".format(returnMsg))
@@ -795,7 +846,7 @@ class Test_query04():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("Excel获取{}".format(returnMsg))
@@ -805,7 +856,7 @@ class Test_query04():
         url = self.host + "/api/platform/excelReport/planList"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A=requests.get(url=url,headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("订阅计划获取{}".format(returnMsg))
@@ -822,7 +873,7 @@ class Test_query05():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("激励卷档案获取{}".format(returnMsg))
@@ -833,7 +884,7 @@ class Test_query05():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("营销活动管理获取{}".format(returnMsg))
@@ -844,7 +895,7 @@ class Test_query05():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("营销活动分析获取{}".format(returnMsg))
@@ -855,7 +906,7 @@ class Test_query05():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("红包每日汇总提现列表获取{}".format(returnMsg))
@@ -866,7 +917,7 @@ class Test_query05():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("司机收入提现列表获取{}".format(returnMsg))
@@ -877,7 +928,7 @@ class Test_query05():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("推广活动档案获取{}".format(returnMsg))
@@ -888,7 +939,7 @@ class Test_query05():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"isSend":-1}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("推广奖励明细列表获取{}".format(returnMsg))
@@ -899,7 +950,7 @@ class Test_query05():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("推广汇总列表获取{}".format(returnMsg))
@@ -910,7 +961,7 @@ class Test_query05():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("推广发放列表获取{}".format(returnMsg))
@@ -927,7 +978,7 @@ class Test_query06():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"insertTimeFrom":"2023-03-01 00:00:00"}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("推送日志获取{}".format(returnMsg))
@@ -938,7 +989,7 @@ class Test_query06():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"insertTimeFrom":"2023-03-01 00:00:00"}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("接收日志获取{}".format(returnMsg))
@@ -949,7 +1000,7 @@ class Test_query06():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"cashType":"1"}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("充值日志获取{}".format(returnMsg))
@@ -960,7 +1011,7 @@ class Test_query06():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"cashType":"0"}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("提现日志获取{}".format(returnMsg))
@@ -971,7 +1022,7 @@ class Test_query06():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":100,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("供应商运单获取{}".format(returnMsg))
@@ -982,7 +1033,7 @@ class Test_query06():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("操作日志获取{}".format(returnMsg))
@@ -993,7 +1044,7 @@ class Test_query06():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("咨询投诉列表获取{}".format(returnMsg))
@@ -1010,7 +1061,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("系统字典获取{}".format(returnMsg))
@@ -1021,7 +1072,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("车辆档案获取{}".format(returnMsg))
@@ -1032,7 +1083,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("内部档案获取{}".format(returnMsg))
@@ -1042,7 +1093,7 @@ class Test_query07():
         url = self.host + "/api/platform/systemConfig/data"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A=requests.get(url=url,headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("系统配置获取{}".format(returnMsg))
@@ -1053,7 +1104,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data= {"itemFrom":0,"itemTo":10}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("邮箱配置获取{}".format(returnMsg))
@@ -1064,7 +1115,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data= {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("邮箱接收配置获取{}".format(returnMsg))
@@ -1075,7 +1126,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data= {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("邮箱接收日志获取{}".format(returnMsg))
@@ -1085,7 +1136,7 @@ class Test_query07():
         url = self.host + "/api/platform/fromOddDefine/list"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A=requests.get(url=url,headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("表单号设置获取{}".format(returnMsg))
@@ -1096,7 +1147,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("服务类型节点设置获取{}".format(returnMsg))
@@ -1107,7 +1158,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("币种设置获取{}".format(returnMsg))
@@ -1118,7 +1169,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("Excel配置库获取{}".format(returnMsg))
@@ -1128,7 +1179,7 @@ class Test_query07():
         url = self.host + "/api/platform/modeOutputDesign/getModeTree"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A=requests.get(url=url,headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("报表模板设计获取{}".format(returnMsg))
@@ -1139,7 +1190,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("模板制作获取{}".format(returnMsg))
@@ -1150,7 +1201,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("通知账号配置获取{}".format(returnMsg))
@@ -1161,7 +1212,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("接口接收设置获取{}".format(returnMsg))
@@ -1172,7 +1223,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("接收消息分配获取{}".format(returnMsg))
@@ -1183,7 +1234,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("内容管理获取{}".format(returnMsg))
@@ -1194,7 +1245,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("短信模板获取{}".format(returnMsg))
@@ -1205,7 +1256,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("虚拟账号配置获取{}".format(returnMsg))
@@ -1215,7 +1266,7 @@ class Test_query07():
         url = self.host + "/api/platform/roleAuthorityDistribution/list"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A=requests.get(url=url,headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("角色权限分配获取{}".format(returnMsg))
@@ -1226,7 +1277,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("用户角色分配获取{}".format(returnMsg))
@@ -1237,7 +1288,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("用户数据权限分配获取{}".format(returnMsg))
@@ -1248,7 +1299,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("用户数据权限分配获取{}".format(returnMsg))
@@ -1259,7 +1310,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("常用输出模板获取{}".format(returnMsg))
@@ -1270,7 +1321,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("组织机构获取{}".format(returnMsg))
@@ -1281,7 +1332,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("用户档案获取{}".format(returnMsg))
@@ -1292,7 +1343,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("标准汇率获取{}".format(returnMsg))
@@ -1303,7 +1354,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("客户汇率获取{}".format(returnMsg))
@@ -1314,7 +1365,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("费用项档案获取{}".format(returnMsg))
@@ -1325,7 +1376,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("费用项档案获取{}".format(returnMsg))
@@ -1336,7 +1387,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("二级客户获取{}".format(returnMsg))
@@ -1347,7 +1398,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom": 0, "itemTo": 10, "filter": {}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("收发货人档案获取{}".format(returnMsg))
@@ -1358,7 +1409,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"type":"customer"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("货主联系人档案获取{}".format(returnMsg))
@@ -1369,7 +1420,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("对账单发票档案获取{}".format(returnMsg))
@@ -1380,7 +1431,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("开票档案获取{}".format(returnMsg))
@@ -1391,7 +1442,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("运输公司档案获取{}".format(returnMsg))
@@ -1402,7 +1453,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"type":"supplier"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("运输公司联系人档案获取{}".format(returnMsg))
@@ -1413,7 +1464,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("车辆档案获取{}".format(returnMsg))
@@ -1424,7 +1475,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("司机档案获取{}".format(returnMsg))
@@ -1435,7 +1486,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("监理档案获取{}".format(returnMsg))
@@ -1446,7 +1497,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("船公司档案获取{}".format(returnMsg))
@@ -1457,7 +1508,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("客服人员分配档案获取{}".format(returnMsg))
@@ -1468,7 +1519,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"tagSign":0}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("客户税率档案获取{}".format(returnMsg))
@@ -1479,7 +1530,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"tagSign":1}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("供应商税率档案获取{}".format(returnMsg))
@@ -1490,7 +1541,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"tagSign":2}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("个体司机税率档案获取{}".format(returnMsg))
@@ -1501,7 +1552,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"tagSign":3}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("自有车税率档案获取{}".format(returnMsg))
@@ -1512,7 +1563,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("装载量策略获取{}".format(returnMsg))
@@ -1523,7 +1574,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("通用设置获取{}".format(returnMsg))
@@ -1534,7 +1585,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("线路范围设置获取{}".format(returnMsg))
@@ -1545,7 +1596,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("项目管控获取{}".format(returnMsg))
@@ -1556,7 +1607,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"centerType":"center_type_op"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("接单中心获取{}".format(returnMsg))
@@ -1567,7 +1618,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"centerType":"center_type_plan"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("计划中心获取{}".format(returnMsg))
@@ -1578,7 +1629,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"centerType":"center_type_dispatch"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("调度中心获取{}".format(returnMsg))
@@ -1589,7 +1640,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"centerType":"operation_group"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("区域规划获取{}".format(returnMsg))
@@ -1600,7 +1651,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("应付额外费用审核配置获取{}".format(returnMsg))
@@ -1611,7 +1662,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"pickupTime":"2023-03-01"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("每日产表维护表获取{}".format(returnMsg))
@@ -1622,7 +1673,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"outputValueType":0}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("虚拟产值基础表获取{}".format(returnMsg))
@@ -1633,7 +1684,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"outputValueType":1}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("实际产值优惠表获取{}".format(returnMsg))
@@ -1644,7 +1695,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("自动分单规则列表获取{}".format(returnMsg))
@@ -1655,7 +1706,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("分单渠道份额设置获取{}".format(returnMsg))
@@ -1666,7 +1717,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("客户文件配置管理获取{}".format(returnMsg))
@@ -1677,7 +1728,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("待办预警阈值获取{}".format(returnMsg))
@@ -1688,7 +1739,7 @@ class Test_query07():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("拆子任务规则获取{}".format(returnMsg))
@@ -1705,7 +1756,7 @@ class Test_query08():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"type":0,"insertTimeFrom":"","insertTimeTo":"","content":"","pageDto":{"pageNum":1,"pageSize":10},"senderInfo":""}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("发信箱获取{}".format(returnMsg))
@@ -1716,7 +1767,7 @@ class Test_query08():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"type":0,"insertTimeFrom":"","insertTimeTo":"","content":"","pageDto":{"pageNum":1,"pageSize":10},"recipientInfo":""}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("收信箱获取{}".format(returnMsg))
@@ -1727,7 +1778,7 @@ class Test_query08():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"type":3,"insertTimeFrom":"","insertTimeTo":"","content":"","pageDto":{"pageNum":1,"pageSize":10},"senderInfo":""}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("收信箱获取{}".format(returnMsg))
@@ -1738,7 +1789,7 @@ class Test_query08():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"type":3,"insertTimeFrom":"","insertTimeTo":"","content":"","pageDto":{"pageNum":1,"pageSize":10},"recipientInfo":""}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("发信箱获取{}".format(returnMsg))
@@ -1749,7 +1800,7 @@ class Test_query08():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("进度消息获取{}".format(returnMsg))
@@ -1759,7 +1810,7 @@ class Test_query08():
         url = self.host + "/api/message/msgReceiveSetting/subscribe_list"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A=requests.get(url=url,headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("WEB消息订阅获取{}".format(returnMsg))
@@ -1770,7 +1821,7 @@ class Test_query08():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("短信日志获取{}".format(returnMsg))
@@ -1781,7 +1832,7 @@ class Test_query08():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("邮件日志获取{}".format(returnMsg))
@@ -1792,7 +1843,7 @@ class Test_query08():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("微信日志获取{}".format(returnMsg))
@@ -1810,7 +1861,7 @@ class Test_query09():
                    'Cookie': 'token={}'.format(self.ht_token)}
         '''customerId = 货主id  taskUnitCode= 服务类型   transportPort = 港口id  departure = 行政区id'''
         data = {"customerId":hz_id,"taskUnitCode":"port_container_export_transport","transportPort":gk_id,"departure":xzq_id}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("集装箱出口运输报价获取{}".format(returnMsg))
@@ -1822,7 +1873,7 @@ class Test_query09():
                    'Cookie': 'token={}'.format(self.ht_token)}
         '''customerId = 货主id  taskUnitCode= 服务类型   transportPort = 港口id  departure = 行政区id'''
         data = {"customerId":hz_id,"taskUnitCode":"port_container_import_transport","transportPort":gk_id,"destination":xzq_id}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("集装箱进口运输报价获取{}".format(returnMsg))
@@ -1834,7 +1885,7 @@ class Test_query09():
                    'Cookie': 'token={}'.format(self.ht_token)}
         '''customerId = 货主id  taskUnitCode= 服务类型   transportPort = 港口id  departure = 行政区id'''
         data = {"customerId":hz_id,"taskUnitCode":"bulkcargo_transport","departure":zh_id,"destination":xh_id}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("厢式车运输报价获取{}".format(returnMsg))
@@ -1845,7 +1896,7 @@ class Test_query09():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"tabKey":"all","customerId":hz_id}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("询价管理查询获取{}".format(returnMsg))
@@ -1856,7 +1907,7 @@ class Test_query09():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"tabKey":"all","customerId":hz_id}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("订单管理查询获取{}".format(returnMsg))
@@ -1867,7 +1918,7 @@ class Test_query09():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"tabKey":"all","customerId":hz_id}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("费用查询获取{}".format(returnMsg))
@@ -1878,7 +1929,7 @@ class Test_query09():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"tabKey":"all","customerId":hz_id}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("应付账单查询获取{}".format(returnMsg))
@@ -1889,7 +1940,7 @@ class Test_query09():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"tabKey":"all","customerId":hz_id}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("应收发票查询获取{}".format(returnMsg))
@@ -1900,7 +1951,7 @@ class Test_query09():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"tabKey":"all","customerId":hz_id}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("月账单查询获取{}".format(returnMsg))
@@ -1911,7 +1962,7 @@ class Test_query09():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"tabKey":"all","customerId":hz_id}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("对账单查询获取{}".format(returnMsg))
@@ -1922,7 +1973,7 @@ class Test_query09():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"tabKey":"all","customerId":hz_id}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("收发货人查询获取{}".format(returnMsg))
@@ -1933,7 +1984,7 @@ class Test_query09():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"tabKey":"all","customerId":hz_id,"type":"customer"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("联系人档案查询获取{}".format(returnMsg))
@@ -1944,7 +1995,7 @@ class Test_query09():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"ownerCustomerId":hz_id}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("结算信息档案查询获取{}".format(returnMsg))
@@ -1955,7 +2006,7 @@ class Test_query09():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"customerId":hz_id}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("结算信息档案查询获取{}".format(returnMsg))
@@ -1966,7 +2017,7 @@ class Test_query09():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("Excel报表查询获取{}".format(returnMsg))
@@ -1976,7 +2027,7 @@ class Test_query09():
         url = self.host + "/api/owner/personalCenter/info"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.get(url=url, headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("个人中心查询获取{}".format(returnMsg))
@@ -1987,7 +2038,7 @@ class Test_query09():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"cashType":1,"customerId":hz_id}}
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("账号交易充值记录查询获取{}".format(returnMsg))
@@ -1998,7 +2049,7 @@ class Test_query09():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"cashType":0,"customerId":hz_id}}
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("账号交易提现记录查询获取{}".format(returnMsg))
@@ -2009,7 +2060,7 @@ class Test_query09():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"userRoleType":"user_role_type_customer","userRoleId":hz_id}}
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("咨询投诉查询获取{}".format(returnMsg))
@@ -2020,7 +2071,7 @@ class Test_query09():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("权限管理用户管理查询获取{}".format(returnMsg))
@@ -2030,7 +2081,7 @@ class Test_query09():
         url = self.host + "/api/owner/privilege/dept_roles"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.get(url=url, headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("权限管理角色管理查询获取{}".format(returnMsg))
@@ -2047,7 +2098,7 @@ class Test_query10():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"orderTag":0,"tagKey":"all","supplierId":gys_id}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("集装箱运输获取{}".format(returnMsg))
@@ -2058,7 +2109,7 @@ class Test_query10():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"orderTag":0,"tagKey":"all","supplierId":gys_id}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("厢式车运输获取{}".format(returnMsg))
@@ -2069,7 +2120,7 @@ class Test_query10():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"supplierId":gys_id}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("车辆档案获取{}".format(returnMsg))
@@ -2080,7 +2131,7 @@ class Test_query10():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"supplierId":gys_id}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("司机档案获取{}".format(returnMsg))
@@ -2091,7 +2142,7 @@ class Test_query10():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("excel报表获取{}".format(returnMsg))
@@ -2101,7 +2152,7 @@ class Test_query10():
         url = self.host + "/api/platform/excelReport/planList"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A=requests.get(url=url,headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("订阅计划获取{}".format(returnMsg))
@@ -2112,7 +2163,7 @@ class Test_query10():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"supplierId":gys_id}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("月账单获取{}".format(returnMsg))
@@ -2123,7 +2174,7 @@ class Test_query10():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"supplierId":gys_id}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("基础信息获取{}".format(returnMsg))
@@ -2134,7 +2185,7 @@ class Test_query10():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"userRoleType":"user_role_type_supplier","userRoleId":gys_id}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("咨询投诉获取{}".format(returnMsg))
@@ -2145,7 +2196,7 @@ class Test_query10():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("用户管理获取{}".format(returnMsg))
@@ -2155,7 +2206,7 @@ class Test_query10():
         url = self.host + "/api/owner/privilege/dept_roles"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A=requests.get(url=url,headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print("角色管理获取{}".format(returnMsg))
@@ -2173,7 +2224,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"active":"active_activated","placeName":placeName}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         gk_id =  A.json()["result"]["data"][0]["guid"]  #港口id
@@ -2186,7 +2237,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}  #lx 1是大洲 2是国家 3是省  4是市  5是区  6是街道
         data = {"itemFrom":0,"itemTo":10,"filter":{"districtType":lx,"districtName":name}}  # name是地区名称
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         xzq_id =  A.json()["result"]["data"][0]["guid"]  #行政区id
@@ -2200,7 +2251,7 @@ class Test_Added01():
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"marketPriceType":"customer","taskUnitCode":"port_container_export_transport","level":3,"showLogo":"",
                 "priceType":"price_type_allday","startTime":"2023-03-01","endTime":"2027-03-06","taskUnitTypeName":"集装箱出口运输"}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         bjd_id =  A.json()["result"]["id"]   #报价单id
@@ -2214,7 +2265,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',    #报关订单：custom_transport  海事报关：marine_transport
                    'Cookie': 'token={}'.format(self.ht_token)}    #危险品出口运输：dangerous_cargo_export_transport   厢式车：bulkcargo_transport
         data = {"itemFrom":0,"itemTo":10,"filter":{"taskUnitCode":taskUnitCode}}  # 服务类型 集装箱出口运输：port_container_export_transport   进口：port_container_import_transport
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems =  A.json()["result"]["returnTotalItems"]   #存在是1
@@ -2226,7 +2277,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',    #未启用：status_type_unenabled  已启用：status_type_enabled
                    'Cookie': 'token={}'.format(self.ht_token)}    #已禁用：status_disabled   已生效：status_effective_completed
         data = {"itemFrom":0,"itemTo":10,"filter":{"taskUnitCode":taskUnitCode}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         bjd_id =  A.json()["result"]["data"][0]["id"]   #报价单id
@@ -2239,7 +2290,7 @@ class Test_Added01():
         url = self.host + "/api/platform/cargoOwnerMarket/enable/{}".format(bjd_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A=requests.put(url=url,headers=headers)
+        A =requests.request("PUT",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -2248,7 +2299,7 @@ class Test_Added01():
         url = self.host + "/api/platform/cargoOwnerMarket/disable/{}".format(bjd_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A=requests.put(url=url,headers=headers)
+        A =requests.request("PUT",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -2257,7 +2308,7 @@ class Test_Added01():
         url = self.host + "/api/platform/cargoOwnerMarket/delete/{}".format(bjd_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A=requests.put(url=url,headers=headers)
+        A =requests.request("PUT",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -2279,7 +2330,7 @@ class Test_Added01():
                     "detailList": [
                         {"20GP": "3500"}           #报价
                     ]}]
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # bj_id = A.json()["result"]["data"][0]["id"]   #报价id
@@ -2291,7 +2342,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}  #transportPort 港口id   departure：收货地址id》取街道
         data ={"itemFrom":0,"itemTo":10,"filter":{"transportPort":transportPort,"departure":[departure]}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  #1表示存在
@@ -2303,7 +2354,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}  #transportPort 港口id   departure：收货地址id》取街道
         data ={"itemFrom":0,"itemTo":10,"filter":{"transportPort":transportPort,"departure":[departure]}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         enabledType = A.json()["result"]["data"][0]["enabledType"]  # 报价状态 未启用 enabled_type_unenabled 启用 enabled_type_enabled 禁用 enabled_type_disabled
@@ -2318,7 +2369,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data =[bz_id]
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -2328,7 +2379,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"customerName":hz_name}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         hz_id = A.json()["result"]["data"][0]["id"]   #货主id
@@ -2341,7 +2392,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"customerId":hz_id,"type":"customer"}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]   #1表示存在
@@ -2353,7 +2404,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"customerId":hz_id,"contactName":"测试货主1-联系人1","type":"customer"}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         lxr_name = A.json()["result"]["data"][0]["contactName"]   #联系人名称
@@ -2370,7 +2421,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"customerId":hz_id,"type":"customer","contactName":"货主联系人","contactTelephone":"联系人手机号123456","isDefault":"1"}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -2380,7 +2431,8 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data =[lxr_id]
-        A=requests.put(url=url,headers=headers,data=json.dumps(data))
+        
+        A =requests.request("PUT",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -2390,7 +2442,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"username":jl_name}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"] #存在是1
@@ -2402,7 +2454,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"username":jl_name}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         jl_id = A.json()["result"]["data"][0]["guid"]   #监理id
@@ -2416,7 +2468,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"institutionName":jg_name}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItem = A.json()["result"]["returnTotalItem"] #存在是1
@@ -2428,7 +2480,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"institutionName":jg_name}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         jg_id = A.json()["result"]["data"][0]["guid"]   #组织机构id
@@ -2442,7 +2494,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"institutionCode":bm,"institutionName":jg_name,"customerName":"","supplierName":""}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # jg_id = A.json()["result"]["data"][0]["guid"]   #监理id
@@ -2456,7 +2508,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = [jg_id]
-        A=requests.put(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("PUT",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -2466,7 +2518,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"filter":{"departmentName":"","institutionGuid":jg_id},"itemFrom":0,"itemTo":10}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["result"]
         data=  A.json()["result"]["data"]   #有值就是有部门
@@ -2478,7 +2530,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"institutionGuid":jg_id,"departmentName":bm_name}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["result"]
         return returnMsg
@@ -2488,7 +2540,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"customerName":hz_name}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         hz_id = A.json()["result"]["data"][0]["id"] #货主id
@@ -2502,7 +2554,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"customerId":hz_id,"name":zh_name}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  #1表示存在
@@ -2520,8 +2572,8 @@ class Test_Added01():
                 "customerFactoryRemark":"装卸货注意事项","supervisionRemark":"装卸货注意事项",
                 "remark":"装卸货注意事项","customerFactoryContactList":[{"isDefault":"1",
                 "contactName":"测试","contactTelephone":"152524523524"}]}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
-        print(A.json())
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
         returnMsg = A.json()["returnMsg"]
         zhdw_id = A.json()["result"]["id"]  # 装货单位id
         zhdw_name = A.json()["result"]["name"]  # 装货单位名称
@@ -2544,7 +2596,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"customerId":hz_id,"name":zh_name}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         zhdw_id = A.json()["result"]["data"][0]["id"]  # 装货单位id
@@ -2566,7 +2618,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data =[zhdw_id]
-        A = requests.put(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("PUT",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -2576,7 +2628,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"taskUnitCode":taskUnitCode,"centerName":centerName,"centerType":"operation_group"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         data = A.json()["result"]["data"]   #不存在是[]
@@ -2589,7 +2641,7 @@ class Test_Added01():
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"centerType":"operation_group","isContainer":isContainer,"centerName":centerName,
                "taskUnitCode":[taskUnitCode],"transportPortValue":None,"departureValue":None,"destinationValue":None}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -2599,7 +2651,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"taskUnitCode":taskUnitCode,"centerName":centerName,"centerType":"operation_group"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         gh_zt = A.json()["result"]["data"][0]["statusType"]  #启用：enabled_type_enabled 未启用：enabled_type_unenabled   禁用：enabled_type_disabled
@@ -2612,7 +2664,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data =[gh_id]
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]    #==启用成功
         return returnMsg
@@ -2622,7 +2674,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"taskUnitCode":taskUnitCode,"centerType":"center_type_op"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  #1表示存在
@@ -2634,7 +2686,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"centerType":"center_type_op","isContainer":isContainer,"centerName":"center_type_op_sz","taskUnitCode":[taskUnitCode],"transportPortValue":None,"departureValue":None,"destinationValue":None}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -2644,7 +2696,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"taskUnitCode":taskUnitCode,"centerType":"center_type_op"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  #1表示存在
@@ -2660,7 +2712,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = [jdzx_id]
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -2670,7 +2722,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"taskUnitCode":taskUnitCode,"centerType":"center_type_plan"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  #1表示存在
@@ -2682,7 +2734,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"centerType":"center_type_plan","centerName":"center_type_plan_sz","isContainer":isContainer,"taskUnitCode":[taskUnitCode],"transportPortValue":None,"departureValue":None,"destinationValue":None}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -2692,7 +2744,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"taskUnitCode":taskUnitCode,"centerType":"center_type_plan"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  #1表示存在
@@ -2708,7 +2760,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = [jdzx_id]
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -2718,7 +2770,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom": 0, "itemTo": 10,"filter": {"taskUnitCode": taskUnitCode, "centerName": centerName,"centerType": "center_type_dispatch"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         data1 = A.json()["result"]["data"]  #1表示存在
@@ -2730,7 +2782,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}     #传的是centerName  调度中心
         data ={"centerType":"center_type_dispatch","isContainer":isContainer,"distributionChannel":distributionChannel,"centerName":centerName,"transportPortValue":None,"departureValue":None,"destinationValue":None}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -2740,7 +2792,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"centerName":centerName,"centerType":"center_type_dispatch"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         data = A.json()["result"]["data"]
@@ -2756,7 +2808,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = [jdzx_id]
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -2766,7 +2818,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom": 0, "itemTo": 10,"filter": {"customerId": hz_id, "contractType": contractType}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"] #0
@@ -2778,7 +2830,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom": 0, "itemTo": 10,"filter": {"customerId": hz_id,"contractType": contractType}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]                          #已禁用：status_disabled   已生效：status_effective_completed
         statusType = A.json()["result"]["data"][0]["statusType"]    #状态  未启用：status_type_unenabled  已启用：status_type_enabled
@@ -2791,7 +2843,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"customerId":hz_id,"startTime":"2023-04-14","endTime":"2030-04-15","fileList":[],"contractType":contractType,"balanceCompanyList":[]}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         bj_id = A.json()["result"]["id"]   #报价id
@@ -2802,7 +2854,7 @@ class Test_Added01():
         url = self.host + "/api/platform/cargoOwnerContract/enable/{}".format(bjd_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.put(url=url, headers=headers)
+        A =requests.request("PUT",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -2812,7 +2864,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"filter": {"transportPort": transportPort, "departure": departure, "taskUnitCode":taskUnitCode, "destination": []}, "itemFrom": 0, "itemTo": 10}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         data = A.json()["result"]["data"]   #[] 表示不存在
@@ -2848,7 +2900,7 @@ class Test_Added01():
                     ]
                 }
             ]
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -2858,7 +2910,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"filter": {"transportPort": transportPort, "departure": departure, "taskUnitCode":taskUnitCode, "destination": []}, "itemFrom": 0, "itemTo": 10}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         di_id = A.json()["result"]["data"][0]["id"]   #未启用：enabled_type_unenabled  已启用：enabled_type_enabled
@@ -2872,7 +2924,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = [bj_id]
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -2908,7 +2960,7 @@ class Test_Added01():
                 "isMultipoint":0,
                 # "combinationStreet":combinationStreet  #街道名称
             }
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         bj_je = A.json()["result"][0]["price"]
@@ -2916,7 +2968,7 @@ class Test_Added01():
         # print(bj_je,bj_id)
         return returnMsg,bj_je,bj_id
     '''后台订单录入查询（全部）''' #transportPort 港口id   departure 街道id
-    def test_Added0056(self,hz_id="19b2ccc762484fda99aa28fe7fdea866"):  # 传的是货主id
+    def test_Added0056(self,hz_id="19b2ccc762484fda99aa28fe7fdea866",customerDelegateCode=""):  # 传的是货主id
         url = self.host + "/api/platform/inputOrder/list"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
@@ -2934,10 +2986,11 @@ class Test_Added01():
                         "status_execution_completed",
                         "status_completed"
                     ],
-                    "customerId": hz_id
+                    "customerId": hz_id,
+                    "customerDelegateCode":customerDelegateCode
                 }
             }
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         taskUnitCode = A.json()["result"]["data"][0]["taskUnitCode"] #服务类型
@@ -2956,7 +3009,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"orderStatus":"","orderNumber":dd_hao}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  #分单数量
@@ -2971,7 +3024,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"isSubmit":1,"ownerCarList":[zy_che],"supplierList":[gys],"supplyHallList":[hy_dt]}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -2981,7 +3034,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"supplierName":gys_name}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  #=0表示不存在
@@ -2993,7 +3046,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"maxNumber":20,"filter":""}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]   #Success
         fr_id = A.json()["result"][0]["value"]  #归属法人id
@@ -3006,7 +3059,7 @@ class Test_Added01():
                    'Cookie': 'token={}'.format(self.ht_token)} #自有车 supplier_type_car_owner 运输公司：supplier_type_trailer 个体司机：supplier_type_car_other
         data = {"institutionId":fr_id,"innerInstitutionId":fr_id,"supplierName":gys_name,
                 "supplierType":gyslx,"companyLevel":"company_level_three","balanceCurrency":"CNY","isContract":"","supplierManager":[]}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         gys_id = A.json()["result"]["id"]  #新增供应商id
@@ -3021,7 +3074,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"supplierName":gys_name}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         gys_id = A.json()["result"]["data"][0]["id"]  #新增供应商id
@@ -3036,7 +3089,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"ids":[gys_id],"type":lx}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -3046,7 +3099,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"driverName":sj_name}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  #=0表示不存在
@@ -3059,7 +3112,7 @@ class Test_Added01():
                    'Cookie': 'token={}'.format(self.ht_token)}    #服务类型：集装箱：container_type 厢式车：van_type
         data = {"supplierId":gys_id,"driverName":sj_name,"idCardNumber":"","driverMobilePhone":"151252352482",
                 "isCanRegister":"1","isRoadBridge":"1","serviceType":fulx,"isJobSupervision":"1","isOwner":0}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         lb_id = A.json()["result"]["id"]  #司机档案ID        新增供应商id  未启用：enabled_type_unenabled  启用：enabled_type_enabled   禁用：enabled_type_disabled
@@ -3075,7 +3128,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"driverName":sj_name}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         lb_id = A.json()["result"]["data"][0]["id"]  #司机档案ID        新增供应商id  未启用：enabled_type_unenabled  启用：enabled_type_enabled   禁用：enabled_type_disabled
@@ -3092,7 +3145,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = [lb_id]
-        A = requests.put(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("PUT",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -3102,7 +3155,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"supplierId":gys_id,"carNumber":cp_hao}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  #=0表示不存在
@@ -3116,7 +3169,7 @@ class Test_Added01():
                    'Cookie': 'token={}'.format(self.ht_token)} #operationGroup = 操作区域   服务类型= serviceType  集装箱：container_type 厢式车：van_type
         data = {"supplierId":gys_id,"driverId":sjda_id,"isOwner":1,"operationGroup":cz_qy,
                 "serviceType":fw_lx,"carModeId":"","carNumber":cp_hao,"vehicleIdentificationCode":"test1234567","companyHeaderAddress":""}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         lb_id = A.json()["result"]["id"]  #车辆档案ID        新增供应商id  未启用：enabled_type_unenabled  启用：enabled_type_enabled   禁用：enabled_type_disabled
@@ -3132,7 +3185,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"supplierId":gys_id,"carNumber":cp_hao}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         lb_id = A.json()["result"]["data"][0]["id"]  #车辆档案ID         未启用：enabled_type_unenabled  启用：enabled_type_enabled   禁用：enabled_type_disabled
@@ -3150,7 +3203,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = [lb_id]
-        A = requests.put(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("PUT",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -3160,7 +3213,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom": 0, "itemTo": 10,"filter": {"driverId": sj_id, "mainlandLicensePlateNumber": cp_hao,"pickupTimeFrom":zh_time}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  #=0表示不存在
@@ -3172,7 +3225,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"serviceType":fw_lx,"operationGroup":cz_qy,"pickupTime":tims}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -3182,7 +3235,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom": 0, "itemTo": 10,"filter": {"driverId": sj_id, "mainlandLicensePlateNumber": cp_hao,"pickupTimeFrom":zh_time}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         ccb_id = A.json()["result"]["data"][0]["id"]  #出车表档案id
@@ -3190,6 +3243,7 @@ class Test_Added01():
         isDispatch = A.json()["result"]["data"][0]["isDispatch"]  #是否出车    是1  否 0
         cc_pz = A.json()["result"]["data"][0]["mainlandLicensePlateNumber"]  #车牌号
         # print(ccb_id,cc_zt,isDispatch,cc_pz)
+        print("这个是出车状态：{}".format(cc_zt))
         return returnMsg,ccb_id,cc_zt,isDispatch,cc_pz
     ''' 计划管理》派自有车'''
     def test_Added0075(self,id="f01261b41a854d3eb4ca99837a8cfe9e",driverId="dc7bafe095e24c0ca5e9c5a8f95e3f99",supplierId="4f32d9f6fabb4f5199b09f93284902f9",
@@ -3220,7 +3274,7 @@ class Test_Added01():
                     "carDispatchId":carDispatchId         #出车表档案id
                 }
             ]
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -3230,7 +3284,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"taskUnitCode":fw_lx}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  #=0表示不存在
@@ -3242,7 +3296,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"marketPriceType":"owner_driver","taskUnitCode":fw_lx,"startTime":"2023-04-23","endTime":"2027-04-30","taskUnitTypeName":fw_name}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         bjd_id = A.json()["result"]["id"]   #报价单id
@@ -3255,7 +3309,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"taskUnitCode":fw_lx}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         bjd_id = A.json()["result"]["data"][0]["id"]  #报价单id
@@ -3270,7 +3324,7 @@ class Test_Added01():
         url = self.host + "/api/platform/cargoOwnerMarket/enable/{}".format(bjd_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.put(url=url, headers=headers)
+        A =requests.request("PUT",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -3280,7 +3334,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"transportPort":transportPort,"departure":[departure]}}
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         di_id = A.json()["result"]["data"][0]["id"]  # 未启用：enabled_type_unenabled  已启用：enabled_type_enabled
@@ -3294,7 +3348,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"transportPort":transportPort,"departure":[departure]}}
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  # =0表示不存在
@@ -3307,7 +3361,7 @@ class Test_Added01():
                      'Cookie':'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"orderNumber":dd_hao,"taskUnitCode":lx}}
 
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         dd_id = A.json()["result"]["data"][0]["id"]   #订单id
@@ -3324,7 +3378,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = [ccb_id]
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -3333,7 +3387,7 @@ class Test_Added01():
         url = self.host + "/api/standard/search/car_dispatch?filter=&pickupTime={}&serviceType={}&dispatchGroup=".format(zh_time,fw_lx)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.get(url=url, headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         result = A.json()["result"]
@@ -3346,7 +3400,7 @@ class Test_Added01():
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"chargeStatusArray":["status_check_awaiting","status_check_all_completed_awaiting_upstream",
                                             "status_check_detail_completed","status_check_completed"],"orderNumber":dd_hao}}
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # zd_id = A.json()["result"]["data"][0]["id"]   #账单ID
@@ -3365,7 +3419,7 @@ class Test_Added01():
         url = self.host + "/api/company/portTransport/executionInfo/{}".format(dd_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.get(url=url, headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # zd_id = A.json()["result"]["chargeInfo"][0]["id"]   #账单ID
@@ -3379,7 +3433,7 @@ class Test_Added01():
         url = self.host + "/api/platform/expensesPay/details/{}".format(dd_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.get(url=url, headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # zd_id = A.json()["result"]["costList"][0]["id"]   #账单ID
@@ -3413,7 +3467,7 @@ class Test_Added01():
                     "trailerWeight": 0
                   }
                 ]
-        A = requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -3423,7 +3477,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"taskUnitCode":fw_lx}
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         result = A.json()["result"]["returnTotalItems"]  # 0表示不存在
@@ -3435,7 +3489,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"currentTag":"status_execution","orderNumber":dd_hao,"taskUnitCode":fw_lx}}
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # g_hao = A.json()["result"]["data"][0]["containerNumber"]  #柜号
@@ -3450,7 +3504,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"cancelDispatchType":"cancel_dispatch_type_01","cancelDispatchReason":"测试撤销派自有车","ids":[dd_id]}
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # print(result)
@@ -3460,7 +3514,7 @@ class Test_Added01():
         url = self.host + "/api/company/portTransport/trackNodeList/{}".format(dd_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.get(url=url, headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         data1 = A.json()["result"]
@@ -3476,7 +3530,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"chargeStatusArray":[],"orderNumber":dd_hao,"taskUnitCode":fw_lx}}
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # sj_name = A.json()["result"]["data"][0]["driverName"]  #司机名称
@@ -3495,7 +3549,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = [mx_id]  #账单明细id
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
 
@@ -3506,7 +3560,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = [dd_id]
-        A = requests.put(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("PUT",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
 
@@ -3517,7 +3571,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"status":[],"orderNumber":dd_hao}}
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         data1 = A.json()["result"]["data"]
@@ -3585,7 +3639,7 @@ class Test_Added01():
         data = {"title":title,"detail":[detail]}
 
 
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -3594,7 +3648,7 @@ class Test_Added01():
         url = self.host + "/api/platform/changePay/check/1/{}".format(gd_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.put(url=url, headers=headers)
+        A =requests.request("PUT",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -3642,7 +3696,7 @@ class Test_Added01():
             ]
 
 
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -3652,7 +3706,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"filter":{"taskUnitCode":taskUnitCode,"departure":jd_bm,"destination":[]},"itemFrom":0,"itemTo":10}
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  # 1表示存在
@@ -3706,7 +3760,7 @@ class Test_Added01():
                 "isMultipoint":1,
                 "combinationStreet":"海山街道+海山街道"   #装货街道
             }
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         bj_je = A.json()["result"][0]["price"]
@@ -3719,7 +3773,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"orderStatus":"","orderNumber":dd_hao}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  #分单数量
@@ -3739,7 +3793,7 @@ class Test_Added01():
                 "supplierContactPhone":gys_lxrdh,#供应商联系人电话
                 "supplierId":gys_id  #供应商ID
             }
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -3756,7 +3810,7 @@ class Test_Added01():
                     "type":"supplier"
                 }
             }
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         gys_id = A.json()["result"]["data"][0]["customerId"]["value"]
@@ -3780,7 +3834,7 @@ class Test_Added01():
                     "supplierTransportOrderId":dd_id  #订单ID
                 }
             ]
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -3799,7 +3853,7 @@ class Test_Added01():
                     "changeReason":"测试改派"
                 }
             ]
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -3821,7 +3875,7 @@ class Test_Added01():
             ]
 
 
-        A = requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         data1= A.json()["result"]
@@ -3846,7 +3900,7 @@ class Test_Added01():
             ]
 
 
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -3874,7 +3928,7 @@ class Test_Added01():
                     "chargeType":fy_lx     #费用类型
                 }
             ]
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -3885,7 +3939,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"chargeName":fyx_name}}
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  #存在是1
@@ -3903,7 +3957,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"chargeName":fyx_name}
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -3912,7 +3966,7 @@ class Test_Added01():
         url = self.host + "/api/platform/chargeItem/active/{}".format(fyx_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.put(url=url, headers=headers)
+        A =requests.request("PUT",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -3922,7 +3976,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"isSubmit":isSubmit,"supplierList":[dd_id]}  #supplierList 表示供应商
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -3932,7 +3986,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"taskUnitCode":fy_lx}}
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]
@@ -3956,7 +4010,7 @@ class Test_Added01():
                 "endTime":"2026-05-31",            #有效结束时间
                 "taskUnitTypeName":fy_name  #费用类型
             }
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -3967,7 +4021,7 @@ class Test_Added01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"customerId":hz_id,"tagKey":"all","taskUnitCodeType":"container"}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         returnMsg = A.json()["returnMsg"]
         data1 = A.json()["result"]["data"]
         # print(data1)
@@ -3979,7 +4033,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                     'Cookie':'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"tagKey":"","status":"","orderNumber":dd_hao}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         data1 = A.json()["result"]["data"]
@@ -3994,7 +4048,7 @@ class Test_Added01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"orderStatus":"","orderNumber":dd_hao}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         data1 = A.json()["result"]["data"]
@@ -4005,7 +4059,7 @@ class Test_Added01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"status":"","orderNumber":dd_hao}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         data1 = A.json()["result"]["data"]
@@ -4017,7 +4071,7 @@ class Test_Added01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"orderStatus":"all","orderNumber":dd_hao}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         data1 = A.json()["result"]["data"]
@@ -4028,7 +4082,7 @@ class Test_Added01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data =[dd_id]
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4040,14 +4094,14 @@ class Test_Added01():
         data ={
                 "taskType":"task_type_leave_pickup_container",
                 "taskTypeName":"离开提柜地",
-                "containerNumber":g_hao,
-                "sealNumber":ft_hao,
-                "cabinetWeight":k_gz,
+                "containerNumber":g_hao,  #柜号
+                "sealNumber":ft_hao,  #封条号
+                "cabinetWeight":k_gz, #空柜重
                 "finishTime":time1,        #提柜时间
                 "supplierTransportOrderId":dd_id, #订单ID
                 "id":jd_id   #节点ID
             }
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4057,7 +4111,7 @@ class Test_Added01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
 
-        A = requests.get(url = url,headers = headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         jd_id = A.json()["result"][2]["id"]   #节点ID
         returnMsg = A.json()["returnMsg"]
@@ -4069,7 +4123,7 @@ class Test_Added01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"supervisionName":jl_name}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # # print(A.json())
         # jl_id = A.json()["result"]["data"][0]["id"]   #监理ID   未激活：active_unactivated
         # jl_zt = A.json()["result"]["data"][0]["active"]   #监理状态 激活：active_activated 失效：active_invalid
@@ -4085,7 +4139,7 @@ class Test_Added01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data = [jl_id]
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4104,7 +4158,7 @@ class Test_Added01():
                 "entryTime":"2023-06-01",
                 "route":"transport_line_gd"
             }
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4139,7 +4193,7 @@ class Test_Added01():
                     "supervisionType":"supervision_type_profession"   #监理类型
                 }
             ]
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4150,7 +4204,8 @@ class Test_Added01():
         url = self.host + "/api/proxy/zuul/ict-service/file/upload/document"
         headers = {'Cookie': 'token={}'.format(self.ht_token)}
         file = {"file": open("{}".format(tp_lj), "rb")}
-        A = requests.post(url=url, headers=headers,files=file)
+        # A = requests.post(url=url, headers=headers,files=file)
+        A =requests.request("POST",url,headers=headers,files=file,verify=False)
         # print(A.json())
         tp_id = A.json()["result"]
         returnMsg = A.json()["returnMsg"]
@@ -4178,7 +4233,7 @@ class Test_Added01():
                     }
                 ]
             }
-        A = requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4187,7 +4242,7 @@ class Test_Added01():
         url = self.host + "/api/platform/supervisorManager/auditPass/{}".format(jlyd_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.post(url=url,headers=headers)
+        A =requests.request("POST",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4197,7 +4252,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":500,"filter":{"supplierType":"supplier_type_customs"}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         gys_id = A.json()["result"]["data"][0]["id"]  #新增供应商id
@@ -4212,7 +4267,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"ids":[bbd_id],"supplierId":gys_id,"supplierContact":gys_lxr,"supplierContactPhone":lx_dh}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4222,7 +4277,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"showContent":dd_id}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  # 1 表示存在推送日志
@@ -4251,7 +4306,7 @@ class Test_Added01():
                 "exceptionLocationName":"深圳市",   #异常发生地
                 "relationId":dd_id  #订单id
             }
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4269,7 +4324,7 @@ class Test_Added01():
                     "relationOrderNumber":dd_hao
                 }
             }
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         zt = A.json()["result"]["data"][0]["exceptionLogList"][0]["status"]  #异常状态
         yc_dhao = A.json()["result"]["data"][0]["exceptionCode"]   #异常单号
@@ -4332,7 +4387,7 @@ class Test_Added01():
 
                 ]
             }
-        A = requests.put(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("PUT",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4343,7 +4398,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = [cy_id]
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4352,7 +4407,7 @@ class Test_Added01():
         url = self.host + "/api/platform/expensesReceivable/platform/{}".format(fy_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.get(url=url, headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # zd_id = A.json()["result"]["incomeList"][0]["id"]   #账单ID
@@ -4366,7 +4421,7 @@ class Test_Added01():
         url = self.host + "/api/platform/inputOrder/info/{}".format(fy_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.get(url=url, headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # zd_id = A.json()["result"]["costList"][0]["id"]   #账单ID
@@ -4382,7 +4437,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = [zd_id]
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4392,7 +4447,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = [zd_id]
-        A = requests.put(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("PUT",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4402,7 +4457,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{}}
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         fy_dw = A.json()["result"]["data"][0]["chargeUnit"] #计量单位
@@ -4447,7 +4502,7 @@ class Test_Added01():
                         }
                     ]
                 }
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4458,7 +4513,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"chargeStatusArray":["status_check_all_completed"],"orderNumber":dd_hao}}
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # zd_id = A.json()["result"]["data"][0]["id"]   #账单ID
@@ -4477,7 +4532,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"status":[],"orderNumber":dd_hao}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # gd_id =  A.json()["result"]["data"][0]["id"]
@@ -4491,7 +4546,7 @@ class Test_Added01():
         url = self.host + "/api/platform/changePay/check/0/{}".format(gd_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.put(url=url, headers=headers)
+        A =requests.request("PUT",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4501,7 +4556,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = [zd_id]
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4512,7 +4567,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"orderNumber":dd_hao,"statusType":"status_check_all_completed"}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # zd_id =  A.json()["result"]["data"][0]["id"]
@@ -4527,7 +4582,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = [zd_id]
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4538,7 +4593,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"statusType":"","orderNumber":dd_hao}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # zd_id =  A.json()["result"]["data"][0]["id"]         #已对账：   status_bill_complete
@@ -4554,7 +4609,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = [zd_id]
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4576,7 +4631,7 @@ class Test_Added01():
                     }
                 ]
             }
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4587,7 +4642,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"billNumber":zd_hao}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         data1 = A.json()["result"]["data"]
@@ -4633,7 +4688,7 @@ class Test_Added01():
                     }
                 ]
             }
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
 
@@ -4645,7 +4700,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"cancelDispatchType":"cancel_dispatch_type_01","cancelDispatchReason":"测试撤销派车","ids":[dd_id]}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4655,7 +4710,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"idList":[dd_id]}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4665,7 +4720,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"idList":[dd_id],"cancelType":"cancel_order_reason_001","cancelRemark":"测试取消订单"}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4737,7 +4792,7 @@ class Test_Added01():
                 ]
             }
         ]
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4776,7 +4831,7 @@ class Test_Added01():
             "isMultipoint": 0,
             # "combinationStreet":combinationStreet  #街道名称
         }
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         bj_je = A.json()["result"][0]["price"]
@@ -4795,7 +4850,7 @@ class Test_Added01():
             "editRemark":"修改说明修改说明",
             "content":content
         }
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4804,7 +4859,7 @@ class Test_Added01():
         url = self.host + "/api/login/person"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A=requests.get(url=url,headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         institutionGuid = A.json()["result"]["institutionGuid"]["value"]  #所属租户id
@@ -4816,7 +4871,7 @@ class Test_Added01():
         url = self.host + "/api/platform/inputOrder/info/{}".format(dd_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A=requests.get(url=url,headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         data1 = A.json()["result"]
@@ -4849,7 +4904,7 @@ class Test_Added01():
                 "orderNumber":dd_hao,  #订单号
                 "resultType":1
             }
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4859,7 +4914,7 @@ class Test_Added01():
         url = self.host + "/api/platform/receiveOrder/changeAuditInfo/{}".format(dd_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A = requests.get(url=url,headers=headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg1 = A.json()["returnMsg"]
         result = A.json()["result"]
@@ -4887,7 +4942,7 @@ class Test_Added01():
         url = self.host + "/api/platform/planPortTransport/modifyInfoConfirm/{}".format(customerOrderId)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A=requests.put(url=url,headers=headers)
+        A =requests.request("PUT",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -4930,7 +4985,7 @@ class Test_Added01():
                  "40HQ": "100",
                  "40OT": "100",}  # 报价
                  ]}]
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # bj_id = A.json()["result"]["data"][0]["id"]   #报价id
@@ -4943,7 +4998,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom": 0,"itemTo": 10,"filter": {"transportPort": transportPort, "destination": [departure]}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # di_id = A.json()["result"]["data"][0]["id"]  # 未启用：enabled_type_unenabled  已启用：enabled_type_enabled
@@ -4960,7 +5015,7 @@ class Test_Added01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"customerId":hz_id,"tagKey":"all","taskUnitCodeType":"vanType"}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         returnMsg = A.json()["returnMsg"]
         data1 = A.json()["result"]["data"]
         # print(data1)
@@ -4972,7 +5027,7 @@ class Test_Added01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"departure":[departure]}}
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # di_id = A.json()["result"]["data"][0]["id"]  # 未启用：enabled_type_unenabled  已启用：enabled_type_enabled
@@ -5017,7 +5072,7 @@ class Test_Added01():
                     ]
                 }
             ]
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         # bj_id = A.json()["result"]["data"][0]["id"]   #报价id
@@ -5030,7 +5085,7 @@ class Test_Added01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"tagKey":"all","orderNumber":dd_hao}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems =  A.json()["result"]["returnTotalItems"]  #表示存在
@@ -5059,7 +5114,7 @@ class Test_Added01():
                     "sendEndTime": ""
                 }
             ]
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -5070,7 +5125,7 @@ class Test_Added01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data =[dd_id]
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -5081,7 +5136,7 @@ class Test_Added01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data =[dd_id]
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -5093,7 +5148,7 @@ class Test_Added01():
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"orderNumber":dd_hao}}
 
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         dd_id = A.json()["result"]["data"][0]["id"]  # 订单id
@@ -5223,7 +5278,7 @@ class Test_Added01():
                 "isEnable": "1"
             }
 
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -5236,7 +5291,7 @@ class Test_Added01():
                    'Cookie': 'token={}'.format(self.ht_token)}
         data ={"itemFrom":0,"itemTo":10,"filter":{"customerId":hz_id,"serviceType":fw_lx}}
 
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  #1表示存在
@@ -5249,7 +5304,7 @@ class Test_Added01():
         url = self.host + "/api/platform/customerFileManagement/enable/{}".format(da_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A=requests.put(url=url,headers=headers)
+        A =requests.request("PUT",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -5271,18 +5326,18 @@ class Test_Added01():
                 ]
             }
 
-        A = requests.post(url=url, headers=headers, data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
 
     '''后台文件管理》文件管理查询'''
-    def test_Added0180(self,dd_hao="MCSZ-MCO-20230725-0002"):
+    def test_Added0180(self,dd_hao="MCSZ-MCO-20230818-0006"):
         url = self.host + "/api/platform/fileManagement/list"
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
-        data ={"itemFrom":0,"itemTo":10,"filter":{"orderNumber":dd_hao,"currentTag":""}}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        data ={"itemFrom":0,"itemTo":10,"filter":{"orderNumber":dd_hao,"currentTag":"","insertTimeFrom":tiem3}}
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         data1 = A.json()["result"]["data"]
@@ -5295,7 +5350,7 @@ class Test_Added01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data =[dd_id]
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -5306,7 +5361,7 @@ class Test_Added01():
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
         data =[dd_id]
-        A = requests.put(url = url,headers = headers,data=json.dumps(data))
+        A =requests.request("PUT",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -5316,7 +5371,7 @@ class Test_Added01():
         url = self.host + "/api/platform/changePay/renewal/1/{}".format(zd_id)
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
-        A = requests.get(url = url,headers = headers)
+        A =requests.request("GET",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg =  A.json()["returnMsg"]
         # print(returnMsg)
@@ -5336,20 +5391,221 @@ class Test_Added01():
 
         return returnMsg,data1
 
-
-
     '''EXCEL配置库》模板ID'''
-    def test_Added0184(self,dd_id="2e9173bc33f3483b8caba7b65d242f09"):
-        url = self.host + "/api/platform/excelConfigLib/list"
+    def test_Added0184(self,ht_host="",modelName="询价管理导入-盐田",token="16a5b57b-7883-4453-8fe3-f9963a3c1742:226c6a46-83c7-461d-9ad8-1a85054c25a0"):
+        url = ht_host + "/api/platform/excelConfigLib/list"
         headers = { 'Content-Type': 'application/json',
-                     'Cookie':'token={}'.format(self.ht_token)}
-        data ={"itemFrom":0,"itemTo":10,"modelName":"询价管理导入-盐田"}
-        A = requests.post(url = url,headers = headers,data=json.dumps(data))
+                     'Cookie':'token={}'.format(token)}
+        data ={"itemFrom":0,"itemTo":10,"modelName":modelName}
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         mb_id =  A.json()["result"]["data"][0]["id"]
         # print(mb_id)
         return returnMsg,mb_id
+
+    '''后台获取货主id'''
+    def test_Added0185(self,ht_host,hz_name="毛敏租户测试货主1",token=""):
+        url = ht_host + "/api/platform/customersArchives/list"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(token)}
+        data ={"itemFrom":0,"itemTo":10,"filter":{"customerName":hz_name}}
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        hz_id = A.json()["result"]["data"][0]["id"]   #货主id
+        # kf_id = A.json()["result"]["data"][0]["customerServiceId"]["value"] #客服id
+        # print(hz_id)
+        return returnMsg,hz_id
+    '''后台订单录入查询（全部）''' #transportPort 港口id   departure 街道id
+    def test_Added0186(self,ht_host="",token="",hz_id="19b2ccc762484fda99aa28fe7fdea866"):  # 传的是货主id
+        url = ht_host + "/api/platform/inputOrder/list"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(token)}
+        data = {
+                "itemFrom": 0,
+                "itemTo": 10,
+                "filter": {
+                    "tagKey": "all",
+                    "orderStatus": [
+                        "status_completing",
+                        "status_fall_back_completed",
+                        "status_undo_completed",
+                        "status_execution",
+                        "status_pending",
+                        "status_execution_completed",
+                        "status_completed"
+                    ],
+                    "customerId": hz_id
+                }
+            }
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        taskUnitCode = A.json()["result"]["data"][0]["taskUnitCode"] #服务类型
+        hz_name = A.json()["result"]["data"][0]["customerId"]["title"] #货主名称
+        dd_hao = A.json()["result"]["data"][0]["orderNumber"] #订单号
+        weituo_hao = A.json()["result"]["data"][0]["customerDelegateCode"] #客户委托号
+        # cz_qy = A.json()["result"]["data"][0]["operationGroup"] #操作区域
+        zh_time = A.json()["result"]["data"][0]["pickupTime"] #装货时间
+        data1 = A.json()["result"]["data"][0]
+        # print(taskUnitCode,hz_name,dd_hao,weituo_hao)
+        # print(data1)
+        return returnMsg,taskUnitCode,hz_name,dd_hao,weituo_hao,zh_time,data1
+
+
+
+
+    '''后台订单管理》厢式车运输列表'''
+    def test_Added0187(self,ht_host="",token="",order_number="HC-CO-20230814-0004"):
+        url = ht_host + "/api/platform/receiveOrder/list"
+        headers = { 'Content-Type': 'application/json',
+                     'Cookie':'token={}'.format(token)}
+        data = {"itemFrom":0,"itemTo":10,"filter":{"orderNumber":order_number,"tagKey":"all","taskUnitCodeType":"vanType"}}
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        returnMsg = A.json()["returnMsg"]
+        data1 = A.json()["result"]["data"]
+        # print(data1)
+        return returnMsg,data1
+
+    '''后台订单管理》厢式车运输列表，回退订单'''
+    def test_Added0188(self,ht_host="",token="",order_number="HC-CO-20230814-0004",order_id=""):
+        url = ht_host + "/api/platform/receiveOrderPort/batchRejectFallback"
+        headers = { 'Content-Type': 'application/json',
+                     'Cookie':'token={}'.format(token)}
+        data = [
+                {
+                    "id":order_id,
+                    "orderNumber":order_number,
+                    "rejectOrderType":"reject_order_type_06",
+                    "rejectOrderRemark":"测试回退",
+                    "orderStatus":"status_fall_back_completed"
+                }
+            ]
+        A =requests.request("PUT",url,headers=headers,data=json.dumps(data),verify=False)
+        returnMsg = A.json()["returnMsg"]
+        # print(data1)
+        return returnMsg
+
+    '''后台订单管理》厢式车运输列表，取消订单'''
+    def test_Added0189(self,ht_host="",token="",order_id=""):
+        url = ht_host + "/api/owner/order/revokeSubmit"
+        headers = { 'Content-Type': 'application/json',
+                     'Cookie':'token={}'.format(token)}
+        data = [order_id]
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        returnMsg = A.json()["returnMsg"]
+        # print(data1)
+        return returnMsg
+    '''后台订单管理》通知》邮件日志查询'''
+    def test_Added0190(self,ht_host="http://ict-test.epldcloud.com",token="3e28a307-43ec-47e9-9914-48a87d13514e:bc5d4e89-f82b-4713-8d85-131ff2fde70d",subject="【HC-CO-20230816-0021,AL0-230816141914】已下单"):
+        url = ht_host + "/api/system/sendMessageByEmail/list"
+        headers = { 'Content-Type': 'application/json',
+                     'Cookie':'token={}'.format(token)}
+        data = {"itemFrom":0,"itemTo":10,"filter":{"subject":subject}}
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        returnMsg = A.json()["returnMsg"]
+        data1 = A.json()["result"]["data"]
+        # print(A.json())
+        returnTotalItems = A.json()["result"]["returnTotalItems"]  #1表示有
+        return returnMsg,returnTotalItems,data1
+
+    '''后台订单管理》获取附件ID'''
+    def test_Added0191(self,ht_host="http://ict-test.epldcloud.com",token="3e28a307-43ec-47e9-9914-48a87d13514e:bc5d4e89-f82b-4713-8d85-131ff2fde70d",Attachment_neme="55e29a3b87ef45dbbe745c4e621b2331"):
+        url = ht_host + "/api/standard/download/{}".format(Attachment_neme)
+        headers = { 'Content-Type': 'application/json',
+                     'Cookie':'token={}'.format(token)}
+
+        A =requests.request("GET",url,headers=headers,verify=False)
+        returnMsg = A.json()["returnMsg"]
+        # print(A.json())
+        data1 =  A.json()["result"]
+        C= data1[Attachment_neme]
+        Attachment_id = C[14:46]
+        # print(fj_id)
+
+        return returnMsg,Attachment_id
+
+    '''后台订单管理》附件下载'''
+    def test_Added0192(self,ht_host,token,Attachment_id,save_path):
+        url = ht_host + "/api/proxy/zuul/file-center-service/file/download/{}".format(Attachment_id)
+        headers = {'Cookie':'token={}'.format(token)}
+
+        A =requests.request("GET",url,headers=headers,verify=False)
+        # returnMsg = A.json()["returnMsg"]
+        # print(A)  # <Response [200]>
+        # 保存路径+名称  D:\work\xiangmu\test_ICT_api\Test_data\inquiry_document\报价单111
+        with open("{}".format(save_path), "wb") as code:
+            code.write(A.content)
+        return A
+
+
+    ''' 应收费用制作查询费用信息>待完成页签'''
+    def test_Added0193(self,ht_host,token,order_number="MCSZ-MCO-20230615-0001"):
+        url = ht_host + "/api/platform/expensesReceivable/list"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(token)}
+        data = {"itemFrom":0,"itemTo":10,"filter":{"chargeStatusArray":["status_check_awaiting","status_check_all_completed_awaiting_upstream",
+                                            "status_check_detail_completed","status_check_completed"],"orderNumber":order_number}}
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        # zd_id = A.json()["result"]["data"][0]["id"]   #账单ID
+        # dd_hao = A.json()["result"]["data"][0]["orderNumber"]    #订单号    明细已审核：status_check_completed
+        # zd_zt = A.json()["result"]["data"][0]["chargeStatus"]    #账单状态  待审核：status_check_awaiting  一整审：status_check_all_completed
+        # cp_hao = A.json()["result"]["data"][0]["mainlandLicensePlateNumber"]  #车牌号
+        # js_dw = A.json()["result"]["data"][0]["supplierName"]  #结算单位
+        # js_je = A.json()["result"]["data"][0]["inComeAmountTotal"]  #结算金额  应收合计
+        # sj_name = A.json()["result"]["data"][0]["driverName"]  #司机姓名
+        data1 = A.json()["result"]["data"]
+        # print(zd_id)
+        return returnMsg,data1
+
+
+    ''' 订单管理>厢式车》批量跟新货物信息'''
+    def test_Added0194(self,ht_host,token,order_number="MCSZ-MCO-20230615-0001",planWeight="",planVolume="",
+                       planGoodsNumber="", planPiecesNumber="",weight="",volume="",goodsNumber="",piecesNumber="",order_id=""):
+        url = ht_host + "/api/platform/receiveOrder/goodsInfoBatch"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(token)}
+        data = [
+                {
+                    "orderNumber":order_number,  #订单号
+                    "planWeight":planWeight,  #计划重量
+                    "planVolume":planVolume,   #计划体积
+                    "planGoodsNumber":planGoodsNumber,  #计划箱数
+                    "planPiecesNumber":planPiecesNumber, #计划件数
+                    "weight":weight,    #实际重量
+                    "volume":volume,     #实际体积
+                    "goodsNumber":goodsNumber,   #实际箱数
+                    "piecesNumber":piecesNumber,   #实际件数
+                    "id":order_id  #订单id
+                }
+            ]
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        print(A.json())
+        returnMsg = A.json()["returnMsg"]
+
+        return  returnMsg
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5478,7 +5734,7 @@ class Test_Added01():
                 ]
             }
         ]
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return  returnMsg
@@ -5638,7 +5894,7 @@ class Test_Added01():
                     ]
                 }
             ]
-        A = requests.post(url=url, headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -5763,7 +6019,7 @@ class Test_Added01():
                 ]
             }
         ]
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return  returnMsg
@@ -5883,7 +6139,7 @@ class Test_Added01():
                     "orderFromTag":1
                 }
             ]
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return  returnMsg
@@ -5897,20 +6153,436 @@ class Shipperapi():
         self.host = long.hz_host
         self.headers = long.ht_headers
         self.hz_token = Test_login().Test_login002()
+        self.hz_token_FBA = Test_login().Test_login005()
+
     '''询价导入》'''
-    def test_Added001(self,mb_id="aadaba98a5684432b0dbed74d19ee439",wj_name="AL0.xlsm",wj_dz="D:\work\AL0.xlsm"):
-        url = self.host + "/api/proxy/zuul/integration-service/excelModel/importExcelContent?id={}".format(mb_id)  #模板ID aadaba98a5684432b0dbed74d19ee439
-        headers = {  'Cookie':'token={}'.format(self.hz_token)}
+    def test_Added001(self,hz_host="",mb_id="aadaba98a5684432b0dbed74d19ee439",wj_name="AL0.xlsm",wj_dz="D:\work\AL0.xlsm",token="3e28a307-43ec-47e9-9914-48a87d13514e:067f7dbf-ee44-4d29-9d60-d25acb2ac61b"):
+        url = hz_host + "/api/proxy/zuul/integration-service/excelModel/importExcelContent?id={}".format(mb_id)  #模板ID aadaba98a5684432b0dbed74d19ee439
+        headers = {  'Cookie':'token={}'.format(token)}
         # 上传文件的参数
         filename = wj_name    #模板名称
         file_path = r"{}".format(wj_dz) #模板地址
         files = {'file': (filename, open("{}".format(file_path),'rb'))}  # 重点：上传文件请求数据。
         # print(files)
-        A = requests.post(url = url,files=files ,headers= headers)
+        # A = requests.post(url = url,files=files ,headers= headers)
+        A =requests.request("POST",url,headers=headers,files=files ,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
-
         return  returnMsg
+    '''个人信息》'''
+    def test_Added002(self,hz_host="",token="3e28a307-43ec-47e9-9914-48a87d13514e:067f7dbf-ee44-4d29-9d60-d25acb2ac61b"):
+        url = hz_host + "/api/login/person"
+        headers = {  'Cookie':'token={}'.format(token)}
+
+        A =requests.request("GET",url,headers=headers,verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        receiveEmail = A.json()["result"]["receiveEmail"]  #获取配置发送邮箱
+
+        receiveEmail = receiveEmail.split(",")  #讲邮箱字符串拆为字典
+        return  returnMsg
+    '''询价管理列表查询》'''
+    def test_Added003(self,hz_host="",hz_id="e0fe8ce1d0c6430cbeec69533a8c7760",xj_dh="AL0-T202308111455",token="3e28a307-43ec-47e9-9914-48a87d13514e:451a984c-c4f4-4dfd-85b2-e20cd3ed84cc"):
+        url = hz_host + "/api/owner/searchPriceManager/list"
+        headers = { 'Content-Type': 'application/json',
+                    'Cookie':'token={}'.format(token)}
+        data = {"itemFrom":0,"itemTo":10,"filter":{"tabKey":"all","customerId":hz_id,"customerDelegateCode":xj_dh}}
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        returnTotalItems =  A.json()["result"]["returnTotalItems"]  #数量
+        data1 = A.json()["result"]["data"]
+        return  returnMsg,returnTotalItems,data1
+
+    '''上传附件>获取图片ID'''
+    def test_Added004(self,hz_host="",tp_lj="",token="",):
+        url = hz_host + "/api/proxy/zuul/ict-service/file/upload/document"
+        headers = {'Cookie': 'token={}'.format(token)}
+        file = {"file": open("{}".format(tp_lj), "rb")}
+        # A = requests.post(url=url, headers=headers,files=file)
+        A =requests.request("POST",url,headers=headers,files=file,verify=False)
+        # print(A.json())
+        tp_id = A.json()["result"]
+        returnMsg = A.json()["returnMsg"]
+        # print(tp_id)
+        return tp_id,returnMsg,url
+
+    '''询价管理，确认上传附件'''
+    def test_Added005(self,hz_host="http://ict-test.epldcloud.com",token="3e28a307-43ec-47e9-9914-48a87d13514e:697ee057-de8d-480a-a4a5-85466c2bcbf3",id="1690966185697406976",tp_name="2.02 MB.JPG",tp_id="84d59f9826054832a6cf818013246e87"):  #询价单id
+        url = hz_host + "/api/owner/searchPriceManager/upload"
+        headers =  { 'Content-Type': 'application/json',
+                    'Cookie':'token={}'.format(token)}
+        data = {
+                "id":id,  #订单id
+                "otherFile":[
+                    {
+                        "fileFormat":"id",
+                        "fileName":tp_name, #图片名称
+                        "fileUrl":tp_id #图片id
+                    }
+                ]
+            }
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+
+    '''询价管理，按推荐报价生成'''
+    def test_Added006(self,hz_host="",token="",id=""): #询价单id
+        url = hz_host + "/api/owner/searchPriceManager/recommend"
+        headers =  { 'Content-Type': 'application/json',
+                    'Cookie':'token={}'.format(token)}
+        data =[id]
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+
+    '''询价管理，订单详情页'''
+    def test_Added007(self,hz_host=hz_host_FBA,token="3e28a307-43ec-47e9-9914-48a87d13514e:86c85b49-d3f3-4ec3-aa63-2741c3d38374",id="1691253123336155136"): #询价单id
+        url = hz_host + "/api/owner/searchPriceManager/info/{}".format(id)
+        headers = { 'Content-Type': 'application/json',
+                    'Cookie':'token={}'.format(token)}
+        A =requests.request("GET",url,headers=headers,verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        data1 = A.json()["result"]
+        # print(data1)
+        # get_k(data1)
+        # print(get_k(data1))
+        # print(data1["customerDelegateCode"])
+        # alo = data1["customerDelegateCode"]+data1["customerDelegateCode"]
+        # print(str(alo))
+        # print(alo[0:17],alo[18:34])
+        # print("{},{}".format(data1["customerDelegateCode"],data1["customerDelegateCode"]))
+        # print(data1)
+        # data1.update([('ltlFtlType', '111')])
+        # print(data1)
+
+        return returnMsg,data1
+    '''询价管理，编辑》立即下单'''
+    def test_Added008(self,hz_host="",token="",data1=""): #
+        url = hz_host + "/api/owner/searchPriceManager/submit"
+        headers =  { 'Content-Type': 'application/json',
+                    'Cookie':'token={}'.format(token)}
+        data =data1
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        data1 = A.json()["result"]
+        return returnMsg,data1
+    '''询价管理，合并及生成订单'''
+    def test_Added009(self,hz_host="http://ict-test.epldcloud.com",token="3e28a307-43ec-47e9-9914-48a87d13514e:64592645-a11c-4514-972a-4d2d00f3441a",data1=""):
+        url = hz_host + "/api/owner/searchPriceManager/mergeSubmit"
+        headers =  { 'Content-Type': 'application/json',
+                    'Cookie':'token={}'.format(token)}
+        # data ={
+        #     "customerId":"e0fe8ce1d0c6430cbeec69533a8c7760",
+        #     "taskUnitTypeName":"厢式车运输",
+        #     "taskUnitCode":"bulkcargo_transport",
+        #     "pickupTime":"2023-08-16 14:00:00",
+        #     "goodsName":"eva case",  #商品名称
+        #     "isTailboard":0,
+        #     "isStack":0,
+        #     "customerDelegateCode":"AL0-230815104540,AL0-230815104530",  #对应的客户委托号
+        #     "goodsNumber":8,   #箱数
+        #     "piecesNumber":160,  #件数
+        #     "volume":10,  #体积
+        #     "weight":28,  #毛重
+        #     "netWeight":20,  #货物总净重
+        #     "goodsTotalAmount":960, #货物总价(
+        #     "palletsSize":"",
+        #     "priceInfoList":{    #报价信息
+        #         "ltl":[
+        #             {
+        #                 "isMain":1,
+        #                 "price":30,
+        #                 "number":10,
+        #                 "amount":300,
+        #                 "chargeItemId":"charge_item_003",
+        #                 "chargeItemName":"运费",
+        #                 "currency":"CNY",
+        #                 "chargeUnit":"charge_unit_198",
+        #                 "customerPricePropertyId":"647d482be4b04995f497e0c2",
+        #                 "minCost":3,
+        #                 "minChargeUnit":"charge_unit_2908",
+        #                 "weightPrice":30,
+        #                 "volumePrice":30,
+        #                 "transitTime":12
+        #             }
+        #         ],
+        #         "ftl":[
+        #             {
+        #                 "isMain":1,
+        #                 "price":310,
+        #                 "number":1,
+        #                 "amount":310,
+        #                 "chargeItemId":"charge_item_003",
+        #                 "chargeItemName":"运费",
+        #                 "currency":"CNY",
+        #                 "chargeUnit":"charge_unit_410",
+        #                 "customerPricePropertyId":"647d482be4b04995f497e0c2",
+        #                 "minCost":3,
+        #                 "minChargeUnit":"charge_unit_2908",
+        #                 "weightPrice":30,
+        #                 "volumePrice":30,
+        #                 "isContainer":0,
+        #                 "transitTime":12
+        #             }
+        #         ]
+        #     },
+        #     "carModeId":"3T",
+        #     "ftlAmount":310,
+        #     "ltlAmount":300,
+        #     "currency":"CNY",
+        #     "ltlFtlType":"LTL",
+        #     "otherFile":[
+        #         {
+        #             "fileUrl":"55771afc2fb8463fa16b0a1243f35b4d",
+        #             "fileName":"2.02 MB.jpg",
+        #             "fileFormat":"id"
+        #         },
+        #         {
+        #             "fileUrl":"de0da97ef0d3456386c2a6a8576ad94a",
+        #             "fileName":"2.02 MB.jpg",
+        #             "fileFormat":"id"
+        #         }
+        #     ],
+        #     "contractId":"379e7aaa7bec42cfa9240644726dbf41",
+        #     "priceRemark":"FTL报价(FTL Quotation): 运费(freight)310CNY LTL报价(LTL Quotation): 运费(freight)300CNY 单价(Unit Price): 30CNY 体积(Volume): 10CBM 重泡货比例 1000KGS=3.5CBM，二者取最大值计算运费",
+        #     "balanceCompany":"23d80071fcb543fbab0c687024b14bc2",
+        #     "minPerShipment":3,
+        #     "transitTime":12,
+        #     "ftlTransitTime":12,
+        #     "ltlPrice":30,
+        #     "minCost":3,
+        #     "minChargeUnit":"charge_unit_2908",
+        #     "weightPrice":30,
+        #     "volumePrice":30,
+        #     "sequence":1,
+        #     "departureCity":"4",
+        #     "departureArea":"6",
+        #     "departure":"389",
+        #     "destinationCity":"4",
+        #     "destinationArea":"5",
+        #     "destination":"397",
+        #     "mergeList":[
+        #         {
+        #             "sequence":0,
+        #             "id":"1691279964520361984"
+        #         },
+        #         {
+        #             "sequence":1,
+        #             "id":"1691279925504946176"
+        #         }
+        #     ]
+        # }
+        data = data1
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        data1 = A.json()["result"]
+        return returnMsg,data1
+
+    '''询价管理，合并保存订单'''
+    def test_Added010(self,hz_host="http://ict-test.epldcloud.com",token="3e28a307-43ec-47e9-9914-48a87d13514e:64592645-a11c-4514-972a-4d2d00f3441a",data1=""):
+        url = hz_host + "/api/owner/searchPriceManager/mergeSave"
+        headers =  { 'Content-Type': 'application/json',
+                    'Cookie':'token={}'.format(token)}
+        # data ={
+        #     "customerId":"e0fe8ce1d0c6430cbeec69533a8c7760",
+        #     "taskUnitTypeName":"厢式车运输",
+        #     "taskUnitCode":"bulkcargo_transport",
+        #     "pickupTime":"2023-08-16 14:00:00",
+        #     "goodsName":"eva case",  #商品名称
+        #     "isTailboard":0,
+        #     "isStack":0,
+        #     "customerDelegateCode":"AL0-230815104540,AL0-230815104530",  #对应的客户委托号
+        #     "goodsNumber":8,   #箱数
+        #     "piecesNumber":160,  #件数
+        #     "volume":10,  #体积
+        #     "weight":28,  #毛重
+        #     "netWeight":20,  #货物总净重
+        #     "goodsTotalAmount":960, #货物总价(
+        #     "palletsSize":"",
+        #     "priceInfoList":{    #报价信息
+        #         "ltl":[
+        #             {
+        #                 "isMain":1,
+        #                 "price":30,
+        #                 "number":10,
+        #                 "amount":300,
+        #                 "chargeItemId":"charge_item_003",
+        #                 "chargeItemName":"运费",
+        #                 "currency":"CNY",
+        #                 "chargeUnit":"charge_unit_198",
+        #                 "customerPricePropertyId":"647d482be4b04995f497e0c2",
+        #                 "minCost":3,
+        #                 "minChargeUnit":"charge_unit_2908",
+        #                 "weightPrice":30,
+        #                 "volumePrice":30,
+        #                 "transitTime":12
+        #             }
+        #         ],
+        #         "ftl":[
+        #             {
+        #                 "isMain":1,
+        #                 "price":310,
+        #                 "number":1,
+        #                 "amount":310,
+        #                 "chargeItemId":"charge_item_003",
+        #                 "chargeItemName":"运费",
+        #                 "currency":"CNY",
+        #                 "chargeUnit":"charge_unit_410",
+        #                 "customerPricePropertyId":"647d482be4b04995f497e0c2",
+        #                 "minCost":3,
+        #                 "minChargeUnit":"charge_unit_2908",
+        #                 "weightPrice":30,
+        #                 "volumePrice":30,
+        #                 "isContainer":0,
+        #                 "transitTime":12
+        #             }
+        #         ]
+        #     },
+        #     "carModeId":"3T",
+        #     "ftlAmount":310,
+        #     "ltlAmount":300,
+        #     "currency":"CNY",
+        #     "ltlFtlType":"LTL",
+        #     "otherFile":[
+        #         {
+        #             "fileUrl":"55771afc2fb8463fa16b0a1243f35b4d",
+        #             "fileName":"2.02 MB.jpg",
+        #             "fileFormat":"id"
+        #         },
+        #         {
+        #             "fileUrl":"de0da97ef0d3456386c2a6a8576ad94a",
+        #             "fileName":"2.02 MB.jpg",
+        #             "fileFormat":"id"
+        #         }
+        #     ],
+        #     "contractId":"379e7aaa7bec42cfa9240644726dbf41",
+        #     "priceRemark":"FTL报价(FTL Quotation): 运费(freight)310CNY LTL报价(LTL Quotation): 运费(freight)300CNY 单价(Unit Price): 30CNY 体积(Volume): 10CBM 重泡货比例 1000KGS=3.5CBM，二者取最大值计算运费",
+        #     "balanceCompany":"23d80071fcb543fbab0c687024b14bc2",
+        #     "minPerShipment":3,
+        #     "transitTime":12,
+        #     "ftlTransitTime":12,
+        #     "ltlPrice":30,
+        #     "minCost":3,
+        #     "minChargeUnit":"charge_unit_2908",
+        #     "weightPrice":30,
+        #     "volumePrice":30,
+        #     "sequence":1,
+        #     "departureCity":"4",
+        #     "departureArea":"6",
+        #     "departure":"389",
+        #     "destinationCity":"4",
+        #     "destinationArea":"5",
+        #     "destination":"397",
+        #     "mergeList":[
+        #         {
+        #             "sequence":0,
+        #             "id":"1691279964520361984"
+        #         },
+        #         {
+        #             "sequence":1,
+        #             "id":"1691279925504946176"
+        #         }
+        #     ]
+        # }
+        data = data1
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        data1 = A.json()["result"]
+        return returnMsg,data1
+
+
+
+    '''询价管理，合并询价单》报价'''
+    def test_Added011(self,hz_host,token,customerId,pickupTime,departureList,departureAreaList,destinationList,
+                      destinationAreaList,departureCityList,consigneeCityList,balanceCompany,departureAddressList,weight,volume,isTailboard):
+        url = hz_host + "/api/owner/searchPriceManager/priceMultiple"
+        headers =  { 'Content-Type': 'application/json',
+                    'Cookie':'token={}'.format(token)}
+        data ={
+                "customerId":customerId, #货主id
+                "pickupTime":pickupTime, #装货时间
+                "departureList":[
+                    departureList
+                ],  #装货街道id
+                "departureAreaList":[
+                    departureAreaList
+                ],  #装货区id
+                "destinationList":[
+                    destinationList
+                ],#卸货街道id
+                "destinationAreaList":[
+                    destinationAreaList
+                ],#卸货区
+                "departureCityList":[
+                    departureCityList
+                ],
+                "consigneeCityList":[
+                    consigneeCityList
+                ],#卸货市
+                "weight":weight, #毛重
+                "volume":volume, #体积
+                "isTailboard":isTailboard, #是否需要尾板 ,
+                "balanceCompany":balanceCompany, #结算单位订单详情页取  balanceCompany
+                "departureAddressList":[
+                    departureAddressList
+                ]#装货详细地址
+            }
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        data1 = A.json()["result"]
+        return returnMsg,data1
+
+
+    '''询价管理》取消合并'''
+    def test_Added012(self,hz_host="",token="",order_id=""): #
+        url = hz_host + "/api/owner/searchPriceManager/cancel/{}".format(order_id)
+        headers =  { 'Content-Type': 'application/json',
+                    'Cookie':'token={}'.format(token)}
+        A =requests.request("POST",url,headers=headers,verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+    '''订单管理》列表查询'''
+    def test_Added013(self,hz_host="",token="",customerId="e0fe8ce1d0c6430cbeec69533a8c7760",orderNumber="HC-CO-20230815-0056"): #
+        url = hz_host + "/api/owner/order/list"
+        headers =  { 'Content-Type': 'application/json',
+                    'Cookie':'token={}'.format(token)}
+        data = {"itemFrom":0,"itemTo":10,"filter":{"tagKey":"all","customerId":customerId,"orderNumber":orderNumber}}
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        data1 = A.json()["result"]["data"]
+        return returnMsg,data1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5929,7 +6601,7 @@ class Test_transport_company01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"orderTag":1,"tagKey":"all","supplierId":gys_id,"orderNumber":dd_hao}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         dd_hao = A.json()["result"]["data"][0]["orderNumber"]
@@ -5941,7 +6613,7 @@ class Test_transport_company01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = [dd_id]
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -5951,7 +6623,7 @@ class Test_transport_company01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"driverName":siji_name,"supplierId":gys_id}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]   #0表示不存在
@@ -5969,7 +6641,7 @@ class Test_transport_company01():
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"supplierId":gys_id,"driverName":shiji_name,"idCardNumber":"123456789",
                 "driverMobilePhone":siji_dh,"isCanRegister":1,"otherRemark":shiji_name,"isOwner":0}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -5979,7 +6651,7 @@ class Test_transport_company01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = [siji_id]
-        A=requests.put(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("PUT",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -5990,7 +6662,7 @@ class Test_transport_company01():
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"supplierId":gys_id,"isOwner":0,"carModeId":"10T","carNumber":c_pai,
                 "driverId":siji_id,"remark":"测试车辆"}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -6000,7 +6672,7 @@ class Test_transport_company01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"carNumber":c_pai,"supplierId":gys_id}}
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]   #0表示不存在
@@ -6016,7 +6688,7 @@ class Test_transport_company01():
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = [cl_id]
-        A=requests.put(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("PUT",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -6037,7 +6709,7 @@ class Test_transport_company01():
                     "containerNumber":""
                 }
             ]
-        A=requests.post(url=url,headers=headers,data=json.dumps(data))
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -6047,7 +6719,7 @@ class Test_transport_company01():
         url = self.host + "/api/company/portTransport/revokeCar/{}".format(dd_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
-        A=requests.post(url=url,headers=headers)
+        A =requests.request("POST",url,headers=headers,verify=False)
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         return returnMsg
@@ -6059,8 +6731,11 @@ class Test_transport_company01():
 
 
 if __name__ == '__main__':
-    run=Shipperapi()
-    run.test_Added001()
+    run=Test_Added01()  # 后台
+    # run.test_Added0056()
 
-    # run=Test_transport_company01()
-    # run.test_transport0010()
+    # run2 = Test_login()
+    # run2.Test_login005()
+
+    run1=Shipperapi()  #货主
+    run1.test_Added007()
