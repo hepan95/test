@@ -27,18 +27,20 @@ class RestClient:
 
     def request(self, url, method, **kwargs):
         self.request_log(url, method, **kwargs)
-        if method == "GET":
-            response = requests.get(self.api_root_url + url, **kwargs)
-            return process_response(response)
-            # return requests.get(self.api_root_url + url, **kwargs)
-        if method == "POST":
-            response = requests.post(self.api_root_url + url, **kwargs)
-            return process_response(response)
-            # return requests.post(self.api_root_url + url, **kwargs)
-        if method == "PUT":
-            return requests.put(self.api_root_url + url, **kwargs)
-        if method == "DELETE":
-            return requests.delete(self.api_root_url + url, **kwargs)
+        # if method == "GET":
+        #     response = requests.get(self.api_root_url + url, **kwargs)
+        #     return process_response(response)
+        #     # return requests.get(self.api_root_url + url, **kwargs)
+        # if method == "POST":
+        #     response = requests.post(self.api_root_url + url, **kwargs)
+        #     return process_response(response)
+        #     # return requests.post(self.api_root_url + url, **kwargs)
+        # if method == "PUT":
+        #     return requests.put(self.api_root_url + url, **kwargs)
+        # if method == "DELETE":
+        #     return requests.delete(self.api_root_url + url, **kwargs)
+        response = requests.request(method, self.api_root_url + url, **kwargs)
+        return process_response(response)
 
     def request_log(self, url, method, **kwargs):
         data = dict(**kwargs).get("data")
