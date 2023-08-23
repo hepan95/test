@@ -12,7 +12,7 @@ import time
 
 import openpyxl
 import xlrd
-from imbox import Imbox
+# from imbox import Imbox
 # from datetime import datetime
 
 class Common_page():
@@ -143,31 +143,31 @@ class Common_page():
             # print(fujian_path_list)
         return fujian_path_list
 
-    '''qq邮箱获取，下载附件'''
-    def doMain(self,id='1044726725@qq.com', password="fndwnamwwtlgbejf",xj_dh="AL0-T202308111517"):
-        #  Imbox(服务器,邮箱用户名,密码,SSL加密) password 是认证码，非密码：由QQ邮箱服务生成
-        with Imbox('imap.qq.com', id, password, ssl=True) as imbox:
-            all_inbox_messages = imbox.messages()  # 获取全部邮件
-            # email_list = email_server.messages(unread=True)  # 未读邮件
-            # read_inbox_messages = self.email_server.messages(unread=False)  # 已读邮件
-            # flagged_inbox_messages = self.email_server.messages(flagged=True)  # 红旗标记邮件
-            i = 0
-            for uid, message in all_inbox_messages:
-                i += 1
-                if i > 150:
-                    print('test finish')
-                    break
-                # imbox.mark_seen(uid)   # 标记为已读
-                # imbox.delete(uid)  # 删除
-                # print(message.subject)  # 邮件主题
-                # print(message.sent_from)  # 发件人
-                # print(message.sent_to)  # 收件人
-                # print(message.date)  # 发送日期
-                # print(message.body['plain']) # 邮件文本格式正文
-                # print(message.body['html']) # html格式正文
-
-                if message.subject == "{}询价结果".format(xj_dh):  # 如果邮件主题等于
-                    Common_page().save_attachments(message.attachments)
+    # '''qq邮箱获取，下载附件'''
+    # def doMain(self,id='1044726725@qq.com', password="fndwnamwwtlgbejf",xj_dh="AL0-T202308111517"):
+    #     #  Imbox(服务器,邮箱用户名,密码,SSL加密) password 是认证码，非密码：由QQ邮箱服务生成
+    #     with Imbox('imap.qq.com', id, password, ssl=True) as imbox:
+    #         all_inbox_messages = imbox.messages()  # 获取全部邮件
+    #         # email_list = email_server.messages(unread=True)  # 未读邮件
+    #         # read_inbox_messages = self.email_server.messages(unread=False)  # 已读邮件
+    #         # flagged_inbox_messages = self.email_server.messages(flagged=True)  # 红旗标记邮件
+    #         i = 0
+    #         for uid, message in all_inbox_messages:
+    #             i += 1
+    #             if i > 150:
+    #                 print('test finish')
+    #                 break
+    #             # imbox.mark_seen(uid)   # 标记为已读
+    #             # imbox.delete(uid)  # 删除
+    #             # print(message.subject)  # 邮件主题
+    #             # print(message.sent_from)  # 发件人
+    #             # print(message.sent_to)  # 收件人
+    #             # print(message.date)  # 发送日期
+    #             # print(message.body['plain']) # 邮件文本格式正文
+    #             # print(message.body['html']) # html格式正文
+    #
+    #             if message.subject == "{}询价结果".format(xj_dh):  # 如果邮件主题等于
+    #                 Common_page().save_attachments(message.attachments)
 
     '''读取excle表格'''
     import warnings
@@ -225,33 +225,33 @@ class Common_page():
         # 保存写入数据后的文件到原文件路径
         write_data.save(file_path)
         # print(write_data)
-
-        '''qq邮箱获取，下载附件'''
-
-    def doMain1(self, id='hepan@hercules-logistics.com', password="j43zFLnpzAYHB8LU", xj_dh="AL0-T202308111517"):
-        #  Imbox(服务器,邮箱用户名,密码,SSL加密) password 是认证码，非密码：由QQ邮箱服务生成
-        with Imbox('imap.qq.com', id, password, ssl=True) as imbox:
-            all_inbox_messages = imbox.messages()  # 获取全部邮件
-            # email_list = email_server.messages(unread=True)  # 未读邮件
-            # read_inbox_messages = self.email_server.messages(unread=False)  # 已读邮件
-            # flagged_inbox_messages = self.email_server.messages(flagged=True)  # 红旗标记邮件
-            i = 0
-            for uid, message in all_inbox_messages:
-                i += 1
-                if i > 150:
-                    print('test finish')
-                    break
-                # imbox.mark_seen(uid)   # 标记为已读
-                # imbox.delete(uid)  # 删除
-                print(message.subject)  # 邮件主题
-                # print(message.sent_from)  # 发件人
-                # print(message.sent_to)  # 收件人
-                # print(message.date)  # 发送日期
-                # print(message.body['plain']) # 邮件文本格式正文
-                # print(message.body['html']) # html格式正文
-
-                if message.subject == "{}询价结果".format(xj_dh):  # 如果邮件主题等于
-                    Common_page().save_attachments(message.attachments)
+    #
+    #     '''qq邮箱获取，下载附件'''
+    #
+    # def doMain1(self, id='hepan@hercules-logistics.com', password="j43zFLnpzAYHB8LU", xj_dh="AL0-T202308111517"):
+    #     #  Imbox(服务器,邮箱用户名,密码,SSL加密) password 是认证码，非密码：由QQ邮箱服务生成
+    #     with Imbox('imap.qq.com', id, password, ssl=True) as imbox:
+    #         all_inbox_messages = imbox.messages()  # 获取全部邮件
+    #         # email_list = email_server.messages(unread=True)  # 未读邮件
+    #         # read_inbox_messages = self.email_server.messages(unread=False)  # 已读邮件
+    #         # flagged_inbox_messages = self.email_server.messages(flagged=True)  # 红旗标记邮件
+    #         i = 0
+    #         for uid, message in all_inbox_messages:
+    #             i += 1
+    #             if i > 150:
+    #                 print('test finish')
+    #                 break
+    #             # imbox.mark_seen(uid)   # 标记为已读
+    #             # imbox.delete(uid)  # 删除
+    #             print(message.subject)  # 邮件主题
+    #             # print(message.sent_from)  # 发件人
+    #             # print(message.sent_to)  # 收件人
+    #             # print(message.date)  # 发送日期
+    #             # print(message.body['plain']) # 邮件文本格式正文
+    #             # print(message.body['html']) # html格式正文
+    #
+    #             if message.subject == "{}询价结果".format(xj_dh):  # 如果邮件主题等于
+    #                 Common_page().save_attachments(message.attachments)
 
 if __name__ == '__main__':
     run=Common_page()
