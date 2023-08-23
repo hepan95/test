@@ -15,10 +15,11 @@ from Config import config as cf
 from Common import common_funtion as bf
 
 
-# @pytest.mark.skip(reason="无理由跳过")
+
 @allure.parent_suite('ict业务场景测试用例')  # 包的注释
 @allure.suite('ict业务场景测试用例模块')  # 模块的注释
 @allure.sub_suite('前置条件')      #大类的注释
+# @pytest.mark.skip(reason="无理由跳过")
 class Test_query002():
     '''大类'''
     def setup_class(self):
@@ -7237,6 +7238,7 @@ class Test_businesso7():
             dd_hao = ict.Test_Added01().test_Added0117(hz_id=hz_id)
             assert dd_hao[0] == '操作成功'
             dd_hao = dd_hao[1][0]["orderNumber"]
+            dd_id = dd_hao[1][0]["id"]
         with allure.step("计划管理，分单查询，订单号：{}".format(dd_hao)):
             fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
@@ -7245,7 +7247,13 @@ class Test_businesso7():
             qy_jdzx = ict.Test_Added01().test_Added0058(zy_che="", gys="", hy_dt=fd_id)
             assert qy_jdzx == '获取报价信息异常[没有获取到任何市场报价]'
 
-
+        with allure.step("集装箱运输》取消订单，订单号：{}".format(dd_hao)):
+            qx_dd = ict.Test_Added01().test_Added015701(dd_id=dd_id)
+            assert qx_dd == '操作成功'
+        with allure.step("订单管理》集装箱运输》查看订单状态，订单号：{}".format(dd_hao)):
+            dd_hao = ict.Test_Added01().test_Added0117(hz_id=hz_id)
+            assert dd_hao[0] == '操作成功'
+            assert dd_hao[1][0]["orderStatus"] == 'status_undo_completed'
 
 
 

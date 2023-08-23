@@ -6147,6 +6147,79 @@ class Test_Added01():
 
 
 
+    '''后台报关订单'''
+    def test_Added02104(self,customerId,customerContact,customerContactPhone,customerServiceId,customsAddr,customerDelegateCode,
+                        bookingNumber,containerNumber, ):
+        url = self.host + "/api/platform/inputOrder/submit"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data =[
+                {
+                    "isAgentOperate":1,  #是否代操作
+                    "baseInfo":{
+                        "customerId":customerId,  #委托客户id（货主id）
+                        "customerContact":customerContact, #货主联系人名称
+                        "customerContactPhone":customerContactPhone, #货主联系电话
+                        "customerContactMail":"",
+                        "customerServiceId":customerServiceId, #货主客服id 用户档案，监理客服
+                        "customerServiceEmail":"",
+                        "balanceId":"",
+                        "balancePhone":"",
+                        "balanceMail":"",
+                        "payerId":"",
+                        "payerPhone":"",
+                        "payerMail":"",
+                        "consignorId":"",
+                        "consigneeId":"",
+                        "balanceWay":"balance_way_bill",  #结算方式
+                        "isMultiLoad":True,
+                        "discount":"0.85",
+                        "importExportType":"import_export_type_import",
+                        "arriverRange":"",
+                        "customsAddr":customsAddr, #港口id
+                        "customsType":"Customs_Type_002", #报关方式
+                        "customerDelegateCode":customerDelegateCode,  #客户委托号
+                        "bookingNumber":bookingNumber,  #订舱号
+                        "carModeId":"20GP",        #柜型
+                        "containerNumber":containerNumber, #柜号
+                        "isDangerousGoods":"1",    #是否危险品
+                        "marineApplyType":"marine_type_haige", #申报方式 marine_type_haige
+                        "otherFile":None,
+                        "bookingNumberFile":None,
+                        "hblNumberFile":None,
+                        "taskUnitCode":"custom_transport",  #服务类型
+                        "taskUnitTypeName":"报关订单",  #服务类型
+                        "id":""
+                    },
+                    "priceList":[],
+                    "addrList":[],
+                    "planList":[],
+                    "orderFromTag":1
+                }
+            ]
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return  returnMsg
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 '''货主端接口'''
 class Shipperapi():
     def __init__(self):
@@ -6732,7 +6805,7 @@ class Test_transport_company01():
 
 if __name__ == '__main__':
     run=Test_Added01()  # 后台
-    # run.test_Added0056()
+    run.test_Added02104()
 
     # run2 = Test_login()
     # run2.Test_login005()

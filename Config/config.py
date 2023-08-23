@@ -19,22 +19,22 @@
 # ht_mobile="maomin@hercules-logistics.com"              #后台端测试环境登录账号
 # ht_password="meMFPugSk6"                      #后台测试环境登录的密码
 #
-# # ht_mobile_FBA="tcp@cloudlinkscm.com"     #翠萍账号 正常租户
-# # ht_password_FBA="tcp123"                      #
-# # ht_host_FBA="http://ict-test.epldcloud.com"
+# ht_mobile_FBA="tcp@cloudlinkscm.com"     #翠萍账号 正常租户
+# ht_password_FBA="tcp123"                      #
+# ht_host_FBA="http://ict-test.epldcloud.com"
 #
 # '''货主端'''
 # hz_host="http://ict-test.epldcloud.com"
 # hz_mobile="13022222821"                     #货主端测试环境登录账号
 # hz_password="hg123456"                       #货主测试环境登录的密码
 # hz_name="毛敏租户测试货主1"                     #货主名称
-
+#
 # hz_mobile_FBA= "17875465665@default.com"   #翠萍账号  正常租户
 # hz_password_FBA="HG123456"
 # hz_name_FBA="Amazon Global Logistics - FBA"                     #货主名称
 # hz_host_FBA="http://ict-test.epldcloud.com"
-
-
+#
+#
 # '''运输公司'''
 # gys_host="http://ict-test.epldcloud.com"
 # ys_mobile="13022222921"                      #运输公司测试环境登录账号
@@ -55,9 +55,9 @@
 # siji_mobile="18875914340"
 # siji_password="123456"
 #
-
-
-
+#
+#
+#
 
 '''ict生产环境--测试租户'''
 '''后台端'''
