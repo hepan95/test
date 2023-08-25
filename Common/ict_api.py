@@ -3230,7 +3230,7 @@ class Test_Added01():
         returnMsg = A.json()["returnMsg"]
         return returnMsg
     ''' 查看出车表信息档案'''
-    def test_Added0074(self,sj_id="dc7bafe095e24c0ca5e9c5a8f95e3f99",cp_hao="粤ZZ0001",zh_time="2023-04-25 15:18:43"):
+    def test_Added0074(self,sj_id="32ab6458367942718695fcd885ca602b",cp_hao="粤ZZ0001",zh_time="2023-08-29"):
         url = self.host + "/api/platform/carManager/list"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
@@ -3243,8 +3243,29 @@ class Test_Added01():
         isDispatch = A.json()["result"]["data"][0]["isDispatch"]  #是否出车    是1  否 0
         cc_pz = A.json()["result"]["data"][0]["mainlandLicensePlateNumber"]  #车牌号
         # print(ccb_id,cc_zt,isDispatch,cc_pz)
-        print("这个是出车状态：{}".format(cc_zt))
-        return returnMsg,ccb_id,cc_zt,isDispatch,cc_pz
+        # print("这个是出车状态：{}".format(cc_zt))
+        data1 = A.json()["result"]["data"]
+        # print(data1)
+        # list11 = []
+        # for i in data1 :
+        #     # print(i)
+        #     n = get_k(i)
+        #     # print(n)
+        #     for key in n.keys() :
+        #         if key == "status" :
+        #             list11.append(key)
+        #             list11.append(n[key])
+        # # print(list11)
+        # for  j  in  list11:
+        #     # print(j)
+        #     list2 = []
+        #     if j == "car_dispatch_undistribute" :
+        #         list2.append(j)
+        # print(list2)
+
+
+
+        return returnMsg,ccb_id,cc_zt,isDispatch,cc_pz,data1
     ''' 计划管理》派自有车'''
     def test_Added0075(self,id="f01261b41a854d3eb4ca99837a8cfe9e",driverId="dc7bafe095e24c0ca5e9c5a8f95e3f99",supplierId="4f32d9f6fabb4f5199b09f93284902f9",
                        mainlandLicensePlateNumber="粤ZZ0001",orderNumber="MCSZ-MCO-20230724-0001",pickupTime="2023-07-29 08:55:13",bookingNumber="1283074956",
@@ -3279,7 +3300,7 @@ class Test_Added01():
         returnMsg = A.json()["returnMsg"]
         return returnMsg
     ''' 查看自有车司机报价单是否存在'''
-    def test_Added0076(self,fw_lx="port_container_export_transport"):  #传的是服务类型
+    def test_Added0076(self,fw_lx="dangerous_cargo_export_transport"):  #传的是服务类型
         url = self.host + "/api/platform/ownDriverQuotation/list"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
@@ -3288,8 +3309,9 @@ class Test_Added01():
         # print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  #=0表示不存在
-        # print(returnTotalItems)
-        return returnMsg,returnTotalItems
+        data1 = A.json()["result"]["data"]
+        # print(data1[0]["id"])
+        return returnMsg,returnTotalItems,data1
     ''' 新增自有车司机报价单'''
     def test_Added0078(self,fw_lx="port_container_export_transport",fw_name="集装箱出口运输"): #传的是服务类型 + 时间 + 服务类型名称
         url = self.host + "/api/platform/ownDriverQuotation/add"
@@ -4016,13 +4038,14 @@ class Test_Added01():
         return returnMsg
 
     '''后台订单管理》集装箱运输列表'''
-    def test_Added0117(self,hz_id="19b2ccc762484fda99aa28fe7fdea866"):
+    def test_Added0117(self,hz_id="4d16a4af1ff64e9aa854e54db9e2d5f7",customerDelegateCode=""): #客户委托号
         url = self.host + "/api/platform/receiveOrderPort/list"
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
-        data = {"itemFrom":0,"itemTo":10,"filter":{"customerId":hz_id,"tagKey":"all","taskUnitCodeType":"container"}}
+        data = {"itemFrom":0,"itemTo":10,"filter":{"customerDelegateCode": customerDelegateCode,"customerId":hz_id,"tagKey":"all","taskUnitCodeType":"container"}}
         A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         returnMsg = A.json()["returnMsg"]
+        # print(A.json())
         data1 = A.json()["result"]["data"]
         # print(data1)
 
@@ -5010,11 +5033,11 @@ class Test_Added01():
         return returnMsg,returnTotalItems,data1
 
     '''后台订单管理》厢式车运输列表'''
-    def test_Added0168(self,hz_id="19b2ccc762484fda99aa28fe7fdea866"):
+    def test_Added0168(self,orderNumber=""):
         url = self.host + "/api/platform/receiveOrder/list"
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(self.ht_token)}
-        data = {"itemFrom":0,"itemTo":10,"filter":{"customerId":hz_id,"tagKey":"all","taskUnitCodeType":"vanType"}}
+        data = {"itemFrom":0,"itemTo":10,"filter":{"orderNumber":orderNumber,"tagKey":"all","taskUnitCodeType":"vanType"}}
         A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         returnMsg = A.json()["returnMsg"]
         data1 = A.json()["result"]["data"]
@@ -5583,12 +5606,23 @@ class Test_Added01():
                 }
             ]
         A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
-        print(A.json())
+        # print(A.json())
         returnMsg = A.json()["returnMsg"]
 
         return  returnMsg
 
-
+    '''跟踪管理》供应商运单》供应商运单获取'''
+    def test_Added0195(self,orderNumber="MCSZ-MCO-20230823-0001"):
+        url = self.host + "/api/platform/companyOrder/list"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(self.ht_token)}
+        data = {"itemFrom":0,"itemTo":100,"filter":{"orderNumber":orderNumber}}
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        returnTotalItems =  A.json()["result"]["returnTotalItems"]  #接口日志条数
+        # print(returnTotalItems)
+        return returnMsg,returnTotalItems
 
 
 
@@ -6805,7 +6839,7 @@ class Test_transport_company01():
 
 if __name__ == '__main__':
     run=Test_Added01()  # 后台
-    run.test_Added02104()
+    run.test_Added0076()
 
     # run2 = Test_login()
     # run2.Test_login005()

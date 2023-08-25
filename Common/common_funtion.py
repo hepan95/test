@@ -48,7 +48,7 @@ class Common_page():
         t  = today + datetime.timedelta(days=100)  #
         w = today + datetime.timedelta(days=200)  #
         n = today + datetime.timedelta(days=0)  #
-        p = today + datetime.timedelta(days=3)
+        p = today + datetime.timedelta(days=5)
         h = y.strftime('%Y-%m-%d')   #今天
         y = y.strftime('%Y-%m-%d %H:%M:%S')  # +5天
         z = z.strftime('%Y-%m-%d %H:%M:%S')  # +10天
@@ -63,7 +63,8 @@ class Common_page():
         f = f[2:14]   #切片
         ll = p.strftime('%Y-%m-%d' )   #+3天
         zz = n.strftime("%H%M")
-        # print(zz)
+        cc = p.strftime('%Y-%m-%d %H:%M:%S' )   #+3天
+        # print(cc)
         # print(today)
         # print(z)
         # print(q)
@@ -80,7 +81,7 @@ class Common_page():
         # print(ll)
         # print(f[2:14])
 
-        return today,y,z,q,h,c,t,w,g,h,k,j,f,ll,zz
+        return today,y,z,q,h,c,t,w,g,h,k,j,f,ll,zz,cc
 
     def start(self):
 
@@ -207,7 +208,7 @@ class Common_page():
         import xlrd, xlwt
         from xlutils.copy import copy
         # 读取文件
-        # file_path = r"D:\work\xiangmu\test_ICT_api\Test_data\FBA询价单.xls"
+        # file_path = r"D:\work\xiangmu\test_ICT_api\Test_data\FBA_inquiry_list.xls"
         read_file = xlrd.open_workbook(file_path, formatting_info=True)
         # 参数注释：
         # file_path：文件路径，包含文件的全名称

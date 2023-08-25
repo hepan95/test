@@ -22,11 +22,11 @@ hz_host_FBA = cf.hz_host_FBA  #货主
 
 @allure.parent_suite('FBA业务场景测试用例')
 @allure.suite('FBA业务场景测试用例模块')
-@allure.sub_suite('业务场景十（测试点：<盐田模板>订单1按推荐报价生产-回退-编辑立即下单-回退-订单1,2合并询价单--订单3 加入合并-查看可合并询价单-合并询价单 ')
+@allure.sub_suite('业务场景十 FBA')
 # @pytest.mark.skip(reason="无理由跳过")
 class Test_businesso1():
     # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("业务场景十")
+    @allure.title("业务场景十（测试点：<盐田模板>订单1按推荐报价生产-回退-编辑立即下单-回退-订单1,2合并询价单--订单3 加入合并-查看可合并询价单-合并询价单 ")
     def test_business_scenario001(self):
         with allure.step("获取货主ID"):
             hz_name = ict.Test_Added01().test_Added0185(ht_host=ht_host_FBA,hz_name=cf.hz_name_FBA,token=ht_token)
@@ -42,11 +42,11 @@ class Test_businesso1():
             time1 = bf.Common_page().get_today001()[12]  #获取当前时间年月日时分秒
             time2 = bf.Common_page().get_today001()[11]  #获取当前时间年月日
             ALO1 = 'AL0-T'+time1   #询价单号
-            Template_path = bf.Common_page().projects_path() + "\Test_data\FBA询价单.xls" #模板IP路径
+            Template_path = bf.Common_page().projects_path() + "\Test_data\FBA_inquiry_list.xls" #模板IP路径
             bf.Common_page().read_excel(file_path=Template_path,ALO=ALO1,time1=time2)
 
         with allure.step("货主导入询价模板,第一个订单,ALO号：{}".format(ALO1)):
-            to_channel = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA,mb_id=modelid,wj_name="FBA询价单.xls",wj_dz=Template_path,token=hz_token)
+            to_channel = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA,mb_id=modelid,wj_name="FBA_inquiry_list.xls",wj_dz=Template_path,token=hz_token)
             assert to_channel == '导入成功,操作成功'
 
         with allure.step("货主导入询价模板,第一个订单信息,第一个订单ALO号：{}".format(ALO1)):
@@ -145,11 +145,11 @@ class Test_businesso1():
             time1 = bf.Common_page().get_today001()[12]  #获取当前时间年月日时分秒
             time2 = bf.Common_page().get_today001()[11]  #获取当前时间年月日
             ALO2 = 'AL0-T'+time1   #询价单号
-            Template_path = bf.Common_page().projects_path() + "\Test_data\FBA询价单.xls" #模板IP路径
+            Template_path = bf.Common_page().projects_path() + "\Test_data\FBA_inquiry_list.xls" #模板IP路径
             bf.Common_page().read_excel(file_path=Template_path,ALO=ALO2,time1=time2)
 
         with allure.step("货主导入询价模板,第二个订单,ALO号：{}".format(ALO2)):
-            to_channel2 = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA,mb_id=modelid,wj_name="FBA询价单.xls",wj_dz=Template_path,token=hz_token)
+            to_channel2 = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA,mb_id=modelid,wj_name="FBA_inquiry_list.xls",wj_dz=Template_path,token=hz_token)
             assert to_channel2 == '导入成功,操作成功'
 
         with allure.step("货主导入询价模板,第二个订单,第二个订单ALO号：{}".format(ALO2)):
@@ -252,11 +252,11 @@ class Test_businesso1():
             time1 = bf.Common_page().get_today001()[12]  #获取当前时间年月日时分秒
             time2 = bf.Common_page().get_today001()[11]  #获取当前时间年月日
             ALO3 = 'AL0-T'+time1   #询价单号
-            Template_path = bf.Common_page().projects_path() + "\Test_data\FBA询价单.xls" #模板IP路径
+            Template_path = bf.Common_page().projects_path() + "\Test_data\FBA_inquiry_list.xls" #模板IP路径
             bf.Common_page().read_excel(file_path=Template_path,ALO=ALO3,time1=time2)
 
         with allure.step("货主导入询价模板,第三个订单,ALO号：{}".format(ALO3)):
-            to_channel3 = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA,mb_id=modelid,wj_name="FBA询价单.xls",wj_dz=Template_path,token=hz_token)
+            to_channel3 = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA,mb_id=modelid,wj_name="FBA_inquiry_list.xls",wj_dz=Template_path,token=hz_token)
             assert to_channel3 == '导入成功,操作成功'
 
         with allure.step("货主导入询价模板,第三个订单,第三个订单ALO号：{}".format(ALO3)):
@@ -388,7 +388,7 @@ class Test_businesso1():
 
 @allure.parent_suite('FBA业务场景测试用例')
 @allure.suite('FBA业务场景测试用例模块')
-@allure.sub_suite('业务场景十一（测试点1：<盐田模板>期望提货时间工作日,表格时间小于邮件接收时间，取邮件接收时间+2,测试点2：期望提货时间,表格时间大于邮件接收时间,取表格时间 ')
+@allure.sub_suite('业务场景十一 ')
 # @pytest.mark.skip(reason="无理由跳过")
 class Test_businesso2():
     # @pytest.mark.skip(reason="无理由跳过")
@@ -406,10 +406,10 @@ class Test_businesso2():
             time1 = bf.Common_page().get_today001()[12]  #获取当前时间年月日时分秒
             time2 = bf.Common_page().get_today001()[11]  #获取当前时间年月日
             ALO1 = 'AL0-T'+time1   #询价单号
-            Template_path = bf.Common_page().projects_path() + "\Test_data\FBA询价单.xls" #模板IP路径
+            Template_path = bf.Common_page().projects_path() + "\Test_data\FBA_inquiry_list.xls" #模板IP路径
             bf.Common_page().read_excel(file_path=Template_path,ALO=ALO1,time1=time2)
         with allure.step("导入询价模板,第一个订单,ALO号：{}".format(ALO1)):
-            to_channel = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA,mb_id=modelid,wj_name="FBA询价单.xls",wj_dz=Template_path,token=hz_token)
+            to_channel = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA,mb_id=modelid,wj_name="FBA_inquiry_list.xls",wj_dz=Template_path,token=hz_token)
             assert to_channel == '导入成功,操作成功'
         with allure.step("导入询价模板,第一个订单信息,ALO号：{}".format(ALO1)):
             order_info = ict.Shipperapi().test_Added003(hz_host=hz_host_FBA,hz_id=hz_id,xj_dh=ALO1,token=hz_token)
@@ -516,10 +516,10 @@ class Test_businesso2():
             time1 = bf.Common_page().get_today001()[12]  # 获取当前时间年月日时分秒
             time2 = bf.Common_page().get_today001()[13]  # 获取当前时间年月日  + 3天
             ALO1 = 'AL0-T' + time1  # 询价单号
-            Template_path = bf.Common_page().projects_path() + "\Test_data\FBA询价单.xls"  # 模板IP路径
+            Template_path = bf.Common_page().projects_path() + "\Test_data\FBA_inquiry_list.xls"  # 模板IP路径
             bf.Common_page().read_excel(file_path=Template_path, ALO=ALO1, time1=time2)
         with allure.step("导入询价模板,第一个订单,ALO号：{}".format(ALO1)):
-            to_channel = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA, mb_id=modelid, wj_name="FBA询价单.xls",
+            to_channel = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA, mb_id=modelid, wj_name="FBA_inquiry_list.xls",
                                                         wj_dz=Template_path, token=hz_token)
             assert to_channel == '导入成功,操作成功'
         with allure.step("导入询价模板,第一个订单信息,ALO号：{}".format(ALO1)):
@@ -552,14 +552,14 @@ class Test_businesso2():
             accessory = bf.Common_page().read_excel001(save_dir=save_path)
             Expected_pickup_date = accessory[0]["期望提货日期(Expected Pickup Date)"]
             Expected_pickup_time = accessory[0]["期望提货时间(Expected Pickup Time)"]
-            print("这个是附件期望提货时间：{}".format(Expected_pickup_date))
-            pytest.assume(Expected_pickup_time == "14:00")
+            # print("这个是附件期望提货时间：{}".format(Expected_pickup_date))
+            pytest.assume(Expected_pickup_time == "14:00") #
         with allure.step("导入询价模板,第一个订单,断言提货时间,ALO号：{}".format(ALO1)):
-            time3 = bf.Common_page().get_today001()[11]  # 获取当前时间年月日
+            time3 = bf.Common_page().get_today001()[13]  # 获取当前时间年月日
             Week = bf.Common_page().Week(time=time3)  #获取是周几>年月日时分秒
             if Week == 1 :
                 time2 = time2
-                print("今天是周：{}".format(Week))
+                # print("今天是周：{}".format(Week))
                 end_date = Expected_pickup_date
                 start_sec = time.mktime(time.strptime(time2, '%Y-%m-%d'))
                 end_sec = time.mktime(time.strptime(end_date, '%Y-%m-%d'))
@@ -567,7 +567,7 @@ class Test_businesso2():
                 # print(days)
                 pytest.assume(days == 0)  # 断言邮箱提货时间，是邮箱时间的 + 2天
             if Week == 2 :
-                print("今天是周：{}".format(Week))
+                # print("今天是周：{}".format(Week))
                 end_date = Expected_pickup_date
                 start_sec = time.mktime(time.strptime(time2, '%Y-%m-%d'))
                 end_sec = time.mktime(time.strptime(end_date, '%Y-%m-%d'))
@@ -575,7 +575,7 @@ class Test_businesso2():
                 # print(days)
                 pytest.assume(days == 0)  # 断言邮箱提货时间，是邮箱时间的 + 2天
             if Week == 3 :
-                print("今天是周：{}".format(Week))
+                # print("今天是周：{}".format(Week))
                 end_date = Expected_pickup_date
                 start_sec = time.mktime(time.strptime(time2, '%Y-%m-%d'))
                 end_sec = time.mktime(time.strptime(end_date, '%Y-%m-%d'))
@@ -583,7 +583,7 @@ class Test_businesso2():
                 # print(days)
                 pytest.assume(days == 0)  # 断言邮箱提货时间，是邮箱时间的 + 2天
             if Week == 4 :
-                print("今天是周：{}".format(Week))
+                # print("今天是周：{}".format(Week))
                 end_date = Expected_pickup_date
                 start_sec = time.mktime(time.strptime(time2, '%Y-%m-%d'))
                 end_sec = time.mktime(time.strptime(end_date, '%Y-%m-%d'))
@@ -591,7 +591,7 @@ class Test_businesso2():
                 # print(days)
                 pytest.assume(days == 0)  # 断言邮箱提货时间，是邮箱时间的 + 4天中间两天非工作日
             if Week == 5 :
-                print("今天是周：{}".format(Week))
+                # print("今天是周：{}".format(Week))
                 end_date = Expected_pickup_date
                 start_sec = time.mktime(time.strptime(time2, '%Y-%m-%d'))
                 end_sec = time.mktime(time.strptime(end_date, '%Y-%m-%d'))
@@ -599,7 +599,7 @@ class Test_businesso2():
                 # print(days)
                 pytest.assume(days == 3)  # 断言邮箱提货时间，是邮箱时间的 + 4天中间两天非工作日
             if Week == 6 :
-                print("今天是周：{}".format(Week))
+                # print("今天是周：{}".format(Week))
                 end_date = Expected_pickup_date
                 start_sec = time.mktime(time.strptime(time2, '%Y-%m-%d'))
                 end_sec = time.mktime(time.strptime(end_date, '%Y-%m-%d'))
@@ -607,7 +607,7 @@ class Test_businesso2():
                 # print(days)
                 pytest.assume(days == 2)  # 断言邮箱提货时间，是邮箱时间的 + 2天
             if Week == 7 :
-                print("今天是周：{}".format(Week))
+                # print("今天是周：{}".format(Week))
                 end_date = Expected_pickup_date
                 start_sec = time.mktime(time.strptime(time2, '%Y-%m-%d'))
                 end_sec = time.mktime(time.strptime(end_date, '%Y-%m-%d'))
@@ -618,7 +618,7 @@ class Test_businesso2():
 
 @allure.parent_suite('FBA业务场景测试用例')
 @allure.suite('FBA业务场景测试用例模块')
-@allure.sub_suite('业务场景十二（测试点1：,<平湖模板>期望提货时间自然日,表格时间小于邮件接收时间，取邮件接收时间+1,测试点2：期望提货时间,表格时间大于邮件接收时间,取表格时间 ')
+@allure.sub_suite('业务场景十二')
 @pytest.mark.skip(reason="无理由跳过")
 class Test_businesso3():
     # @pytest.mark.skip(reason="无理由跳过")
@@ -636,10 +636,10 @@ class Test_businesso3():
             time1 = bf.Common_page().get_today001()[12]  #获取当前时间年月日时分秒
             time2 = bf.Common_page().get_today001()[11]  #获取当前时间年月日
             ALO1 = 'AL0-T'+time1   #询价单号
-            Template_path = bf.Common_page().projects_path() + "\Test_data\FBA询价单.xls" #模板IP路径
+            Template_path = bf.Common_page().projects_path() + "\Test_data\FBA_inquiry_list.xls" #模板IP路径
             bf.Common_page().read_excel(file_path=Template_path,ALO=ALO1,time1=time2)
         with allure.step("导入询价模板,第一个订单,ALO号：{}".format(ALO1)):
-            to_channel = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA,mb_id=modelid,wj_name="FBA询价单.xls",wj_dz=Template_path,token=hz_token)
+            to_channel = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA,mb_id=modelid,wj_name="FBA_inquiry_list.xls",wj_dz=Template_path,token=hz_token)
             assert to_channel == '导入成功,操作成功'
         with allure.step("导入询价模板,第一个订单信息,ALO号：{}".format(ALO1)):
             order_info = ict.Shipperapi().test_Added003(hz_host=hz_host_FBA,hz_id=hz_id,xj_dh=ALO1,token=hz_token)
@@ -700,10 +700,10 @@ class Test_businesso3():
             time1 = bf.Common_page().get_today001()[12]  # 获取当前时间年月日时分秒
             time2 = bf.Common_page().get_today001()[13]  # 获取当前时间年月日  + 3天
             ALO1 = 'AL0-T' + time1  # 询价单号
-            Template_path = bf.Common_page().projects_path() + "\Test_data\FBA询价单.xls"  # 模板IP路径
+            Template_path = bf.Common_page().projects_path() + "\Test_data\FBA_inquiry_list.xls"  # 模板IP路径
             bf.Common_page().read_excel(file_path=Template_path, ALO=ALO1, time1=time2)
         with allure.step("导入询价模板,第一个订单,ALO号：{}".format(ALO1)):
-            to_channel = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA, mb_id=modelid, wj_name="FBA询价单.xls",
+            to_channel = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA, mb_id=modelid, wj_name="FBA_inquiry_list.xls",
                                                         wj_dz=Template_path, token=hz_token)
             assert to_channel == '导入成功,操作成功'
         with allure.step("导入询价模板,第一个订单信息,ALO号：{}".format(ALO1)):
@@ -751,11 +751,11 @@ class Test_businesso3():
 
 @allure.parent_suite('FBA业务场景测试用例')
 @allure.suite('FBA业务场景测试用例模块')
-@allure.sub_suite('业务场景十三（测试点：<盐田模板>（零担更新货量信息）更新应收费用 ')
+@allure.sub_suite('业务场景十三')
 @pytest.mark.skip(reason="无理由跳过")
 class Test_businesso4():
     # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("业务场景十三")
+    @allure.title("业务场景十三（测试点：<盐田模板>（零担更新货量信息）更新应收费用 ")
     def test_business_scenario001(self):
         with allure.step("获取货主ID"):
             hz_name = ict.Test_Added01().test_Added0185(ht_host=ht_host_FBA,hz_name=cf.hz_name_FBA,token=ht_token)
@@ -771,11 +771,11 @@ class Test_businesso4():
             time1 = bf.Common_page().get_today001()[12]  #获取当前时间年月日时分秒
             time2 = bf.Common_page().get_today001()[11]  #获取当前时间年月日
             ALO1 = 'AL0-T'+time1   #询价单号
-            Template_path = bf.Common_page().projects_path() + "\Test_data\FBA询价单.xls" #模板IP路径
+            Template_path = bf.Common_page().projects_path() + "\Test_data\FBA_inquiry_list.xls" #模板IP路径
             bf.Common_page().read_excel(file_path=Template_path,ALO=ALO1,time1=time2)
 
         with allure.step("货主导入询价模板,第一个订单,ALO号：{}".format(ALO1)):
-            to_channel = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA,mb_id=modelid,wj_name="FBA询价单.xls",wj_dz=Template_path,token=hz_token)
+            to_channel = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA,mb_id=modelid,wj_name="FBA_inquiry_list.xls",wj_dz=Template_path,token=hz_token)
             assert to_channel == '导入成功,操作成功'
 
         with allure.step("货主导入询价模板,第一个订单信息,第一个订单ALO号：{}".format(ALO1)):

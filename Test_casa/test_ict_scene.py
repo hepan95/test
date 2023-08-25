@@ -3,7 +3,8 @@
 # @fileName: test_ict_scene.py.py
 # @Time:2023/4/12 15:17
 # @Author:PH
-
+from Common import log_page
+log = log_page.Log()
 import datetime
 import allure
 import pytest
@@ -21,6 +22,7 @@ from Common import common_funtion as bf
 @allure.sub_suite('前置条件')      #大类的注释
 # @pytest.mark.skip(reason="无理由跳过")
 class Test_query002():
+    # log.info("運行前置條件")
     '''大类'''
     def setup_class(self):
         '''大类前置'''
@@ -31,6 +33,7 @@ class Test_query002():
     @allure.title("区域规则-集装箱出口运输,操作区域蛇口")   #类方法的注释
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query001(self):
+        log.info("区域规则-集装箱出口运输,操作区域蛇口")
         '''用例描述'''
         with allure.step("查看区域规则-集装箱出口运输,操作区域蛇口是否存在"):
             qy_gh = ict.Test_Added01().test_Added0031(taskUnitCode="port_container_export_transport",centerName="shekou_group")
@@ -64,6 +67,7 @@ class Test_query002():
     @allure.title("接单中心-集装箱出口运输")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query002(self):
+        log.info("接单中心-集装箱出口运输")
         with allure.step("查看接单中心-集装箱出口运输，是否存在"):
             jd_zx = ict.Test_Added01().test_Added0035(taskUnitCode="port_container_export_transport")
             assert jd_zx[0] =='操作成功'
@@ -96,6 +100,7 @@ class Test_query002():
     @allure.title("计划中心-集装箱出口运输")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query003(self):
+        log.info("计划中心-集装箱出口运输")
         with allure.step("查看计划中心-集装箱出口运输，是否存在"):
             jh_zx = ict.Test_Added01().test_Added0039(taskUnitCode="port_container_export_transport")
             assert jh_zx[0] == '操作成功'
@@ -128,6 +133,7 @@ class Test_query002():
     @allure.title("调度中心-集装箱出口运输")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query004(self):
+        log.info("调度中心-集装箱出口运输")
         with allure.step("查看调度中心，是否存在"):
             dd_zx = ict.Test_Added01().test_Added0043(centerName="center_type_dispatch_mm02",taskUnitCode="")
             assert dd_zx[0] == '操作成功'
@@ -193,6 +199,7 @@ class Test_query002():
     @allure.title("货主联系人")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query005(self):
+        log.info("货主联系人")
         with allure.step("查看货主id"):
             hz_id = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
             assert hz_id[0] == '操作成功'
@@ -228,6 +235,7 @@ class Test_query002():
     @allure.title("收发货联系人1")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query006(self):
+        log.info("收发货联系人1")
         with allure.step("查看货主id"):
             hz_id = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
             assert hz_id[0] == '操作成功'
@@ -283,6 +291,7 @@ class Test_query002():
     @allure.title("货主合同报价--集装箱出口")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query007(self):
+        log.info("货主合同报价--集装箱出口")
         with allure.step("查看货主id"):
             hz_id = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
             assert hz_id[0] == '操作成功'
@@ -423,6 +432,7 @@ class Test_query002():
     @allure.title("集装箱出口报价--自有车")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query008(self):
+        log.info("集装箱出口报价--自有车")
         with allure.step("查看自有车报价单是否存在"):
             bz_dd1 = ict.Test_Added01().test_Added0076(fw_lx="port_container_export_transport")
             assert bz_dd1[0] == '操作成功'
@@ -560,6 +570,7 @@ class Test_query002():
     @allure.title("自有车档案1")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query009(self):
+        log.info("自有车档案1")
         with allure.step("查看运输公司<租户测试自有车-集1>是否存在"):
             bz_dd1 = ict.Test_Added01().test_Added0059(gys_name="租户测试自有车-集1")
             assert bz_dd1[0] == '操作成功'
@@ -649,6 +660,7 @@ class Test_query002():
     @allure.title("自有车档案2")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query010(self):
+        log.info("自有车档案2")
         with allure.step("查看运输公司<租户测试自有车-集2>是否存在"):
             bz_dd1 = ict.Test_Added01().test_Added0059(gys_name="租户测试自有车-集2")
             assert bz_dd1[0] == '操作成功'
@@ -738,6 +750,7 @@ class Test_query002():
     @allure.title("收发货联系人2")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query011(self):
+        log.info("收发货联系人2")
         with allure.step("查看货主id"):
             hz_id = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
             assert hz_id[0] == '操作成功'
@@ -793,6 +806,7 @@ class Test_query002():
     @allure.title("收发货联系人3")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query012(self):
+        log.info("收发货联系人3")
         with allure.step("查看货主id"):
             hz_id = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
             assert hz_id[0] == '操作成功'
@@ -848,6 +862,7 @@ class Test_query002():
     @allure.title("货主市场报价--厢式车内陆运输")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query013(self):
+        log.info("货主市场报价--厢式车内陆运输")
         with allure.step("查看货主id"):
             hz_id = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
             assert hz_id[0] == '操作成功'
@@ -1019,6 +1034,7 @@ class Test_query002():
     @allure.title("区域规则-厢式车运输,操作区域蛇口")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query014(self):
+        log.info("区域规则-厢式车运输,操作区域蛇口")
         '''用例描述'''
         with allure.step("查看区域规则-厢式车运输,操作区域蛇口是否存在"):
             qy_gh = ict.Test_Added01().test_Added0031(taskUnitCode="bulkcargo_transport",centerName="shekou_group")
@@ -1052,6 +1068,7 @@ class Test_query002():
     @allure.title("接单中心-厢式车运输")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query015(self):
+        log.info("接单中心-厢式车运输")
         with allure.step("查看接单中心-厢式车运输，是否存在"):
             jd_zx = ict.Test_Added01().test_Added0035(taskUnitCode="bulkcargo_transport")
             assert jd_zx[0] =='操作成功'
@@ -1084,6 +1101,7 @@ class Test_query002():
     @allure.title("计划中心-厢式车运输")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query016(self):
+        log.info("计划中心-厢式车运输")
         with allure.step("查看计划中心-厢式车运输运输，是否存在"):
             jh_zx = ict.Test_Added01().test_Added0039(taskUnitCode="bulkcargo_transport")
             assert jh_zx[0] == '操作成功'
@@ -1116,6 +1134,7 @@ class Test_query002():
     @allure.title("运输公司合同报价--厢式车内陆运输")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query017(self):
+        log.info("运输公司合同报价--厢式车内陆运输")
         with allure.step("查看供应商id"):
             gys_id = ict.Test_Added01().test_Added0062(gys_name=cf.gys1_name)
             assert gys_id[0] == '操作成功'
@@ -1291,6 +1310,7 @@ class Test_query002():
     @allure.title("运输公司车辆司机档案")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query018(self):
+        log.info("运输公司车辆司机档案")
         with allure.step("查看供应商id"):
             gys_id = ict.Test_Added01().test_Added0062(gys_name=cf.gys1_name)
             assert gys_id[0] == '操作成功'
@@ -1347,6 +1367,7 @@ class Test_query002():
     @allure.title("费用项档案")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query019(self):
+        log.info("费用项档案")
         with allure.step("查看'报关费'费用项档案是否存在"):
             fy_lx = ict.Test_Added01().test_Added0111(fyx_name="报关费")
             assert fy_lx[0] == '操作成功'
@@ -1368,6 +1389,7 @@ class Test_query002():
     @allure.title("司机市场报价--集装箱出口")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query020(self):
+        log.info("司机市场报价--集装箱出口")
         with allure.step("查看司机市场报价报价单是否存在"):
             sj_bjd = ict.Test_Added01().test_Added0115(fy_lx="port_container_export_transport")
             assert sj_bjd[0] == '操作成功'
@@ -1472,6 +1494,7 @@ class Test_query002():
     @allure.title("监理档案")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query021(self):
+        log.info("监理档案")
         with allure.step("查看监理是否存在"):
             jl_da = ict.Test_Added01().test_Added0125(jl_name="毛敏监理01")
             assert jl_da[0] == '操作成功'
@@ -1508,6 +1531,7 @@ class Test_query002():
     @allure.title("区域规则-集装箱进口运输,操作区域蛇口")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query022(self):
+        log.info("区域规则-集装箱进口运输,操作区域蛇口")
         '''用例描述'''
         with allure.step("查看区域规则-集装箱进口运输,操作区域蛇口是否存在"):
             qy_gh = ict.Test_Added01().test_Added0031(taskUnitCode="port_container_import_transport",
@@ -1545,6 +1569,7 @@ class Test_query002():
     @allure.title("接单中心-集装箱进口运输")
     # @pytest.mark.skip(reason="无理由跳")
     def test_query023(self):
+        log.info("接单中心-集装箱进口运输")
         with allure.step("查看接单中心-集装箱进口运输，是否存在"):
             jd_zx = ict.Test_Added01().test_Added0035(taskUnitCode="port_container_import_transport")
             assert jd_zx[0] == '操作成功'
@@ -1578,6 +1603,7 @@ class Test_query002():
     @allure.title("计划中心-集装箱进口运输")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query024(self):
+        log.info("计划中心-集装箱进口运输")
         with allure.step("查看计划中心-集装箱进口运输，是否存在"):
             jh_zx = ict.Test_Added01().test_Added0039(taskUnitCode="port_container_import_transport")
             assert jh_zx[0] == '操作成功'
@@ -1611,6 +1637,7 @@ class Test_query002():
     @allure.title("货主市场报价--集装箱进口")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query025(self):
+        log.info("货主市场报价--集装箱进口")
         with allure.step("查看货主id"):
             hz_id = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
             assert hz_id[0] == '操作成功'
@@ -1760,6 +1787,7 @@ class Test_query002():
     @allure.title("自有司机报价--集装箱进口")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query026(self):
+        log.info("自有司机报价--集装箱进口")
         with allure.step("查看自有车报价单是否存在"):
             bz_dd1 = ict.Test_Added01().test_Added0076(fw_lx="port_container_import_transport")
             assert bz_dd1[0] == '操作成功'
@@ -1866,6 +1894,7 @@ class Test_query002():
     @allure.title("司机市场报价--厢式车进口运输")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query027(self):
+        log.info("司机市场报价--厢式车进口运输")
         with allure.step("查看厢式车进口司机市场报价是否存在"):
             sj_bjd = ict.Test_Added01().test_Added0115(fy_lx="port_container_import_transport")
             assert sj_bjd[0] == '操作成功'
@@ -1963,6 +1992,7 @@ class Test_query002():
     @allure.title("司机市场报价--厢式车内陆运输")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query028(self):
+        log.info("司机市场报价--厢式车内陆运输")
         with allure.step("查看货主id"):
             hz_id = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
             assert hz_id[0] == '操作成功'
@@ -2079,6 +2109,7 @@ class Test_query002():
     @allure.title("自有司机报价--厢式车内陆运输")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query029(self):
+        log.info("自有司机报价--厢式车内陆运输")
         with allure.step("查看货主id"):
             hz_id = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
             assert hz_id[0] == '操作成功'
@@ -2198,6 +2229,7 @@ class Test_query002():
     @allure.title("客户文件配置--厢式车")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query029(self):
+        log.info("客户文件配置--厢式车")
         with allure.step("查看货主id"):
             hz_id = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
             assert hz_id[0] == '操作成功'
@@ -2233,6 +2265,7 @@ class Test_query002():
     @allure.title("接单中心-危险品运输出口")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query030(self):
+        log.info("接单中心-危险品运输出口")
         with allure.step("查看接单中心-危险品运输出口，是否存在"):
             jd_zx = ict.Test_Added01().test_Added0035(taskUnitCode="dangerous_cargo_export_transport")
             assert jd_zx[0] =='操作成功'
@@ -2265,6 +2298,7 @@ class Test_query002():
     @allure.title("区域规则-危险品出口运输,操作区域蛇口")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query031(self):
+        log.info("区域规则-危险品出口运输,操作区域蛇口")
         '''用例描述'''
         with allure.step("查看区域规则-危险品出口运输,操作区域蛇口是否存在"):
             qy_gh = ict.Test_Added01().test_Added0031(taskUnitCode="dangerous_cargo_export_transport",centerName="shekou_group")
@@ -2298,6 +2332,7 @@ class Test_query002():
     @allure.title("计划中心-危险品出口运输")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query032(self):
+        log.info("计划中心-危险品出口运输")
         with allure.step("查看计划中心-危险品出口运输，是否存在"):
             jh_zx = ict.Test_Added01().test_Added0039(taskUnitCode="dangerous_cargo_export_transport")
             assert jh_zx[0] == '操作成功'
@@ -2330,6 +2365,7 @@ class Test_query002():
     @allure.title("货主合同报价--危险品出口")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query033(self):
+        log.info("货主合同报价--危险品出口")
         with allure.step("查看货主id"):
             hz_id = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
             assert hz_id[0] == '操作成功'
@@ -2470,6 +2506,7 @@ class Test_query002():
     @allure.title("运输公司合同报价--危险品出口")
     # @pytest.mark.skip(reason="无理由跳过")
     def test_query034(self):
+        log.info("运输公司合同报价--危险品出口")
         with allure.step("查看供应商id"):
             gys_id = ict.Test_Added01().test_Added0062(gys_name=cf.gys1_name)
             assert gys_id[0] == '操作成功'
@@ -2574,13 +2611,11 @@ class Test_query002():
 
 @allure.parent_suite('ict业务场景测试用例')
 @allure.suite('ict业务场景测试用例模块')
-@allure.sub_suite('业务场景一 集装箱出口（测试点：重复派车自有车应付费用生成五条明细')
+@allure.sub_suite('业务场景一 集装箱出口')
 # @pytest.mark.skip(reason="无理由跳过")
 class Test_businesso1():
     # @pytest.mark.skip(reason="无理由跳过")
-
-
-    @allure.title("新增集装箱出口订单")
+    @allure.title("业务场景一 集装箱出口（测试点：重复派车自有车应付费用生成五条明细'")
     def test_business_scenario001(self):
         with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
             hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
@@ -2635,30 +2670,18 @@ class Test_businesso1():
             bjd_id = bjd_bm2[2]
             bjd_je = bjd_bm2[1]
         with allure.step("新增集装箱出口订单"):
-                xzjzx_ck = ict.Test_Added01().test_Added02100(customerId=hz_id,customerContact=lxr_name,customerContactPhone=lxr_hm,
-                            customerServiceId=kf_id,transportPort=gk_id,departureProvinces=sf_bm,departureCity=cs_bm,departureArea=q_bm,
-                            departure=jd_bm,cyCutOffTime=time3,consignorId=zhdw_id,consignorName=zhdw_name,consignorContact=zhdw_lxr,
-                            consignorContactPhone=zhdw_xlrdh,consignorContactAddr=zhdw_xxdz,provinces=sf_bm,city=cs_bm,district=q_bm,
-                            street=jd_bm,pickupTime=time2,bookingNumber=SSS,customerDelegateCode=time9,baseAmount=bjd_je,price=bjd_je,
-                            customerPricePropertyId=bjd_id,matchKey=jd_bm)
-                assert xzjzx_ck == '操作成功'
+            newly_order = ict.Test_Added01().test_Added02100(customerId=hz_id,customerContact=lxr_name,customerContactPhone=lxr_hm,
+                        customerServiceId=kf_id,transportPort=gk_id,departureProvinces=sf_bm,departureCity=cs_bm,departureArea=q_bm,
+                        departure=jd_bm,cyCutOffTime=time3,consignorId=zhdw_id,consignorName=zhdw_name,consignorContact=zhdw_lxr,
+                        consignorContactPhone=zhdw_xlrdh,consignorContactAddr=zhdw_xxdz,provinces=sf_bm,city=cs_bm,district=q_bm,
+                        street=jd_bm,pickupTime=time2,bookingNumber=SSS,customerDelegateCode=time9,baseAmount=bjd_je,price=bjd_je,
+                        customerPricePropertyId=bjd_id,matchKey=jd_bm)
+            assert newly_order == '操作成功'
         with allure.step("查询新增集装箱出口运输订单信息"):
             dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode=time9)
             assert dd_xx[0] == '操作成功'
-        with allure.step("集装箱出口运输订单号：{}".format(dd_xx[3])):
-            pass
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("集装箱出口订单分单管理》分自有车")
-    def test_business_scenario002(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]     #货主id
-            kf_id = hz_id1[2]     #客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
+        '''集装箱出口订单分单管理》分自有车'''
         with allure.step("计划管理，分单查询，订单号：{}".format(dd_xx[3])):
             fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_xx[3])
             assert fd_xx[0] == '操作成功'
@@ -2682,17 +2705,7 @@ class Test_businesso1():
                     qy_jdzx = ict.Test_Added01().test_Added0058(zy_che=fd_id,gys="",hy_dt="")
                     assert qy_jdzx == '操作成功'
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("集装箱出口订单派自有车A")
-    def test_business_scenario003(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
+        '''集装箱出口订单派自有车A'''
         with allure.step("查询调度管理集装箱出口运输订单信息"):
             dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
             assert dd_xx1[0] == '操作成功'
@@ -2732,12 +2745,29 @@ class Test_businesso1():
                 with allure.step("出车表存在，查看出车表信息"):
                     cc_dd = ict.Test_Added01().test_Added0074(sj_id=sj_id,cp_hao="粤ZZ0001",zh_time=time2)
                     assert cc_dd[0] == '操作成功'
-                    if cc_dd[2] == "car_dispatch_undistribute":
-                        with allure.step("出车表存在,车牌号：{}，并未分配".format(cc_dd[4])):
-                            pass
-                    if cc_dd[2] == "car_dispatch_completed":
-                        fz_ccb = ict.Test_Added01().test_Added0084(ccb_id=cc_dd[1])
-                        assert fz_ccb == '操作成功'
+
+                    data1 = cc_dd[5]
+                    list11 = []
+                    for i in data1:
+                        # print(i)
+                        n = ict.get_k(i)
+                        # print(n)
+                        for key in n.keys():
+                            if key == "status":
+                                list11.append(key)
+                                list11.append(n[key])
+                    # print(list11)
+                    for j in list11:
+                        list22 = []
+                        if  j =="car_dispatch_undistribute" :
+                            list22.append(j)
+                            if list22 == "car_dispatch_undistribute":
+                                with allure.step("出车表存在,车牌号：{}，并未分配".format(cc_dd[4])):
+                                    pass
+                            if list22 == "car_dispatch_completed":
+                                fz_ccb = ict.Test_Added01().test_Added0084(ccb_id=cc_dd[1])
+                                assert fz_ccb == '操作成功'
+
         with allure.step("维护出车表信息"):
             cc_xx = ict.Test_Added01().test_Added0074(sj_id=sj_id, cp_hao="粤ZZ0001",zh_time=time2)
             assert cc_xx[0] == '操作成功'
@@ -2799,27 +2829,13 @@ class Test_businesso1():
             finishTime = dl_time[1][2]["finishTime"]
             pytest.assume(taskTypeName == '离开提柜地')    #节点名称
             pytest.assume(finishTime != [])               #节点时间
-    #
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("集装箱出口订单撤销派自有车A")
-    def test_business_scenario004(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            pytest.assume(hz_id1[0] == '操作成功')
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            pytest.assume(dd_xx[0] == '操作成功')
-        with allure.step("查询调度管理集装箱出口运输订单信息"):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3], lx="port_container_export_transport")
-            pytest.assume(dd_xx1[0] == '操作成功')
-            dd_id = dd_xx1[1]  # 订单id
-        with allure.step("自有车撤销派单，订单号:{}".format(dd_xx1[2])):
+
+        '''集装箱出口订单撤销派自有车A'''
+        with allure.step("自有车撤销派单，订单号:{}".format(dd_hao)):
             cx_pd = ict.Test_Added01().test_Added0092(dd_id=dd_id)
             pytest.assume(cx_pd == '操作成功')
-        with allure.step("跟踪管理查看柜号不清空，订单:{}".format(dd_xx1[2])):
-            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_xx1[2],fw_lx="port_container_export_transport")
+        with allure.step("跟踪管理查看柜号不清空，订单:{}".format(dd_hao)):
+            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_hao,fw_lx="port_container_export_transport")
             x_hao = "FSCU5130217"
             ft_hao = "CAAU5507656"
             kg_z = "2580"
@@ -2830,7 +2846,7 @@ class Test_businesso1():
             allure.attach(ck_g_hao[1][0]["containerNumber"], name="断言柜号：FSCU5130217", attachment_type=allure.attachment_type.TEXT)
             allure.attach(ck_g_hao[1][0]["sealNumber"], name="断言封条号：CAAU5507656", attachment_type=allure.attachment_type.TEXT)
             allure.attach(ck_g_hao[1][0]["cabinetWeight"], name="断言柜重：2580", attachment_type=allure.attachment_type.TEXT)
-        with allure.step("跟踪管理查看提柜节点时间跟踪清空，订单:{}".format(dd_xx1[2])):
+        with allure.step("跟踪管理查看提柜节点时间跟踪清空，订单:{}".format(dd_hao)):
             dl_time = ict.Test_Added01().test_Added0093(dd_id=dd_id)
             pytest.assume(dl_time[0]  == '操作成功')
             taskTypeName = dl_time[1][2]["taskTypeName"]
@@ -2844,8 +2860,8 @@ class Test_businesso1():
                     # print(time1[key])
                     list22.append(key)
             pytest.assume(list22 == [])      #断言节点时间key不存在
-        with allure.step("断言应付费用列表清空，订单:{}".format(dd_xx1[2])):
-            fy_lb = ict.Test_Added01().test_Added0094(dd_hao=dd_xx1[2],fw_lx="port_container_export_transport")
+        with allure.step("断言应付费用列表清空，订单:{}".format(dd_hao)):
+            fy_lb = ict.Test_Added01().test_Added0094(dd_hao=dd_hao,fw_lx="port_container_export_transport")
             pytest.assume(fy_lb[0] ==  '操作成功')
             allure.attach(body=fy_lb[0], name="接口响应", attachment_type=allure.attachment_type.TEXT)
             pytest.assume(fy_lb[2]["driverName"] != "测试自有车-集1" )      #断言司机名称
@@ -2864,27 +2880,8 @@ class Test_businesso1():
             pytest.assume(fy_lb[2]["baseAmount"] == 0 )      #断言应付运费0
             pytest.assume(fy_lb[2]["otherAmount"] == 0 )      #断言其它应付费用0
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("集装箱出口订单派自有车B")
-    def test_business_scenario005(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("查询调度管理集装箱出口运输订单信息"):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
-            assert dd_xx1[0] == '操作成功'
-            dd_id =  dd_xx1[1]   #订单id
-            zh_time = dd_xx1[3][0]["pickupTime"]    #装货时间  年月日时分秒
-            cz_qy = dd_xx1[3][0]["operationGroup"]   # 操作区域
-            dd_hao = dd_xx1[2]    #订单号
-            str_datetime = zh_time
-            time1 = datetime.datetime.strptime(str_datetime, "%Y-%m-%d %H:%M:%S")
-            time2 = time1.strftime('%Y-%m-%d')   #装货时间  年月日
+
+        '''集装箱出口订单派自有车B'''
         with allure.step("查看司机档案"):
             xz_sj = ict.Test_Added01().test_Added0066(sj_name="测试自有车-集2")
             assert xz_sj[0] == '操作成功'
@@ -2914,12 +2911,28 @@ class Test_businesso1():
                 with allure.step("出车表存在，查看出车表信息"):
                     cc_dd = ict.Test_Added01().test_Added0074(sj_id=sj_id,cp_hao="粤B7788",zh_time=time2)
                     assert cc_dd[0] == '操作成功'
-                    if cc_dd[2] == "car_dispatch_undistribute":
-                        with allure.step("出车表存在,车牌号：{}，并未分配".format(cc_dd[4])):
-                            pass
-                    if cc_dd[2] == "car_dispatch_completed":
-                        fz_ccb = ict.Test_Added01().test_Added0084(ccb_id=cc_dd[1])
-                        assert fz_ccb == '操作成功'
+                    data1 = cc_dd[5]
+                    list11 = []
+                    for i in data1:
+                        # print(i)
+                        n = ict.get_k(i)
+                        # print(n)
+                        for key in n.keys():
+                            if key == "status":
+                                list11.append(key)
+                                list11.append(n[key])
+                    # print(list11)
+                    for j in list11:
+                        list22 = []
+                        if  j =="car_dispatch_undistribute" :
+                            list22.append(j)
+                            if list22 == "car_dispatch_undistribute":
+                                with allure.step("出车表存在,车牌号：{}，并未分配".format(cc_dd[4])):
+                                    pass
+                            if list22 == "car_dispatch_completed":
+                                fz_ccb = ict.Test_Added01().test_Added0084(ccb_id=cc_dd[1])
+                                assert fz_ccb == '操作成功'
+
         with allure.step("维护出车表信息"):
             cc_xx = ict.Test_Added01().test_Added0074(sj_id=sj_id, cp_hao="粤B7788",zh_time=time2)
             assert cc_xx[0] == '操作成功'
@@ -2987,26 +3000,12 @@ class Test_businesso1():
         #             list22.append(key)
         #     pytest.assume(list22 != [])      #断言节点时间key存在
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("集装箱出口订单撤销派自有车B")
-    def test_business_scenario006(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            pytest.assume(hz_id1[0] == '操作成功')
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            pytest.assume(dd_xx[0] == '操作成功')
-        with allure.step("查询调度管理集装箱出口运输订单信息"):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3], lx="port_container_export_transport")
-            pytest.assume(dd_xx1[0] == '操作成功')
-            dd_id = dd_xx1[1]  # 订单id
-        with allure.step("自有车撤销派单，订单号:{}".format(dd_xx1[2])):
+        '''集装箱出口订单撤销派自有车B'''
+        with allure.step("自有车撤销派单，订单号:{}".format(dd_hao)):
             cx_pd = ict.Test_Added01().test_Added0092(dd_id=dd_id)
             pytest.assume(cx_pd == '操作成功')
-        with allure.step("跟踪管理查看柜号不清空，订单:{}".format(dd_xx1[2])):
-            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_xx1[2],fw_lx="port_container_export_transport")
+        with allure.step("跟踪管理查看柜号不清空，订单:{}".format(dd_hao)):
+            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_hao,fw_lx="port_container_export_transport")
             x_hao = "FSCU5130217"
             ft_hao = "CAAU5507656"
             kg_z = "2580"
@@ -3017,7 +3016,7 @@ class Test_businesso1():
             allure.attach(ck_g_hao[1][0]["containerNumber"], name="断言柜号：FSCU5130217", attachment_type=allure.attachment_type.TEXT)
             allure.attach(ck_g_hao[1][0]["sealNumber"], name="断言封条号：CAAU5507656", attachment_type=allure.attachment_type.TEXT)
             allure.attach(ck_g_hao[1][0]["cabinetWeight"], name="断言柜重：2580", attachment_type=allure.attachment_type.TEXT)
-        with allure.step("跟踪管理查看提柜节点时间跟踪清空，订单:{}".format(dd_xx1[2])):
+        with allure.step("跟踪管理查看提柜节点时间跟踪清空，订单:{}".format(dd_hao)):
             dl_time = ict.Test_Added01().test_Added0093(dd_id=dd_id)
             pytest.assume(dl_time[0]  == '操作成功')
             taskTypeName = dl_time[1][2]["taskTypeName"]
@@ -3031,8 +3030,8 @@ class Test_businesso1():
                     # print(time1[key])
                     list22.append(key)
             pytest.assume(list22 == [])      #断言节点时间key不存在
-        with allure.step("断言应付费用列表清空，订单:{}".format(dd_xx1[2])):
-            fy_lb = ict.Test_Added01().test_Added0094(dd_hao=dd_xx1[2],fw_lx="port_container_export_transport")
+        with allure.step("断言应付费用列表清空，订单:{}".format(dd_hao)):
+            fy_lb = ict.Test_Added01().test_Added0094(dd_hao=dd_hao,fw_lx="port_container_export_transport")
             pytest.assume(fy_lb[0] ==  '操作成功')
             allure.attach(body=fy_lb[0], name="接口响应", attachment_type=allure.attachment_type.TEXT)
             pytest.assume(fy_lb[2]["driverName"] != "测试自有车-集2" )      #断言司机名称
@@ -3050,27 +3049,7 @@ class Test_businesso1():
             pytest.assume(fy_lb[2]["baseAmount"] == 0 )      #断言应付运费0
             pytest.assume(fy_lb[2]["otherAmount"] == 0 )      #断言其它应付费用0
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("集装箱出口订单派自有车c")
-    def test_business_scenario007(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("查询调度管理集装箱出口运输订单信息"):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3], lx="port_container_export_transport")
-            assert dd_xx1[0] == '操作成功'
-            dd_id = dd_xx1[1]  # 订单id
-            zh_time = dd_xx1[3][0]["pickupTime"]    #装货时间  年月日时分秒
-            cz_qy = dd_xx1[3][0]["operationGroup"]   # 操作区域
-            dd_hao = dd_xx1[2]  # 订单号
-            str_datetime = zh_time
-            time1 = datetime.datetime.strptime(str_datetime, "%Y-%m-%d %H:%M:%S")
-            time2 = time1.strftime('%Y-%m-%d')  # 装货时间  年月日
+        '''集装箱出口订单派自有车c'''
         with allure.step("查看司机档案"):
             xz_sj = ict.Test_Added01().test_Added0066(sj_name="测试自有车-集1")
             assert xz_sj[0] == '操作成功'
@@ -3100,12 +3079,31 @@ class Test_businesso1():
                 with allure.step("出车表存在，查看出车表信息"):
                     cc_dd = ict.Test_Added01().test_Added0074(sj_id=sj_id, cp_hao="粤ZZ0001", zh_time=time2)
                     assert cc_dd[0] == '操作成功'
-                    if cc_dd[2] == "car_dispatch_undistribute":
-                        with allure.step("出车表存在,车牌号：{}，并未分配".format(cc_dd[4])):
-                            pass
-                    if cc_dd[2] == "car_dispatch_completed":
-                        fz_ccb = ict.Test_Added01().test_Added0084(ccb_id=cc_dd[1])
-                        assert fz_ccb == '操作成功'
+
+                    data1 = cc_dd[5]
+                    list11 = []
+                    for i in data1:
+                        # print(i)
+                        n = ict.get_k(i)
+                        # print(n)
+                        for key in n.keys():
+                            if key == "status":
+                                list11.append(key)
+                                list11.append(n[key])
+                    # print(list11)
+                    for j in list11:
+                        list22 = []
+                        if j == "car_dispatch_undistribute":
+                            list22.append(j)
+                            if list22 == "car_dispatch_undistribute":
+                                with allure.step("出车表存在,车牌号：{}，并未分配".format(cc_dd[4])):
+                                    pass
+                            if list22 == "car_dispatch_completed":
+                                fz_ccb = ict.Test_Added01().test_Added0084(ccb_id=cc_dd[1])
+                                assert fz_ccb == '操作成功'
+
+
+
         with allure.step("维护出车表信息"):
             cc_xx = ict.Test_Added01().test_Added0074(sj_id=sj_id, cp_hao="粤ZZ0001", zh_time=time2)
             assert cc_xx[0] == '操作成功'
@@ -3180,26 +3178,12 @@ class Test_businesso1():
             pytest.assume(fy_lb[0] == '操作成功')
             pytest.assume(fy_lb[2]["chargeStatus"] == "status_check_all_completed")  # 断言订单费用状态已整审
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("集装箱出口订单撤销派自有车c")
-    def test_business_scenario008(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            pytest.assume(hz_id1[0] == '操作成功')
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            pytest.assume(dd_xx[0] == '操作成功')
-        with allure.step("查询调度管理集装箱出口运输订单信息"):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3], lx="port_container_export_transport")
-            pytest.assume(dd_xx1[0] == '操作成功')
-            dd_id = dd_xx1[1]  # 订单id
-        with allure.step("自有车撤销派单，订单号:{}".format(dd_xx1[2])):
+        '''集装箱出口订单撤销派自有车c'''
+        with allure.step("自有车撤销派单，订单号:{}".format(dd_hao)):
             cx_pd = ict.Test_Added01().test_Added0092(dd_id=dd_id)
             pytest.assume(cx_pd == '操作成功')
-        with allure.step("跟踪管理查看柜号不清空，订单:{}".format(dd_xx1[2])):
-            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_xx1[2], fw_lx="port_container_export_transport")
+        with allure.step("跟踪管理查看柜号不清空，订单:{}".format(dd_hao)):
+            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_hao, fw_lx="port_container_export_transport")
             x_hao = "FSCU5130217"
             ft_hao = "CAAU5507656"
             kg_z = "2580"
@@ -3213,7 +3197,7 @@ class Test_businesso1():
                           attachment_type=allure.attachment_type.TEXT)
             allure.attach(ck_g_hao[1][0]["cabinetWeight"], name="断言柜重：2580",
                           attachment_type=allure.attachment_type.TEXT)
-        with allure.step("跟踪管理查看提柜节点时间跟踪清空，订单:{}".format(dd_xx1[2])):
+        with allure.step("跟踪管理查看提柜节点时间跟踪清空，订单:{}".format(dd_hao)):
             dl_time = ict.Test_Added01().test_Added0093(dd_id=dd_id)
             pytest.assume(dl_time[0] == '操作成功')
             taskTypeName = dl_time[1][2]["taskTypeName"]
@@ -3227,8 +3211,8 @@ class Test_businesso1():
                     # print(time1[key])
                     list22.append(key)
             pytest.assume(list22 == [])  # 断言节点时间key不存在
-        with allure.step("断言应付费用列表清空，订单:{}".format(dd_xx1[2])):
-            fy_lb = ict.Test_Added01().test_Added0094(dd_hao=dd_xx1[2], fw_lx="port_container_export_transport")
+        with allure.step("断言应付费用列表清空，订单:{}".format(dd_hao)):
+            fy_lb = ict.Test_Added01().test_Added0094(dd_hao=dd_hao, fw_lx="port_container_export_transport")
             pytest.assume(fy_lb[0] == '操作成功')
             allure.attach(body=fy_lb[0], name="接口响应", attachment_type=allure.attachment_type.TEXT)
             pytest.assume(fy_lb[2]["driverName"] != "测试自有车-集1")  # 断言司机名称
@@ -3248,27 +3232,8 @@ class Test_businesso1():
             pytest.assume(fy_lb[2]["baseAmount"] == 0 )          #断言应付运费0
             pytest.assume(fy_lb[2]["otherAmount"] == 0 )         #断言其它应付费用0
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("集装箱出口订单派自有车D")
-    def test_business_scenario009(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("查询调度管理集装箱出口运输订单信息"):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
-            assert dd_xx1[0] == '操作成功'
-            dd_id =  dd_xx1[1]   #订单id
-            zh_time = dd_xx1[3][0]["pickupTime"]    #装货时间  年月日时分秒
-            cz_qy = dd_xx1[3][0]["operationGroup"]   # 操作区域
-            dd_hao = dd_xx1[2]    #订单号
-            str_datetime = zh_time
-            time1 = datetime.datetime.strptime(str_datetime, "%Y-%m-%d %H:%M:%S")
-            time2 = time1.strftime('%Y-%m-%d')   #装货时间  年月日
+
+        '''集装箱出口订单派自有车D'''
         with allure.step("查看司机档案"):
             xz_sj = ict.Test_Added01().test_Added0066(sj_name="测试自有车-集2")
             assert xz_sj[0] == '操作成功'
@@ -3298,12 +3263,28 @@ class Test_businesso1():
                 with allure.step("出车表存在，查看出车表信息"):
                     cc_dd = ict.Test_Added01().test_Added0074(sj_id=sj_id,cp_hao="粤B7788",zh_time=time2)
                     assert cc_dd[0] == '操作成功'
-                    if cc_dd[2] == "car_dispatch_undistribute":
-                        with allure.step("出车表存在,车牌号：{}，并未分配".format(cc_dd[4])):
-                            pass
-                    if cc_dd[2] == "car_dispatch_completed":
-                        fz_ccb = ict.Test_Added01().test_Added0084(ccb_id=cc_dd[1])
-                        assert fz_ccb == '操作成功'
+
+                    data1 = cc_dd[5]
+                    list11 = []
+                    for i in data1:
+                        # print(i)
+                        n = ict.get_k(i)
+                        # print(n)
+                        for key in n.keys():
+                            if key == "status":
+                                list11.append(key)
+                                list11.append(n[key])
+                    # print(list11)
+                    for j in list11:
+                        list22 = []
+                        if j == "car_dispatch_undistribute":
+                            list22.append(j)
+                            if list22 == "car_dispatch_undistribute":
+                                with allure.step("出车表存在,车牌号：{}，并未分配".format(cc_dd[4])):
+                                    pass
+                            if list22 == "car_dispatch_completed":
+                                fz_ccb = ict.Test_Added01().test_Added0084(ccb_id=cc_dd[1])
+                                assert fz_ccb == '操作成功'
         with allure.step("维护出车表信息"):
             cc_xx = ict.Test_Added01().test_Added0074(sj_id=sj_id, cp_hao="粤B7788",zh_time=time2)
             assert cc_xx[0] == '操作成功'
@@ -3405,26 +3386,13 @@ class Test_businesso1():
             pytest.assume(je4 == -3500)
             pytest.assume(je5 == 3500)
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("取消订单")
-    def test_business_scenario010(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("查询调度管理集装箱出口运输订单信息,订单号：{}".format(dd_xx[3])):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
-            assert dd_xx1[0] == '操作成功'
-            dd_id = dd_xx1[1]  # 订单id
-        with allure.step("调度管理》撤销派单/车，订单号：{}".format(dd_xx1[2])):
+
+        '''取消订单'''
+        with allure.step("调度管理》撤销派单/车，订单号：{}".format(dd_hao)):
             cx_pc = ict.Test_Added01().test_Added0156(dd_id=dd_id)
             assert cx_pc == '操作成功'
-        with allure.step("计划管理，分单查询，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_xx[3])
+        with allure.step("计划管理，分单查询，订单号：{}".format(dd_hao)):
+            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             data1 = fd_xx[2]
             id = []
@@ -3447,18 +3415,18 @@ class Test_businesso1():
         with allure.step("集装箱运输》取消订单，订单号：{}".format(dd_xx1[2])):
             qx_dd = ict.Test_Added01().test_Added015701(dd_id=dd_xx[6]["id"])
             assert qx_dd == '操作成功'
-        with allure.step("订单管理》集装箱运输》查看订单状态，订单号：{}".format(dd_xx1[2])):
-            jzx_ys = ict.Test_Added01().test_Added0117(hz_id=hz_id)
+        with allure.step("订单管理》集装箱运输》查看订单状态，订单号：{}".format(dd_hao)):
+            jzx_ys = ict.Test_Added01().test_Added0117(hz_id=hz_id,customerDelegateCode="")
             assert jzx_ys[0] == '操作成功'
             assert jzx_ys[1][0]["orderStatus"] == 'status_undo_completed'
 
 @allure.parent_suite('ict业务场景测试用例')
 @allure.suite('ict业务场景测试用例模块')
-@allure.sub_suite('业务场景二 厢式车多装一卸（测试点：重复派车运输公司应付费用生成五条明细）')
+@allure.sub_suite('业务场景二 厢式车多装一卸')
 # @pytest.mark.skip(reason="无理由跳过")
 class Test_businesso2():
     # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("新增厢式车多点装货订单")
+    @allure.title("业务场景二 厢式车多装一卸（测试点：重复派车运输公司应付费用生成五条明细）")
     def test_business_scenario001(self):
         with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
             hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
@@ -3562,22 +3530,11 @@ class Test_businesso2():
         with allure.step("查询新增集装箱出口运输订单信息"):
             dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode=time9)
             assert dd_xx[0] == '操作成功'
-        with allure.step("集装箱出口运输订单号：{}".format(dd_xx[3])):
-            pass
+            dd_hao =  dd_xx[3]
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("厢式车订单分单管理》分供应商")
-    def test_business_scenario002(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询厢式车运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("计划管理，分单查询，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_xx[3])
+        '''厢式车订单分单管理》分供应'''
+        with allure.step("计划管理，分单查询，订单号：{}".format(dd_hao)):
+            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             assert fd_xx[1] == 1
             data1 = fd_xx[2]
@@ -3599,19 +3556,9 @@ class Test_businesso2():
                     qy_jdzx = ict.Test_Added01().test_Added0058(zy_che="", gys=fd_id, hy_dt="")
                     assert qy_jdzx == '操作成功'
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("厢式车订单派供应商A：手工报价")
-    def test_business_scenario003(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询厢式车运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("计划管理，获取订单ID，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_xx[3])
+        '''厢式车订单派供应商A：手工报价'''
+        with allure.step("计划管理，获取订单ID，订单号：{}".format(dd_hao)):
+            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             dd_id = fd_xx[2][0]["id"]
         with allure.step("查看供应商id"):
@@ -3626,26 +3573,12 @@ class Test_businesso2():
             gys_xx = ict.Test_Added01().test_Added0106(dd_id=dd_id,gys_lxr=gys_lxr,gys_lxrdh=gys_lxrdh,gys_id=gys_id[1],je=2500)
             assert gys_xx == '操作成功'
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("厢式车订单派供应商A：应付费用断言")
-    def test_business_scenario004(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询厢式车运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("计划管理，获取订单ID，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_xx[3])
-            assert fd_xx[0] == '操作成功'
-            dd_id = fd_xx[2][0]["id"]
-        with allure.step("应付费用基本信息明细，订单:{}".format(dd_xx[3])):
+        '''厢式车订单派供应商A：应付费用断言'''
+        with allure.step("应付费用基本信息明细，订单:{}".format(dd_hao)):
             jb_xx = ict.Test_Added01().test_Added0087(dd_id=dd_id)
             pytest.assume(jb_xx[0] == '操作成功')
             zd_id =jb_xx[1]["chargeInfo"][0]["id"]  # 账单ID
-        with allure.step("应付费用费用信息明细，订单:{}".format(dd_xx[3])):
+        with allure.step("应付费用费用信息明细，订单:{}".format(dd_hao)):
             fy_xx = ict.Test_Added01().test_Added0088(dd_id=dd_id)
             pytest.assume(fy_xx[0] == '操作成功')
             # zd_id = fy_xx[1][0]["id"]   #账单ID
@@ -3676,21 +3609,8 @@ class Test_businesso2():
                     list22.append(time1[key])
             pytest.assume(list11 == [])  # 断言车牌号key不存在
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("厢式车订单改派供应商B：合同报价")
-    def test_business_scenario005(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询厢式车运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("计划管理，获取订单ID，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_xx[3])
-            assert fd_xx[0] == '操作成功'
-            dd_id = fd_xx[2][0]["id"]
+
+        '''厢式车订单改派供应商B：合同报价'''
         with allure.step("查看供应商id"):
             gys_id = ict.Test_Added01().test_Added0062(gys_name=cf.gys1_name)
             assert gys_id[0] == '操作成功'
@@ -3703,21 +3623,7 @@ class Test_businesso2():
             gys_xx = ict.Test_Added01().test_Added0107(dd_id=dd_id,gys_lxr=gys_lxr,gys_lxrdh=gys_lxrdh,gys_id=gys_id[1])
             assert gys_xx == '操作成功'
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("供应商B接单，并指派车辆")
-    def test_business_scenario006(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询厢式车运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("计划管理，获取订单ID，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_xx[3])
-            assert fd_xx[0] == '操作成功'
-            dd_id = fd_xx[2][0]["id"]
+        '''供应商B接单，并指派车辆'''
         with allure.step("查看供应商id"):
             gys_id = ict.Test_Added01().test_Added0062(gys_name=cf.gys1_name)
             assert gys_id[0] == '操作成功'
@@ -3740,7 +3646,7 @@ class Test_businesso2():
                                                                       c_pai=c_pai,siji_name=siji_name)
             assert zp_cl == '操作成功'
 
-        with allure.step("应付费用基本信息明细，订单:{}".format(dd_xx[3])):
+        with allure.step("应付费用基本信息明细，订单:{}".format(dd_hao)):
             jb_xx = ict.Test_Added01().test_Added0087(dd_id=dd_id)
             pytest.assume(jb_xx[0] == '操作成功')
             zd_id = jb_xx[1]["chargeInfo"][0]["id"]  # 账单ID
@@ -3769,21 +3675,7 @@ class Test_businesso2():
             zd_zt = fy_xx[1][0]["statusType"]  # 明细账单状态  待审核：status_check_awaiting  一整审：status_check_all_completed
             pytest.assume(zd_zt == "status_check_completed")
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("厢式车订单改派供应商C：手工报价")
-    def test_business_scenario007(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询厢式车运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("计划管理，获取订单ID，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_xx[3])
-            assert fd_xx[0] == '操作成功'
-            dd_id = fd_xx[2][0]["id"]
+        '''厢式车订单改派供应商C：手工报价'''
         with allure.step("查看供应商id"):
             gys_id = ict.Test_Added01().test_Added0062(gys_name=cf.gys2_name)
             assert gys_id[0] == '操作成功'
@@ -3798,7 +3690,7 @@ class Test_businesso2():
             assert gys_xx == '操作成功'
 
 
-        with allure.step("应付费用费用信息明细，订单:{}".format(dd_xx[3])):
+        with allure.step("应付费用费用信息明细，订单:{}".format(dd_hao)):
             fy_xx = ict.Test_Added01().test_Added0088(dd_id=dd_id)
             pytest.assume(fy_xx[0] == '操作成功')
             zd_id1 = fy_xx[1][2]["id"]  # 账单ID
@@ -3855,21 +3747,7 @@ class Test_businesso2():
             allure.attach(body=fy_lb[0], name="接口响应", attachment_type=allure.attachment_type.TEXT)
             pytest.assume(fy_lb[2]["chargeStatus"] == "status_check_all_completed")  # 断言订单费用状态已整审
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("厢式车订单改派供应商D：合同报价")
-    def test_business_scenario008(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询厢式车运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("计划管理，获取订单ID，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_xx[3])
-            assert fd_xx[0] == '操作成功'
-            dd_id = fd_xx[2][0]["id"]
+        '''厢式车订单改派供应商D：合同报价'''
         with allure.step("查看供应商id"):
             gys_id = ict.Test_Added01().test_Added0062(gys_name=cf.gys1_name)
             assert gys_id[0] == '操作成功'
@@ -3882,21 +3760,7 @@ class Test_businesso2():
             gys_xx = ict.Test_Added01().test_Added0107(dd_id=dd_id,gys_lxr=gys_lxr,gys_lxrdh=gys_lxrdh,gys_id=gys_id[1])
             assert gys_xx == '操作成功'
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("供应商D接单，并指派车辆")
-    def test_business_scenario009(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询厢式车运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("计划管理，获取订单ID，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_xx[3])
-            assert fd_xx[0] == '操作成功'
-            dd_id = fd_xx[2][0]["id"]
+        '''供应商D接单，并指派车辆'''
         with allure.step("查看供应商id"):
             gys_id = ict.Test_Added01().test_Added0062(gys_name=cf.gys1_name)
             assert gys_id[0] == '操作成功'
@@ -3918,14 +3782,14 @@ class Test_businesso2():
             zp_cl = ict.Test_transport_company01().test_transport0009(dd_id=dd_id,shiji_dh=siji_dh,cl_id=cl_id,siji_id=siji_id,
                                                                       c_pai=c_pai,siji_name=siji_name)
             assert zp_cl == '操作成功'
-        with allure.step("断言应付费用插入改单明细信息，订单:{}".format(dd_xx[3])):
-            yf_gd = ict.Test_Added01().test_Added0097(dd_hao=dd_xx[3])
+        with allure.step("断言应付费用插入改单明细信息，订单:{}".format(dd_hao)):
+            yf_gd = ict.Test_Added01().test_Added0097(dd_hao=dd_hao)
             pytest.assume(yf_gd[0] == '操作成功')
             pytest.assume(yf_gd[1][0]["renewalReason"] == '海格原因')  # 断言改单原因
             pytest.assume(yf_gd[1][0]["statusType"] == 'status_submit_awaiting')  # 断言改单状态
 
             zd_id = yf_gd[1][0]["id"]
-        with allure.step("应付费用改单详情页，订单:{},{}".format(dd_xx[3],zd_id)):
+        with allure.step("应付费用改单详情页，订单:{},{}".format(dd_hao,zd_id)):
             gd_xx = ict.Test_Added01().test_Added0183(zd_id=zd_id)
             pytest.assume(gd_xx[0]  == '操作成功')
             title1 = ict.get_k(gd_xx[1]["title"])
@@ -3937,10 +3801,10 @@ class Test_businesso2():
             pytest.assume(gd_tj  == '操作成功')
 
 
-        with allure.step("应付费用改单审核，订单:{}".format(dd_xx[3])):
+        with allure.step("应付费用改单审核，订单:{}".format(dd_hao)):
             gd_sh = ict.Test_Added01().test_Added0099(gd_id=yf_gd[1][0]["id"])
             pytest.assume(gd_sh == '操作成功')
-        with allure.step("断言改单明细插入应付账单，订单:{}".format(dd_xx[3])):  #断言的是改单明细是否插入应付账单
+        with allure.step("断言改单明细插入应付账单，订单:{}".format(dd_hao)):  #断言的是改单明细是否插入应付账单
             fy_xx = ict.Test_Added01().test_Added0088(dd_id=dd_id)
             pytest.assume(fy_xx[0] == '操作成功')
             # zd_id = fy_xx[1][0]["id"]   #账单ID
@@ -3975,26 +3839,12 @@ class Test_businesso2():
             pytest.assume(je4 == -4500)
             pytest.assume(je5 == 5000)
 
-    @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("取消订单")
-    def test_business_scenario010(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询厢式车运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("计划管理，获取订单ID，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_xx[3])
-            assert fd_xx[0] == '操作成功'
-            dd_id = fd_xx[2][0]["id"]
-        with allure.step("调度管理》撤销派单/车，订单号：{}".format(dd_xx[2])):
+        '''取消订单'''
+        with allure.step("调度管理》撤销派单/车，订单号：{}".format(dd_hao)):
             cx_pc = ict.Test_Added01().test_Added0156(dd_id=dd_id)
             assert cx_pc == '操作成功'
-        with allure.step("计划管理，分单查询，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_xx[3])
+        with allure.step("计划管理，分单查询，订单号：{}".format(dd_hao)):
+            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             data1 = fd_xx[2]
             id = []
@@ -4014,21 +3864,21 @@ class Test_businesso2():
                 with allure.step("撤销分单,分单号：{}".format(fd_id)):
                     qy_jdzx = ict.Test_Added01().test_Added0157(dd_id=fd_id)
                     assert qy_jdzx == '操作成功'
-        with allure.step("集装箱运输》取消订单，订单号：{}".format(dd_xx[3])):
+        with allure.step("集装箱运输》取消订单，订单号：{}".format(dd_hao)):
             qx_dd = ict.Test_Added01().test_Added015701(dd_id=dd_xx[6]["id"])
             assert qx_dd == '操作成功'
-        with allure.step("订单管理》集装箱运输》查看订单状态，订单号：{}".format(dd_xx[3])):
-            jzx_ys = ict.Test_Added01().test_Added0168(hz_id=hz_id)
+        with allure.step("订单管理》集装箱运输》查看订单状态，订单号：{}".format(dd_hao)):
+            jzx_ys = ict.Test_Added01().test_Added0168(orderNumber=dd_hao)
             assert jzx_ys[0] == '操作成功'
             assert jzx_ys[1][0]["orderStatus"] == 'status_undo_completed'
 
 @allure.parent_suite('ict业务场景测试用例')
 @allure.suite('ict业务场景测试用例模块')
-@allure.sub_suite('业务场景四 集装箱出口（测试点：柜号多路径同步）')
+@allure.sub_suite('业务场景四 集装箱出口')
 # @pytest.mark.skip(reason="无理由跳过")
 class Test_businesso3():
     # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("新增集装箱出口订单")
+    @allure.title("业务场景四 集装箱出口（测试点：柜号多路径同步）")
     def test_business_scenario001(self):
         with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
             hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
@@ -4098,22 +3948,11 @@ class Test_businesso3():
         with allure.step("查询新增集装箱出口运输订单信息"):
             dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode=time9)
             assert dd_xx[0] == '操作成功'
-        with allure.step("集装箱出口运输订单号：{}".format(dd_xx[3])):
-            pass
-
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("集装箱出口订单分单管理》分自有车")
-    def test_business_scenario002(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]     #货主id
-            kf_id = hz_id1[2]     #客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("计划管理，分单查询，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_xx[3])
+            dd_hao = dd_xx[3]
+            orde_id = dd_xx[6]["id"]
+        '''集装箱出口订单分单管理》分自有车'''
+        with allure.step("集装箱出口订单分单管理》分自有车>计划管理，分单查询，订单号：{}".format(dd_hao)):
+            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             assert fd_xx[1] == 4
             data1 = fd_xx[2]
@@ -4131,23 +3970,13 @@ class Test_businesso3():
                 id1 += 1
                 # print(id2)
                 fd_id = id[id2]
-                with allure.step("分单，分派自有车,分单号：{}".format(fd_id)):
+                with allure.step("集装箱出口订单分单管理》分自有车>分单，分派自有车,分单号：{}".format(fd_id)):
                     qy_jdzx = ict.Test_Added01().test_Added0058(zy_che=fd_id,gys="",hy_dt="")
                     assert qy_jdzx == '操作成功'
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("集装箱出口订单派自有车A，并审核应付明细")
-    def test_business_scenario003(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("查询调度管理集装箱出口运输订单信息"):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
+        '''集装箱出口订单派自有车A，并审核应付明细'''
+        with allure.step("集装箱出口订单派自有车A，并审核应付明细>查询调度管理集装箱出口运输订单信息"):
+            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_hao,lx="port_container_export_transport")
             assert dd_xx1[0] == '操作成功'
             dd_id =  dd_xx1[1]   #订单id
             zh_time = dd_xx1[3][0]["pickupTime"]    #装货时间  年月日时分秒
@@ -4156,100 +3985,93 @@ class Test_businesso3():
             str_datetime = zh_time
             time1 = datetime.datetime.strptime(str_datetime, "%Y-%m-%d %H:%M:%S")
             time2 = time1.strftime('%Y-%m-%d')   #装货时间  年月日
-        with allure.step("查看司机档案"):
+        with allure.step("集装箱出口订单派自有车A，并审核应付明细>查看司机档案"):
             xz_sj = ict.Test_Added01().test_Added0066(sj_name="测试自有车-集1")
             assert xz_sj[0] == '操作成功'
             sj_id = xz_sj[1]   #司机id
             sj_name = xz_sj[4]   #司机名称
             sj_haoma = xz_sj[5]   #司机号码
-        with allure.step("查看运输公司档案"):
+        with allure.step("集装箱出口订单派自有车A，并审核应付明细>查看运输公司档案"):
             gys_da = ict.Test_Added01().test_Added0062(gys_name="租户测试自有车-集1")
             assert gys_da[0] == '操作成功'
             gys_id = gys_da[1]  #供应商id
             gyl_name =  gys_da[4]  #供应商名称
-        with allure.step("查看车辆档案"):
+        with allure.step("集装箱出口订单派自有车A，并审核应付明细>查看车辆档案"):
             sj_da = ict.Test_Added01().test_Added0070(gys_id=gys_id, cp_hao="粤ZZ0001")
             assert sj_da[0] == '操作成功'
             cl_id = sj_da[1]   #车辆id
             cp_hao = sj_da[2]    #车牌号
             cl_name = sj_da[4]  #车辆名称
             cz_qy = sj_da[6]    # 操作区域
-        with allure.step("维护出车表信息"):
+        with allure.step("集装箱出口订单派自有车A，并审核应付明细>维护出车表信息"):
             cc_xx = ict.Test_Added01().test_Added0072(sj_id=sj_id, cp_hao="粤ZZ0001",zh_time=time2)
             assert cc_xx[0] == '操作成功'
             if cc_xx[1] == 0 :
-                with allure.step("出车表不存在，生成出车表"):
+                with allure.step("集装箱出口订单派自有车A，并审核应付明细>出车表不存在，生成出车表"):
                     xx_ccb = ict.Test_Added01().test_Added0073(fw_lx="container_type",cz_qy=cz_qy,tims=time2)
                     assert xx_ccb == '操作成功'
             if cc_xx[1] != 0 :
-                with allure.step("出车表存在，查看出车表信息"):
+                with allure.step("集装箱出口订单派自有车A，并审核应付明细>出车表存在，查看出车表信息"):
                     cc_dd = ict.Test_Added01().test_Added0074(sj_id=sj_id,cp_hao="粤ZZ0001",zh_time=time2)
                     assert cc_dd[0] == '操作成功'
-                    if cc_dd[2] == "car_dispatch_undistribute":
-                        with allure.step("出车表存在,车牌号：{}，并未分配".format(cc_dd[4])):
-                            pass
-                    if cc_dd[2] == "car_dispatch_completed":
-                        fz_ccb = ict.Test_Added01().test_Added0084(ccb_id=cc_dd[1])
-                        assert fz_ccb == '操作成功'
-        with allure.step("维护出车表信息"):
+
+                    data1 = cc_dd[5]
+                    list11 = []
+                    for i in data1:
+                        # print(i)
+                        n = ict.get_k(i)
+                        # print(n)
+                        for key in n.keys():
+                            if key == "status":
+                                list11.append(key)
+                                list11.append(n[key])
+                    # print(list11)
+                    for j in list11:
+                        list22 = []
+                        if  j =="car_dispatch_undistribute" :
+                            list22.append(j)
+                            if list22 == "car_dispatch_undistribute":
+                                with allure.step("出车表存在,车牌号：{}，并未分配".format(cc_dd[4])):
+                                    pass
+                            if list22 == "car_dispatch_completed":
+                                fz_ccb = ict.Test_Added01().test_Added0084(ccb_id=cc_dd[1])
+                                assert fz_ccb == '操作成功'
+        with allure.step("集装箱出口订单派自有车A，并审核应付明细>维护出车表信息"):
             cc_xx = ict.Test_Added01().test_Added0074(sj_id=sj_id, cp_hao="粤ZZ0001",zh_time=time2)
             assert cc_xx[0] == '操作成功'
             ccb_id =  cc_xx[1]   #出车表ID
-        with allure.step("调度管理，获取车牌号:{}".format(cc_xx[4])):
+        with allure.step("集装箱出口订单派自有车A，并审核应付明细>调度管理，获取车牌号:{}".format(cc_xx[4])):
             bz_dd1 = ict.Test_Added01().test_Added0085(zh_time=time2,fw_lx="port_container_export_transport")
             assert bz_dd1[0] == '操作成功'
             # assert bz_dd1[1] != []
-        with allure.step("调度管理，派自有车，订单号：{}".format(dd_hao)):
+        with allure.step("集装箱出口订单派自有车A，并审核应付明细>调度管理，派自有车，订单号：{}".format(dd_hao)):
             pzyc = ict.Test_Added01().test_Added0075(id=dd_id,driverId=sj_id,supplierId=gys_id,mainlandLicensePlateNumber=cp_hao,
                                                       orderNumber=dd_hao,pickupTime=zh_time,transportType="transport_type_one_one",
                                                       mainlandLicensePlate=cl_id,driverName=sj_name,mainlandPhone=sj_haoma,supplierName=gyl_name,
                                                       carDispatchId=ccb_id)
             assert pzyc == '操作成功'
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("跟踪管理，集装箱运输》柜号录入")
-    def test_business_scenario004(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("查询调度管理集装箱出口运输订单信息"):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
-            assert dd_xx1[0] == '操作成功'
-            dd_id =  dd_xx1[1]   #订单id
-            zh_time = dd_xx1[3][0]["pickupTime"]    #装货时间  年月日时分秒
-            cz_qy = dd_xx1[3][0]["operationGroup"]   # 操作区域
-            dd_hao = dd_xx1[2]    #订单号
-        with allure.step("手动录入柜号，订单:{}".format(dd_hao)):
+
+        '''跟踪管理，集装箱运输》柜号录入'''
+        with allure.step("跟踪管理，集装箱运输》柜号录入>手动录入柜号，订单:{}".format(dd_hao)):
             x_hao = "FSCU5130217"
             ft_hao = "CAAU5507656"
             kg_z = "2580"
             g_hao = ict.Test_Added01().test_Added0089(x_hao=x_hao,kg_z=kg_z,dd_id=dd_id,ft_hao=ft_hao)
             pytest.assume(g_hao == '操作成功')
-        with allure.step("跟踪管理查看柜号，订单:{}".format(dd_hao)):
+        with allure.step("跟踪管理，集装箱运输》柜号录入》跟踪管理查看柜号，订单:{}".format(dd_hao)):
             ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_hao,fw_lx="port_container_export_transport")
             pytest.assume(ck_g_hao[0] == '操作成功')
             pytest.assume(ck_g_hao[1][0]["containerNumber"] == x_hao)
             pytest.assume(ck_g_hao[1][0]["sealNumber"] == ft_hao)
             pytest.assume(ck_g_hao[1][0]["cabinetWeight"] == kg_z)
 
-   # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("柜号录入，查看柜号同步")
-    def test_business_scenario005(self):
+        '''柜号录入，查看柜号同步'''
         x_hao = "FSCU5130217"
         ft_hao = "CAAU5507656"
         kg_zl = "2580"
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("订单管理》订单录入列表，查看同步柜号"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
+        with allure.step("柜号录入，查看柜号同步》订单管理》订单录入列表，查看同步柜号"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode=time9)
             assert dd_xx[0] == '操作成功'
             xianghao1 =  dd_xx[6]["containerNumber"]
             fengtiao1 =  dd_xx[6]["sealNumber"]
@@ -4258,8 +4080,8 @@ class Test_businesso3():
             pytest.assume(ft_hao == fengtiao1)
             pytest.assume(2580 == konggui1)
 
-        with allure.step("订单管理》集装箱运输列表，查看同步柜号,订单号：{}".format(dd_xx[3])):
-            jzx_ys = ict.Test_Added01().test_Added0117(hz_id=hz_id)
+        with allure.step("号录入，查看柜号同步》订单管理》集装箱运输列表，查看同步柜号,订单号：{}".format(dd_hao)):
+            jzx_ys = ict.Test_Added01().test_Added0117(hz_id=hz_id,customerDelegateCode=time9)
             assert jzx_ys[0] == '操作成功'
             xianghao2 =  jzx_ys[1][0]["containerNumber"]
             fengtiao2 =  jzx_ys[1][0]["sealNumber"]
@@ -4268,8 +4090,8 @@ class Test_businesso3():
             pytest.assume(ft_hao == fengtiao2)
             pytest.assume(2580 == konggui2)
 
-        with allure.step("运单管理>计划管理>集装箱>订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_xx[3])
+        with allure.step("号录入，查看柜号同步》运单管理>计划管理>集装箱>订单号：{}".format(dd_hao)):
+            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             assert fd_xx[1] == 4
             xianghao3 =  fd_xx[2][0]["containerNumber"]
@@ -4298,8 +4120,8 @@ class Test_businesso3():
             pytest.assume(ft_hao == fengtiao6)
             pytest.assume( kg_zl == konggui6)
 
-        with allure.step("运单管理>调度管理>集装箱>订单号：{}".format(dd_xx[3])):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="")
+        with allure.step("号录入，查看柜号同步》运单管理>调度管理>集装箱>订单号：{}".format(dd_hao)):
+            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_hao,lx="")
             assert dd_xx1[0] == '操作成功'
             xianghao7 = dd_xx1[3][0]["containerNumber"]
             fengtiao7 = dd_xx1[3][0]["sealNumber"]
@@ -4331,8 +4153,8 @@ class Test_businesso3():
 
 
 
-        with allure.step("运单管理>监理管理>订单号：{}".format(dd_xx[3])):
-            jl_gl = ict.Test_Added01().test_Added0118(dd_hao=dd_xx[3])
+        with allure.step("号录入，查看柜号同步》运单管理>监理管理>订单号：{}".format(dd_hao)):
+            jl_gl = ict.Test_Added01().test_Added0118(dd_hao=dd_hao)
             assert jl_gl[0] == '操作成功'
             xianghao7 = jl_gl[1][0]["containerNumber"]
             fengtiao7 = jl_gl[1][0]["sealNumber"]
@@ -4341,8 +4163,8 @@ class Test_businesso3():
             pytest.assume(ft_hao == fengtiao7)
             pytest.assume(kg_zl == konggui7)
 
-        with allure.step("运单管理>报关管理>订单号：{}".format(dd_xx[3])):
-            bg_gl = ict.Test_Added01().test_Added0119(dd_hao=dd_xx[3])
+        with allure.step("号录入，查看柜号同步》运单管理>报关管理>订单号：{}".format(dd_hao)):
+            bg_gl = ict.Test_Added01().test_Added0119(dd_hao=dd_hao)
             assert bg_gl[0] == '操作成功'
             xianghao7 = bg_gl[1][0]["containerNumber"]
             fengtiao7 = bg_gl[1][0]["sealNumber"]
@@ -4352,8 +4174,8 @@ class Test_businesso3():
             pytest.assume(kg_zl == konggui7)
 
 
-        with allure.step("跟踪管理>集装箱>订单:{}".format(dd_xx[3])):
-            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_xx[3],fw_lx="")
+        with allure.step("号录入，查看柜号同步》跟踪管理>集装箱>订单:{}".format(dd_hao)):
+            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_hao,fw_lx="")
             pytest.assume(ck_g_hao[0] == '操作成功')
             pytest.assume(ck_g_hao[1][0]["containerNumber"] == x_hao)
             pytest.assume(ck_g_hao[1][0]["sealNumber"] == ft_hao)
@@ -4368,8 +4190,8 @@ class Test_businesso3():
             pytest.assume(ck_g_hao[1][3]["sealNumber"] == ft_hao)
             pytest.assume(ck_g_hao[1][3]["cabinetWeight"] == kg_zl)
 
-        with allure.step("跟踪管理>监理管理>订单号：{}".format(dd_xx[3])):
-            gz_jl = ict.Test_Added01().test_Added0120(dd_hao=dd_xx[3])
+        with allure.step("号录入，查看柜号同步》跟踪管理>监理管理>订单号：{}".format(dd_hao)):
+            gz_jl = ict.Test_Added01().test_Added0120(dd_hao=dd_hao)
             assert gz_jl[0] == '操作成功'
             data7 = gz_jl[1]
             xianghao7 = data7[0]["containerNumber"]
@@ -4379,8 +4201,8 @@ class Test_businesso3():
             pytest.assume(ft_hao == fengtiao7)
             pytest.assume(kg_zl == konggui7)
 
-        with allure.step("跟踪管理>报关管理>订单号：{}".format(dd_xx[3])):
-            gz_bg = ict.Test_Added01().test_Added0121(dd_hao=dd_xx[3])
+        with allure.step("号录入，查看柜号同步》跟踪管理>报关管理>订单号：{}".format(dd_hao)):
+            gz_bg = ict.Test_Added01().test_Added0121(dd_hao=dd_hao)
             assert gz_bg[0] == '操作成功'
             data8 = gz_bg[1]
             xianghao7 = data8[0]["containerNumber"]
@@ -4391,8 +4213,8 @@ class Test_businesso3():
             pytest.assume(kg_zl == konggui7)
 
 
-        with allure.step("应收费用制作>订单号：{}".format(dd_xx[3])):
-            ys_fy = ict.Test_Added01().test_Added0086(dd_hao=dd_xx[3])
+        with allure.step("号录入，查看柜号同步》应收费用制作>订单号：{}".format(dd_hao)):
+            ys_fy = ict.Test_Added01().test_Added0086(dd_hao=dd_hao)
             assert ys_fy[0] == '操作成功'
             data9 = ys_fy[1]
             xianghao7 = data9[0]["containerNumber"]
@@ -4401,41 +4223,22 @@ class Test_businesso3():
             pytest.assume(ft_hao == fengtiao7)
 
 
-        with allure.step("应付费用制作>订单号：{}".format(dd_xx[3])):
-            yf_fy = ict.Test_Added01().test_Added0094(dd_hao=dd_xx[3],fw_lx="port_container_export_transport")
+        with allure.step("号录入，查看柜号同步》应付费用制作>订单号：{}".format(dd_hao)):
+            yf_fy = ict.Test_Added01().test_Added0094(dd_hao=dd_hao,fw_lx="port_container_export_transport")
             assert yf_fy[0] == '操作成功'
             xianghao7 = yf_fy[2]["containerNumber"]
             fengtiao7 = yf_fy[2]["sealNumber"]
             pytest.assume(x_hao == xianghao7)
             pytest.assume(ft_hao == fengtiao7)
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("柜号录入》跟踪管理》集装箱运输》清除柜号")
-    def test_business_scenario006(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-        with allure.step("订单管理》订单录入列表，查看订单号"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("调度管理》集装箱，查看订id"):
-            dd_id = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3])
-            assert dd_id[0] == '操作成功'
-        with allure.step("后台跟踪管理》集装箱运输》清除柜号，订单号{}".format(dd_xx[3])):
-            cc_gh = ict.Test_Added01().test_Added0122(dd_id=dd_id[1])
+        '''柜号录入》跟踪管理》集装箱运输》清除柜号'''
+        with allure.step("后台跟踪管理》集装箱运输》清除柜号，订单号{}".format(dd_hao)):
+            cc_gh = ict.Test_Added01().test_Added0122(dd_id=dd_id)
             assert cc_gh == '操作成功'
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("柜号录入>查看柜号为空")
-    def test_business_scenario007(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("订单管理》订单录入列表，查看同步柜号"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
+        '''柜号录入>查看柜号为空'''
+        with allure.step("柜号录入>查看柜号为空》订单管理》订单录入列表，查看同步柜号"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode=time9)
             assert dd_xx[0] == '操作成功'
             data01 =  dd_xx[6]
             xianghao1 = []
@@ -4456,8 +4259,8 @@ class Test_businesso3():
             pytest.assume(fengtiao1 == [])
             pytest.assume(konggui1 == [])
 
-        with allure.step("订单管理》集装箱运输列表，查看同步柜号,订单号：{}".format(dd_xx[3])):
-            jzx_ys = ict.Test_Added01().test_Added0117(hz_id=hz_id)
+        with allure.step("柜号录入>查看柜号为空》订单管理》集装箱运输列表，查看同步柜号,订单号：{}".format(dd_hao)):
+            jzx_ys = ict.Test_Added01().test_Added0117(hz_id=hz_id,customerDelegateCode=time9)
             assert jzx_ys[0] == '操作成功'
             data01 =  jzx_ys[1]
             xianghao1 = []
@@ -4478,8 +4281,8 @@ class Test_businesso3():
             pytest.assume(fengtiao1 == [])
             pytest.assume(konggui1 == [])
 
-        with allure.step("运单管理>计划管理>集装箱>订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_xx[3])
+        with allure.step("柜号录入>查看柜号为空》运单管理>计划管理>集装箱>订单号：{}".format(dd_hao)):
+            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             assert fd_xx[1] == 4
             data01 = fd_xx[2][0]
@@ -4560,8 +4363,8 @@ class Test_businesso3():
             pytest.assume(fengtiao1 == [])
             pytest.assume(konggui1 == [])
 
-        with allure.step("运单管理>调度管理>集装箱>订单号：{}".format(dd_xx[3])):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="")
+        with allure.step("柜号录入>查看柜号为空》运单管理>调度管理>集装箱>订单号：{}".format(dd_hao)):
+            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_hao,lx="")
             assert dd_xx1[0] == '操作成功'
             data01 = dd_xx1[3][0]
             xianghao1 = []
@@ -4639,8 +4442,8 @@ class Test_businesso3():
             pytest.assume(fengtiao1 == [])
             pytest.assume(konggui1 == [])
 
-        with allure.step("运单管理>监理管理>订单号：{}".format(dd_xx[3])):
-            jl_gl = ict.Test_Added01().test_Added0118(dd_hao=dd_xx[3])
+        with allure.step("柜号录入>查看柜号为空》运单管理>监理管理>订单号：{}".format(dd_hao)):
+            jl_gl = ict.Test_Added01().test_Added0118(dd_hao=dd_hao)
             assert jl_gl[0] == '操作成功'
             data01 = jl_gl[1][0]
             xianghao1 = []
@@ -4662,8 +4465,8 @@ class Test_businesso3():
             pytest.assume(konggui1 == [])
 
 
-        with allure.step("运单管理>报关管理>订单号：{}".format(dd_xx[3])):
-            bg_gl = ict.Test_Added01().test_Added0119(dd_hao=dd_xx[3])
+        with allure.step("柜号录入>查看柜号为空》运单管理>报关管理>订单号：{}".format(dd_hao)):
+            bg_gl = ict.Test_Added01().test_Added0119(dd_hao=dd_hao)
             assert bg_gl[0] == '操作成功'
             data01 = bg_gl[1][0]
             xianghao1 = []
@@ -4684,8 +4487,8 @@ class Test_businesso3():
             pytest.assume(fengtiao1 == [])
             pytest.assume(konggui1 == [])
 
-        with allure.step("跟踪管理>集装箱>订单:{}".format(dd_xx[3])):
-            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_xx[3],fw_lx="")
+        with allure.step("柜号录入>查看柜号为空》跟踪管理>集装箱>订单:{}".format(dd_hao)):
+            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_hao,fw_lx="")
             pytest.assume(ck_g_hao[0] == '操作成功')
             data01 = ck_g_hao[1][0]
             xianghao1 = []
@@ -4764,8 +4567,8 @@ class Test_businesso3():
             pytest.assume(konggui1 == [])
 
 
-        with allure.step("跟踪管理>监理管理>订单号：{}".format(dd_xx[3])):
-            gz_jl = ict.Test_Added01().test_Added0120(dd_hao=dd_xx[3])
+        with allure.step("柜号录入>查看柜号为空》跟踪管理>监理管理>订单号：{}".format(dd_hao)):
+            gz_jl = ict.Test_Added01().test_Added0120(dd_hao=dd_hao)
             assert gz_jl[0] == '操作成功'
 
             data01 =   gz_jl[1][0]
@@ -4787,8 +4590,8 @@ class Test_businesso3():
             pytest.assume(fengtiao1 == [])
             pytest.assume(konggui1 == [])
 
-        with allure.step("跟踪管理>报关管理>订单号：{}".format(dd_xx[3])):
-            gz_bg = ict.Test_Added01().test_Added0121(dd_hao=dd_xx[3])
+        with allure.step("柜号录入>查看柜号为空》跟踪管理>报关管理>订单号：{}".format(dd_hao)):
+            gz_bg = ict.Test_Added01().test_Added0121(dd_hao=dd_hao)
             assert gz_bg[0] == '操作成功'
             data01 = gz_bg[1][0]
             xianghao1 = []
@@ -4809,8 +4612,8 @@ class Test_businesso3():
             pytest.assume(fengtiao1 == [])
             pytest.assume(konggui1 == [])
 
-        with allure.step("应收费用制作>订单号：{}".format(dd_xx[3])):
-            ys_fy = ict.Test_Added01().test_Added0086(dd_hao=dd_xx[3])
+        with allure.step("柜号录入>查看柜号为空》应收费用制作>订单号：{}".format(dd_hao)):
+            ys_fy = ict.Test_Added01().test_Added0086(dd_hao=dd_hao)
             assert ys_fy[0] == '操作成功'
             data01 =  ys_fy[1][0]
             xianghao1 = []
@@ -4827,8 +4630,8 @@ class Test_businesso3():
             pytest.assume(fengtiao1 == [])
 
 
-        with allure.step("应付费用制作>订单号：{}".format(dd_xx[3])):
-            yf_fy = ict.Test_Added01().test_Added0094(dd_hao=dd_xx[3],fw_lx="port_container_export_transport")
+        with allure.step("柜号录入>查看柜号为空》应付费用制作>订单号：{}".format(dd_hao)):
+            yf_fy = ict.Test_Added01().test_Added0094(dd_hao=dd_hao,fw_lx="port_container_export_transport")
             assert yf_fy[0] == '操作成功'
             data01 =  yf_fy[2]
             xianghao1 = []
@@ -4844,48 +4647,26 @@ class Test_businesso3():
             pytest.assume(xianghao1 == [])
             pytest.assume(fengtiao1 == [])
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("运单管理，调度管理》集装箱运输》节点跟踪")
-    def test_business_scenario008(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("查询调度管理集装箱出口运输订单信息"):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
-            assert dd_xx1[0] == '操作成功'
-            dd_id =  dd_xx1[1]   #订单id
-            zh_time = dd_xx1[3][0]["pickupTime"]    #装货时间  年月日时分秒
-            cz_qy = dd_xx1[3][0]["operationGroup"]   # 操作区域
-            dd_hao = dd_xx1[2]    #订单号
+
+        '''运单管理，调度管理》集装箱运输》节点跟踪'''
         with allure.step("获取节点ID，订单:{}".format(dd_hao)):
             jd_id = ict.Test_Added01().test_Added0124(dd_id=dd_id)
             pytest.assume(jd_id[0] == '操作成功')
 
-        with allure.step("手动录入柜号，订单:{}".format(dd_hao)):
+        with allure.step("运单管理，调度管理》集装箱运输》节点跟踪》手动录入柜号，订单:{}".format(dd_hao)):
             x_hao = "FSCU5130217"
             ft_hao = "CAAU5507656"
             kg_z = "2580"
             g_hao = ict.Test_Added01().test_Added0123(dd_id=dd_id,g_hao=x_hao,ft_hao=ft_hao,k_gz=kg_z,time1=zh_time,jd_id=jd_id[1])
             pytest.assume(g_hao == '操作成功')
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("节点跟踪>查看柜号同步")
-    def test_business_scenario009(self):
+        '''节点跟踪>查看柜号同步'''
+
         x_hao = "FSCU5130217"
         ft_hao = "CAAU5507656"
         kg_zl = "2580"
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("订单管理》订单录入列表，查看同步柜号"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
+        with allure.step("节点跟踪>查看柜号同步》订单管理》订单录入列表，查看同步柜号"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode=time9)
             assert dd_xx[0] == '操作成功'
             xianghao1 =  dd_xx[6]["containerNumber"]
             fengtiao1 =  dd_xx[6]["sealNumber"]
@@ -4894,8 +4675,8 @@ class Test_businesso3():
             pytest.assume(ft_hao == fengtiao1)
             pytest.assume(2580 == konggui1)
 
-        with allure.step("订单管理》集装箱运输列表，查看同步柜号,订单号：{}".format(dd_xx[3])):
-            jzx_ys = ict.Test_Added01().test_Added0117(hz_id=hz_id)
+        with allure.step("节点跟踪>查看柜号同步》订单管理》集装箱运输列表，查看同步柜号,订单号：{}".format(dd_hao)):
+            jzx_ys = ict.Test_Added01().test_Added0117(hz_id=hz_id,customerDelegateCode=time9)
             assert jzx_ys[0] == '操作成功'
             xianghao2 =  jzx_ys[1][0]["containerNumber"]
             fengtiao2 =  jzx_ys[1][0]["sealNumber"]
@@ -4904,8 +4685,8 @@ class Test_businesso3():
             pytest.assume(ft_hao == fengtiao2)
             pytest.assume(2580 == konggui2)
 
-        with allure.step("运单管理>计划管理>集装箱>订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_xx[3])
+        with allure.step("节点跟踪>查看柜号同步》运单管理>计划管理>集装箱>订单号：{}".format(dd_hao)):
+            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             assert fd_xx[1] == 4
             xianghao3 =  fd_xx[2][0]["containerNumber"]
@@ -4934,8 +4715,8 @@ class Test_businesso3():
             pytest.assume(ft_hao == fengtiao6)
             pytest.assume( kg_zl == konggui6)
 
-        with allure.step("运单管理>调度管理>集装箱>订单号：{}".format(dd_xx[3])):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="")
+        with allure.step("节点跟踪>查看柜号同步》运单管理>调度管理>集装箱>订单号：{}".format(dd_hao)):
+            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_hao,lx="")
             assert dd_xx1[0] == '操作成功'
             xianghao7 = dd_xx1[3][0]["containerNumber"]
             fengtiao7 = dd_xx1[3][0]["sealNumber"]
@@ -4967,8 +4748,8 @@ class Test_businesso3():
 
 
 
-        with allure.step("运单管理>监理管理>订单号：{}".format(dd_xx[3])):
-            jl_gl = ict.Test_Added01().test_Added0118(dd_hao=dd_xx[3])
+        with allure.step("节点跟踪>查看柜号同步》运单管理>监理管理>订单号：{}".format(dd_hao)):
+            jl_gl = ict.Test_Added01().test_Added0118(dd_hao=dd_hao)
             assert jl_gl[0] == '操作成功'
             xianghao7 = jl_gl[1][0]["containerNumber"]
             fengtiao7 = jl_gl[1][0]["sealNumber"]
@@ -4977,8 +4758,8 @@ class Test_businesso3():
             pytest.assume(ft_hao == fengtiao7)
             pytest.assume(kg_zl == konggui7)
 
-        with allure.step("运单管理>报关管理>订单号：{}".format(dd_xx[3])):
-            bg_gl = ict.Test_Added01().test_Added0119(dd_hao=dd_xx[3])
+        with allure.step("节点跟踪>查看柜号同步》运单管理>报关管理>订单号：{}".format(dd_hao)):
+            bg_gl = ict.Test_Added01().test_Added0119(dd_hao=dd_hao)
             assert bg_gl[0] == '操作成功'
             xianghao7 = bg_gl[1][0]["containerNumber"]
             fengtiao7 = bg_gl[1][0]["sealNumber"]
@@ -4988,8 +4769,8 @@ class Test_businesso3():
             pytest.assume(kg_zl == konggui7)
 
 
-        with allure.step("跟踪管理>集装箱>订单:{}".format(dd_xx[3])):
-            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_xx[3],fw_lx="")
+        with allure.step("节点跟踪>查看柜号同步》跟踪管理>集装箱>订单:{}".format(dd_hao)):
+            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_hao,fw_lx="")
             pytest.assume(ck_g_hao[0] == '操作成功')
             pytest.assume(ck_g_hao[1][0]["containerNumber"] == x_hao)
             pytest.assume(ck_g_hao[1][0]["sealNumber"] == ft_hao)
@@ -5004,8 +4785,8 @@ class Test_businesso3():
             pytest.assume(ck_g_hao[1][3]["sealNumber"] == ft_hao)
             pytest.assume(ck_g_hao[1][3]["cabinetWeight"] == kg_zl)
 
-        with allure.step("跟踪管理>监理管理>订单号：{}".format(dd_xx[3])):
-            gz_jl = ict.Test_Added01().test_Added0120(dd_hao=dd_xx[3])
+        with allure.step("节点跟踪>查看柜号同步》跟踪管理>监理管理>订单号：{}".format(dd_hao)):
+            gz_jl = ict.Test_Added01().test_Added0120(dd_hao=dd_hao)
             assert gz_jl[0] == '操作成功'
             data7 = gz_jl[1]
             xianghao7 = data7[0]["containerNumber"]
@@ -5015,8 +4796,8 @@ class Test_businesso3():
             pytest.assume(ft_hao == fengtiao7)
             pytest.assume(kg_zl == konggui7)
 
-        with allure.step("跟踪管理>报关管理>订单号：{}".format(dd_xx[3])):
-            gz_bg = ict.Test_Added01().test_Added0121(dd_hao=dd_xx[3])
+        with allure.step("节点跟踪>查看柜号同步》跟踪管理>报关管理>订单号：{}".format(dd_hao)):
+            gz_bg = ict.Test_Added01().test_Added0121(dd_hao=dd_hao)
             assert gz_bg[0] == '操作成功'
             data8 = gz_bg[1]
             xianghao7 = data8[0]["containerNumber"]
@@ -5027,8 +4808,8 @@ class Test_businesso3():
             pytest.assume(kg_zl == konggui7)
 
 
-        with allure.step("应收费用制作>订单号：{}".format(dd_xx[3])):
-            ys_fy = ict.Test_Added01().test_Added0086(dd_hao=dd_xx[3])
+        with allure.step("节点跟踪>查看柜号同步》应收费用制作>订单号：{}".format(dd_hao)):
+            ys_fy = ict.Test_Added01().test_Added0086(dd_hao=dd_hao)
             assert ys_fy[0] == '操作成功'
             data9 = ys_fy[1]
             xianghao7 = data9[0]["containerNumber"]
@@ -5037,41 +4818,24 @@ class Test_businesso3():
             pytest.assume(ft_hao == fengtiao7)
 
 
-        with allure.step("应付费用制作>订单号：{}".format(dd_xx[3])):
-            yf_fy = ict.Test_Added01().test_Added0094(dd_hao=dd_xx[3],fw_lx="port_container_export_transport")
+        with allure.step("节点跟踪>查看柜号同步》应付费用制作>订单号：{}".format(dd_hao)):
+            yf_fy = ict.Test_Added01().test_Added0094(dd_hao=dd_hao,fw_lx="port_container_export_transport")
             assert yf_fy[0] == '操作成功'
             xianghao7 = yf_fy[2]["containerNumber"]
             fengtiao7 = yf_fy[2]["sealNumber"]
             pytest.assume(x_hao == xianghao7)
             pytest.assume(ft_hao == fengtiao7)
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("节点跟踪>跟踪管理》集装箱运输》清除柜号")
-    def test_business_scenario010(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-        with allure.step("订单管理》订单录入列表，查看订单号"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("调度管理》集装箱，查看订id"):
-            dd_id = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3])
-            assert dd_id[0] == '操作成功'
-        with allure.step("后台跟踪管理》集装箱运输》清除柜号，订单号{}".format(dd_xx[3])):
-            cc_gh = ict.Test_Added01().test_Added0122(dd_id=dd_id[1])
+
+        '''节点跟踪>跟踪管理》集装箱运输》清除柜号'''
+        with allure.step("后台跟踪管理》集装箱运输》清除柜号，订单号{}".format(dd_hao)):
+            cc_gh = ict.Test_Added01().test_Added0122(dd_id=dd_id)
             assert cc_gh == '操作成功'
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("节点跟踪>查看柜号为空")
-    def test_business_scenario011(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("订单管理》订单录入列表，查看同步柜号"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
+
+        '''节点跟踪>查看柜号为空'''
+        with allure.step("节点跟踪>查看柜号为空》订单管理》订单录入列表，查看同步柜号"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode=time9)
             assert dd_xx[0] == '操作成功'
             data01 =  dd_xx[6]
             xianghao1 = []
@@ -5092,8 +4856,8 @@ class Test_businesso3():
             pytest.assume(fengtiao1 == [])
             pytest.assume(konggui1 == [])
 
-        with allure.step("订单管理》集装箱运输列表，查看同步柜号,订单号：{}".format(dd_xx[3])):
-            jzx_ys = ict.Test_Added01().test_Added0117(hz_id=hz_id)
+        with allure.step("节点跟踪>查看柜号为空》订单管理》集装箱运输列表，查看同步柜号,订单号：{}".format(dd_hao)):
+            jzx_ys = ict.Test_Added01().test_Added0117(hz_id=hz_id,customerDelegateCode=time9)
             assert jzx_ys[0] == '操作成功'
             data01 =  jzx_ys[1]
             xianghao1 = []
@@ -5114,8 +4878,8 @@ class Test_businesso3():
             pytest.assume(fengtiao1 == [])
             pytest.assume(konggui1 == [])
 
-        with allure.step("运单管理>计划管理>集装箱>订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_xx[3])
+        with allure.step("节点跟踪>查看柜号为空》运单管理>计划管理>集装箱>订单号：{}".format(dd_hao)):
+            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             assert fd_xx[1] == 4
             data01 = fd_xx[2][0]
@@ -5196,8 +4960,8 @@ class Test_businesso3():
             pytest.assume(fengtiao1 == [])
             pytest.assume(konggui1 == [])
 
-        with allure.step("运单管理>调度管理>集装箱>订单号：{}".format(dd_xx[3])):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="")
+        with allure.step("节点跟踪>查看柜号为空》运单管理>调度管理>集装箱>订单号：{}".format(dd_hao)):
+            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_hao,lx="")
             assert dd_xx1[0] == '操作成功'
             data01 = dd_xx1[3][0]
             xianghao1 = []
@@ -5275,8 +5039,8 @@ class Test_businesso3():
             pytest.assume(fengtiao1 == [])
             pytest.assume(konggui1 == [])
 
-        with allure.step("运单管理>监理管理>订单号：{}".format(dd_xx[3])):
-            jl_gl = ict.Test_Added01().test_Added0118(dd_hao=dd_xx[3])
+        with allure.step("节点跟踪>查看柜号为空》运单管理>监理管理>订单号：{}".format(dd_hao)):
+            jl_gl = ict.Test_Added01().test_Added0118(dd_hao=dd_hao)
             assert jl_gl[0] == '操作成功'
             data01 = jl_gl[1][0]
             xianghao1 = []
@@ -5298,8 +5062,8 @@ class Test_businesso3():
             pytest.assume(konggui1 == [])
 
 
-        with allure.step("运单管理>报关管理>订单号：{}".format(dd_xx[3])):
-            bg_gl = ict.Test_Added01().test_Added0119(dd_hao=dd_xx[3])
+        with allure.step("节点跟踪>查看柜号为空》运单管理>报关管理>订单号：{}".format(dd_hao)):
+            bg_gl = ict.Test_Added01().test_Added0119(dd_hao=dd_hao)
             assert bg_gl[0] == '操作成功'
             data01 = bg_gl[1][0]
             xianghao1 = []
@@ -5320,8 +5084,8 @@ class Test_businesso3():
             pytest.assume(fengtiao1 == [])
             pytest.assume(konggui1 == [])
 
-        with allure.step("跟踪管理>集装箱>订单:{}".format(dd_xx[3])):
-            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_xx[3],fw_lx="")
+        with allure.step("节点跟踪>查看柜号为空》跟踪管理>集装箱>订单:{}".format(dd_hao)):
+            ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_hao,fw_lx="")
             pytest.assume(ck_g_hao[0] == '操作成功')
             data01 = ck_g_hao[1][0]
             xianghao1 = []
@@ -5400,8 +5164,8 @@ class Test_businesso3():
             pytest.assume(konggui1 == [])
 
 
-        with allure.step("跟踪管理>监理管理>订单号：{}".format(dd_xx[3])):
-            gz_jl = ict.Test_Added01().test_Added0120(dd_hao=dd_xx[3])
+        with allure.step("节点跟踪>查看柜号为空》跟踪管理>监理管理>订单号：{}".format(dd_hao)):
+            gz_jl = ict.Test_Added01().test_Added0120(dd_hao=dd_hao)
             assert gz_jl[0] == '操作成功'
 
             data01 =   gz_jl[1][0]
@@ -5423,8 +5187,8 @@ class Test_businesso3():
             pytest.assume(fengtiao1 == [])
             pytest.assume(konggui1 == [])
 
-        with allure.step("跟踪管理>报关管理>订单号：{}".format(dd_xx[3])):
-            gz_bg = ict.Test_Added01().test_Added0121(dd_hao=dd_xx[3])
+        with allure.step("节点跟踪>查看柜号为空》跟踪管理>报关管理>订单号：{}".format(dd_hao)):
+            gz_bg = ict.Test_Added01().test_Added0121(dd_hao=dd_hao)
             assert gz_bg[0] == '操作成功'
             data01 = gz_bg[1][0]
             xianghao1 = []
@@ -5445,8 +5209,8 @@ class Test_businesso3():
             pytest.assume(fengtiao1 == [])
             pytest.assume(konggui1 == [])
 
-        with allure.step("应收费用制作>订单号：{}".format(dd_xx[3])):
-            ys_fy = ict.Test_Added01().test_Added0086(dd_hao=dd_xx[3])
+        with allure.step("节点跟踪>查看柜号为空》应收费用制作>订单号：{}".format(dd_hao)):
+            ys_fy = ict.Test_Added01().test_Added0086(dd_hao=dd_hao)
             assert ys_fy[0] == '操作成功'
             data01 =  ys_fy[1][0]
             xianghao1 = []
@@ -5463,8 +5227,8 @@ class Test_businesso3():
             pytest.assume(fengtiao1 == [])
 
 
-        with allure.step("应付费用制作>订单号：{}".format(dd_xx[3])):
-            yf_fy = ict.Test_Added01().test_Added0094(dd_hao=dd_xx[3],fw_lx="port_container_export_transport")
+        with allure.step("节点跟踪>查看柜号为空》应付费用制作>订单号：{}".format(dd_hao)):
+            yf_fy = ict.Test_Added01().test_Added0094(dd_hao=dd_hao,fw_lx="port_container_export_transport")
             assert yf_fy[0] == '操作成功'
             data01 =  yf_fy[2]
             xianghao1 = []
@@ -5480,26 +5244,12 @@ class Test_businesso3():
             pytest.assume(xianghao1 == [])
             pytest.assume(fengtiao1 == [])
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("取消订单")
-    def test_business_scenario012(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("查询调度管理集装箱出口运输订单信息,订单号：{}".format(dd_xx[3])):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
-            assert dd_xx1[0] == '操作成功'
-            dd_id = dd_xx1[1]  # 订单id
-        with allure.step("调度管理》撤销派单/车，订单号：{}".format(dd_xx1[2])):
+        '''取消订单'''
+        with allure.step("取消订单》调度管理》撤销派单/车，订单号：{}".format(dd_hao)):
             cx_pc = ict.Test_Added01().test_Added0156(dd_id=dd_id)
             assert cx_pc == '操作成功'
-        with allure.step("计划管理，分单查询，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_xx[3])
+        with allure.step("取消订单》计划管理，分单查询，订单号：{}".format(dd_hao)):
+            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             data1 = fd_xx[2]
             id = []
@@ -5516,24 +5266,24 @@ class Test_businesso3():
                 id1 += 1
                 # print(id2)
                 fd_id = id[id2]
-                with allure.step("撤销分单,分单号：{}".format(fd_id)):
+                with allure.step("取消订单》撤销分单,分单号：{}".format(fd_id)):
                     qy_jdzx = ict.Test_Added01().test_Added0157(dd_id=fd_id)
                     assert qy_jdzx == '操作成功'
-        with allure.step("集装箱运输》取消订单，订单号：{}".format(dd_xx1[2])):
-            qx_dd = ict.Test_Added01().test_Added015701(dd_id=dd_xx[6]["id"])
+        with allure.step("取消订单》集装箱运输》取消订单，订单号：{}".format(dd_hao)):
+            qx_dd = ict.Test_Added01().test_Added015701(dd_id=orde_id)
             assert qx_dd == '操作成功'
-        with allure.step("订单管理》集装箱运输》查看订单状态，订单号：{}".format(dd_xx1[2])):
-            jzx_ys = ict.Test_Added01().test_Added0117(hz_id=hz_id)
+        with allure.step("取消订单》订单管理》集装箱运输》查看订单状态，订单号：{}".format(dd_hao)):
+            jzx_ys = ict.Test_Added01().test_Added0117(hz_id=hz_id,customerDelegateCode=time9)
             assert jzx_ys[0] == '操作成功'
             assert jzx_ys[1][0]["orderStatus"] == 'status_undo_completed'
 
 @allure.parent_suite('ict业务场景测试用例')
 @allure.suite('ict业务场景测试用例模块')
-@allure.sub_suite('业务场景五 集装箱出口（测试点：应收应付费用制作+改单+收款+新增异常+异常处置）')
+@allure.sub_suite('业务场景五 集装箱出口')
 # @pytest.mark.skip(reason="无理由跳过")
 class Test_businesso4():
     # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("新增集装箱出口订单")
+    @allure.title("（测试点：应收应付费用制作+改单+收款+新增异常+异常处置）（测试点：应收应付费用制作+改单+收款+新增异常+异常处置）")
     def test_business_scenario001(self):
         with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
             hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
@@ -5603,22 +5353,11 @@ class Test_businesso4():
         with allure.step("查询新增集装箱出口运输订单信息"):
             dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode=time9)
             assert dd_xx[0] == '操作成功'
-        with allure.step("集装箱出口运输订单号：{}".format(dd_xx[3])):
-            pass
+            dd_hao = dd_xx[3]
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("集装箱出口订单分单管理》分自有车")
-    def test_business_scenario002(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]     #货主id
-            kf_id = hz_id1[2]     #客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("计划管理，分单查询，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_xx[3])
+        '''集装箱出口订单分单管理》分自有车'''
+        with allure.step("集装箱出口订单分单管理》分自有车>计划管理，分单，订单号：{}".format(dd_hao)):
+            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             assert fd_xx[1] == 4
             data1 = fd_xx[2]
@@ -5640,19 +5379,10 @@ class Test_businesso4():
                     qy_jdzx = ict.Test_Added01().test_Added0058(zy_che=fd_id,gys="",hy_dt="")
                     assert qy_jdzx == '操作成功'
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("集装箱出口订单派自有车A")
-    def test_business_scenario003(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("查询调度管理集装箱出口运输订单信息"):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
+
+        '''集装箱出口订单派自有车A'''
+        with allure.step("集装箱出口订单派自有车A>查询调度管理集装箱出口运输订单信息"):
+            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_hao,lx="port_container_export_transport")
             assert dd_xx1[0] == '操作成功'
             dd_id =  dd_xx1[1]   #订单id
             zh_time = dd_xx1[3][0]["pickupTime"]    #装货时间  年月日时分秒
@@ -5661,250 +5391,194 @@ class Test_businesso4():
             str_datetime = zh_time
             time1 = datetime.datetime.strptime(str_datetime, "%Y-%m-%d %H:%M:%S")
             time2 = time1.strftime('%Y-%m-%d')   #装货时间  年月日
-        with allure.step("查看司机档案"):
+        with allure.step("集装箱出口订单派自有车A>查看司机档案"):
             xz_sj = ict.Test_Added01().test_Added0066(sj_name="测试自有车-集1")
             assert xz_sj[0] == '操作成功'
             sj_id = xz_sj[1]   #司机id
             sj_name = xz_sj[4]   #司机名称
             sj_haoma = xz_sj[5]   #司机号码
-        with allure.step("查看运输公司档案"):
+        with allure.step("集装箱出口订单派自有车A>查看运输公司档案"):
             gys_da = ict.Test_Added01().test_Added0062(gys_name="租户测试自有车-集1")
             assert gys_da[0] == '操作成功'
             gys_id = gys_da[1]  #供应商id
             gyl_name =  gys_da[4]  #供应商名称
-        with allure.step("查看车辆档案"):
+        with allure.step("集装箱出口订单派自有车A>查看车辆档案"):
             sj_da = ict.Test_Added01().test_Added0070(gys_id=gys_id, cp_hao="粤ZZ0001")
             assert sj_da[0] == '操作成功'
             cl_id = sj_da[1]   #车辆id
             cp_hao = sj_da[2]    #车牌号
             cl_name = sj_da[4]  #车辆名称
             cz_qy = sj_da[6]    # 操作区域
-        with allure.step("维护出车表信息"):
+        with allure.step("集装箱出口订单派自有车A>维护出车表信息"):
             cc_xx = ict.Test_Added01().test_Added0072(sj_id=sj_id, cp_hao="粤ZZ0001",zh_time=time2)
             assert cc_xx[0] == '操作成功'
             if cc_xx[1] == 0 :
-                with allure.step("出车表不存在，生成出车表"):
+                with allure.step("集装箱出口订单派自有车A>出车表不存在，生成出车表"):
                     xx_ccb = ict.Test_Added01().test_Added0073(fw_lx="container_type",cz_qy=cz_qy,tims=time2)
                     assert xx_ccb == '操作成功'
             if cc_xx[1] != 0 :
-                with allure.step("出车表存在，查看出车表信息"):
+                with allure.step("集装箱出口订单派自有车A>出车表存在，查看出车表信息"):
                     cc_dd = ict.Test_Added01().test_Added0074(sj_id=sj_id,cp_hao="粤ZZ0001",zh_time=time2)
                     assert cc_dd[0] == '操作成功'
-                    if cc_dd[2] == "car_dispatch_undistribute":
-                        with allure.step("出车表存在,车牌号：{}，并未分配".format(cc_dd[4])):
-                            pass
-                    if cc_dd[2] == "car_dispatch_completed":
-                        fz_ccb = ict.Test_Added01().test_Added0084(ccb_id=cc_dd[1])
-                        assert fz_ccb == '操作成功'
-        with allure.step("维护出车表信息"):
+
+                    data1 = cc_dd[5]
+                    list11 = []
+                    for i in data1:
+                        # print(i)
+                        n = ict.get_k(i)
+                        # print(n)
+                        for key in n.keys():
+                            if key == "status":
+                                list11.append(key)
+                                list11.append(n[key])
+                    # print(list11)
+                    for j in list11:
+                        list22 = []
+                        if  j =="car_dispatch_undistribute" :
+                            list22.append(j)
+                            if list22 == "car_dispatch_undistribute":
+                                with allure.step("出车表存在,车牌号：{}，并未分配".format(cc_dd[4])):
+                                    pass
+                            if list22 == "car_dispatch_completed":
+                                fz_ccb = ict.Test_Added01().test_Added0084(ccb_id=cc_dd[1])
+                                assert fz_ccb == '操作成功'
+
+        with allure.step("集装箱出口订单派自有车A>维护出车表信息"):
             cc_xx = ict.Test_Added01().test_Added0074(sj_id=sj_id, cp_hao="粤ZZ0001",zh_time=time2)
             assert cc_xx[0] == '操作成功'
             ccb_id =  cc_xx[1]   #出车表ID
-        with allure.step("调度管理，获取车牌号:{}".format(cc_xx[4])):
+        with allure.step("集装箱出口订单派自有车A>调度管理，获取车牌号:{}".format(cc_xx[4])):
             bz_dd1 = ict.Test_Added01().test_Added0085(zh_time=time2,fw_lx="port_container_export_transport")
             assert bz_dd1[0] == '操作成功'
             # assert bz_dd1[1] != []
-        with allure.step("调度管理，派自有车，订单号：{}".format(dd_hao)):
+        with allure.step("集装箱出口订单派自有车A>调度管理，派自有车，订单号：{}".format(dd_hao)):
             pzyc = ict.Test_Added01().test_Added0075(id=dd_id,driverId=sj_id,supplierId=gys_id,mainlandLicensePlateNumber=cp_hao,
                                                       orderNumber=dd_hao,pickupTime=zh_time,transportType="transport_type_one_one",
                                                       mainlandLicensePlate=cl_id,driverName=sj_name,mainlandPhone=sj_haoma,supplierName=gyl_name,
                                                       carDispatchId=ccb_id)
             assert pzyc == '操作成功'
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("派监理")
-    def test_business_scenario004(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("查询调度管理集装箱出口运输订单信息"):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
-            assert dd_xx1[0] == '操作成功'
-            dd_id =  dd_xx1[1]   #订单id
-        with allure.step("查询监理ID"):
+        '''派监理'''
+        with allure.step("派监理>查询监理ID"):
             jl_da = ict.Test_Added01().test_Added0125(jl_name="毛敏监理01")
             assert jl_da[0] == '操作成功'
             jl_id = jl_da[1][0]["id"]
             jl_dh = jl_da[1][0]["supervisionPhone"]
-        with allure.step("查询监理订单ID"):
-            jlyd_id = ict.Test_Added01().test_Added0118(dd_hao=dd_xx1[2])
+        with allure.step("派监理>查询监理订单ID"):
+            jlyd_id = ict.Test_Added01().test_Added0118(dd_hao=dd_hao)
             assert jlyd_id[0] == '操作成功'
             yd_id = jlyd_id[1][0]["id"]
             orderId = jlyd_id[1][0]["orderId"]
             orderNumber = jlyd_id[1][0]["orderNumber"]
-        with allure.step("获取供应商ID"):
+        with allure.step("派监理>获取供应商ID"):
             gys_id = ict.Test_Added01().test_Added0062(gys_name=cf.gys1_name)
             assert gys_id[0] == '操作成功'
-        with allure.step("派监理，订单好：{}".format(orderNumber)):
+        with allure.step("派监理>派监理，订单号：{}".format(dd_hao)):
             p_jl = ict.Test_Added01().test_Added0128(ji_id=jl_id,ji_dh=jl_dh,jldd_id=yd_id,orderId=orderId,gys_id=gys_id[1],jl_name="毛敏监理01")
             assert p_jl == '操作成功'
-        with allure.step("获取图片地址"):
+        with allure.step("派监理>获取图片地址"):
             tu_dz = pz.Common_page().projects_path() + r"\Common\picture\2.02 MB.JPG"  # 图片地址
             # print(tu_dz)
-        with allure.step("上传图片，获取图片id"):
+        with allure.step("派监理>上传图片，获取图片id"):
             tp_id = ict.Test_Added01().test_Added0129(tp_lj=tu_dz)     # 获取图片id
             assert tp_id[1] == "success"
-        with allure.step("监理管理》上传附件，订单号{}".format(dd_xx1[2])):
+        with allure.step("派监理>监理管理》上传附件，订单号{}".format(dd_hao)):
             sc_tp = ict.Test_Added01().test_Added0130(jldd_id=yd_id,tp_name="2.02 MB.JPG",tp_id=tp_id[0])
             assert sc_tp == "操作成功"
-        with allure.step("监理管理》审核文件，订单号{}".format(dd_xx1[2])):
+        with allure.step("派监理>监理管理》审核文件，订单号{}".format(dd_hao)):
             sc_wj = ict.Test_Added01().test_Added0131(jlyd_id=yd_id)
             assert sc_wj == "操作成功"
-        with allure.step("查看监理运单状态，订单号{}".format(dd_xx1[2])):
-            jlyd_zt = ict.Test_Added01().test_Added0118(dd_hao=dd_xx1[2])
+        with allure.step("派监理>查看监理运单状态，订单号{}".format(dd_hao)):
+            jlyd_zt = ict.Test_Added01().test_Added0118(dd_hao=dd_hao)
             assert jlyd_zt[0] == '操作成功'
             yd_id = jlyd_zt[1][0]["orderStatus"]
             pytest.assume(yd_id == "status_completed")
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("跟踪管理，集装箱运输》柜号录入")
-    def test_business_scenario005(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("查询调度管理集装箱出口运输订单信息"):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
-            assert dd_xx1[0] == '操作成功'
-            dd_id =  dd_xx1[1]   #订单id
-            zh_time = dd_xx1[3][0]["pickupTime"]    #装货时间  年月日时分秒
-            cz_qy = dd_xx1[3][0]["operationGroup"]   # 操作区域
-            dd_hao = dd_xx1[2]    #订单号
-        with allure.step("手动录入柜号，订单:{}".format(dd_hao)):
+        '''跟踪管理，集装箱运输》柜号录入'''
+        with allure.step("跟踪管理，集装箱运输》柜号录入》手动录入柜号，订单:{}".format(dd_hao)):
             x_hao = "FSCU5130217"
             ft_hao = "CAAU5507656"
             kg_z = "2580"
             g_hao = ict.Test_Added01().test_Added0089(x_hao=x_hao,kg_z=kg_z,dd_id=dd_id,ft_hao=ft_hao)
             pytest.assume(g_hao == '操作成功')
-        with allure.step("跟踪管理查看柜号，订单:{}".format(dd_hao)):
+        with allure.step("跟踪管理，集装箱运输》柜号录入》跟踪管理查看柜号"):
             ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_hao,fw_lx="port_container_export_transport")
             pytest.assume(ck_g_hao[0] == '操作成功')
             pytest.assume(ck_g_hao[1][0]["containerNumber"] == x_hao)
             pytest.assume(ck_g_hao[1][0]["sealNumber"] == ft_hao)
             pytest.assume(ck_g_hao[1][0]["cabinetWeight"] == kg_z)
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("派报关订单")
-    def test_business_scenario006(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("查询调度管理集装箱出口运输订单信息"):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3], lx="port_container_export_transport")
-            assert dd_xx1[0] == '操作成功'
-            dd_id = dd_xx1[1]  # 订单id
-        with allure.step("查询报关订单ID"):
-            bgyd_id = ict.Test_Added01().test_Added0119(dd_hao=dd_xx1[2])
+        '''派报关订单'''
+        with allure.step("派报关订单>查询报关订单ID"):
+            bgyd_id = ict.Test_Added01().test_Added0119(dd_hao=dd_hao)
             assert bgyd_id[0] == '操作成功'
             yd_id = bgyd_id[1][0]["id"]
             yd_hao = bgyd_id[1][0]["orderNumber"]
-        with allure.step("获取报关供应商ID"):
+        with allure.step("派报关订单>获取报关供应商ID"):
             gys_id = ict.Test_Added01().test_Added0132()
             assert gys_id[0] == '操作成功'
-        with allure.step("查看供应商联系人信息"):
+        with allure.step("派报关订单>查看供应商联系人信息"):
             gys_xx = ict.Test_Added01().test_Added0105(gys_id=gys_id[1])
             assert gys_xx[0] == '操作成功'
             gys_lxr = gys_xx[2]
             gys_lxrdh = gys_xx[3]
-        with allure.step("报关单派供应商,订单号{}".format(yd_hao)):
+        with allure.step("派报关订单>报关单派供应商,運单号{}".format(yd_hao)):
             p_bgd = ict.Test_Added01().test_Added0133(bbd_id=yd_id,gys_id=gys_id[1],gys_lxr=gys_lxr,lx_dh=gys_lxrdh)
             assert p_bgd == '操作成功'
-        with allure.step("查看派报关订单推送日志"):
+        with allure.step("派报关订单>查看派报关订单推送日志"):
             gys_id = ict.Test_Added01().test_Added0134(dd_id=yd_hao)
             assert gys_id[0] == '操作成功'
 
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("跟踪管理》新增异常")
-    def test_business_scenario007(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("查询调度管理集装箱出口运输订单信息"):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3], lx="port_container_export_transport")
-            assert dd_xx1[0] == '操作成功'
-            dd_id = dd_xx1[1]  # 订单id
-        with allure.step("跟踪管理》集装箱运输查询，订单号{}".format(dd_xx[3])):
-            jzx_ys = ict.Test_Added01().test_Added0091(dd_hao=dd_xx[3],fw_lx="port_container_export_transport")
+        '''跟踪管理》新增异常'''
+        with allure.step("跟踪管理》新增异常>跟踪管理》集装箱运输查询，订单号{}".format(dd_hao)):
+            jzx_ys = ict.Test_Added01().test_Added0091(dd_hao=dd_hao,fw_lx="port_container_export_transport")
             assert jzx_ys[0] == '操作成功'
             pytest.assume(jzx_ys[1] != [])
-        with allure.step("跟踪管理》监理管理，订单号{}".format(dd_xx[3])):
-            jl_gl = ict.Test_Added01().test_Added0120(dd_hao=dd_xx[3])
+        with allure.step("跟踪管理》新增异常>跟踪管理》监理管理，订单号{}".format(dd_hao)):
+            jl_gl = ict.Test_Added01().test_Added0120(dd_hao=dd_hao)
             assert jl_gl[0] == '操作成功'
             pytest.assume(jl_gl[1] != [])
-        with allure.step("跟踪管理》报关，订单号{}".format(dd_xx[3])):
-            bg_gl = ict.Test_Added01().test_Added0120(dd_hao=dd_xx[3])
+        with allure.step("跟踪管理》新增异常>跟踪管理》订单号{}".format(dd_hao)):
+            bg_gl = ict.Test_Added01().test_Added0120(dd_hao=dd_hao)
             assert bg_gl[0] == '操作成功'
             pytest.assume(bg_gl[1] != [])
-        with allure.step("跟踪管理》新增异常，订单号{}".format(dd_xx[3])):
+        with allure.step("跟踪管理》新增异常>跟踪管理》新增异常"):
             time1 = bf.Common_page().get_today001()
             time2 = time1[9]  # +当天 年月日时分秒
-            xz_yc = ict.Test_Added01().test_Added0135(dd_id=dd_id,dd_hao=dd_xx[3],yc_time=time2)
+            xz_yc = ict.Test_Added01().test_Added0135(dd_id=dd_id,dd_hao=dd_hao,yc_time=time2)
             assert xz_yc == '操作成功'
-        with allure.step("跟踪管理》集装箱运输异常标识出现，订单号{}".format(dd_xx[3])):
-            yc_bs = ict.Test_Added01().test_Added0091(dd_hao=dd_xx[3],fw_lx="port_container_export_transport")
+        with allure.step("跟踪管理》新增异常>跟踪管理》集装箱运输异常标识出现"):
+            yc_bs = ict.Test_Added01().test_Added0091(dd_hao=dd_hao,fw_lx="port_container_export_transport")
             assert yc_bs[0] == '操作成功'
             pytest.assume(yc_bs[1][0]["tags"] == "异常")
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("异常管理》异常处置")
-    def test_business_scenario008(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("查询调度管理集装箱出口运输订单信息"):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3], lx="port_container_export_transport")
-            assert dd_xx1[0] == '操作成功'
-            dd_id = dd_xx1[1]  # 订单id
-        with allure.step("查询异常状态,订单号{}".format(dd_xx[3])):
-            yc_zt = ict.Test_Added01().test_Added0136(dd_hao=dd_xx[3])
+        '''异常管理》异常处置'''
+        with allure.step("异常管理》异常处置>查询异常状态,订单号{}".format(dd_hao)):
+            yc_zt = ict.Test_Added01().test_Added0136(dd_hao=dd_hao)
             assert yc_zt[0] == '操作成功'
             cy_id =yc_zt[1][0]["id"]
             yc_dhao = yc_zt[1][0]["exceptionCode"]
             pytest.assume(yc_zt[1][0]["exceptionLogList"][0]["status"] ==  "待处理")
-        with allure.step("查询监理ID"):
+        with allure.step("异常管理》异常处置>查询监理ID"):
             jl_da = ict.Test_Added01().test_Added0125(jl_name="毛敏监理01")
             assert jl_da[0] == '操作成功'
             jl_id = jl_da[1][0]["id"]
             jl_dh = jl_da[1][0]["supervisionPhone"]
-        with allure.step("异常处理,异常单号{}".format(yc_dhao)):
+        with allure.step("异常管理》异常处置>异常处理,异常单号{}".format(yc_dhao)):
             time1 = bf.Common_page().get_today001()
             time2 = time1[9]  # +当天 年月日时分秒
             jl_da = ict.Test_Added01().test_Added0137(cy_id=cy_id,dd_id=dd_id,cy_dhao=yc_dhao,dd_hao=dd_xx[3],yc_time=time2,gjr=jl_id)
             assert jl_da == '操作成功'
-        with allure.step("异常处理完成"):
+        with allure.step("异常管理》异常处置>异常处理完成"):
             jl_da = ict.Test_Added01().test_Added0138(cy_id=cy_id)
             assert jl_da == '操作成功'
-        with allure.step("查询异常状态"):
-            yc_zt = ict.Test_Added01().test_Added0136(dd_hao=dd_xx[3])
+        with allure.step("异常管理》异常处置>查询异常状态"):
+            yc_zt = ict.Test_Added01().test_Added0136(dd_hao=dd_hao)
             assert yc_zt[0] == '操作成功'
             pytest.assume(yc_zt[1][0]["exceptionLogList"][0]["status"] ==  "已提交")
-        with allure.step("跟踪管理》集装箱运输异常标识消失，订单号{}".format(dd_xx[3])):
-            yc_bs = ict.Test_Added01().test_Added0091(dd_hao=dd_xx[3],fw_lx="port_container_export_transport")
+        with allure.step("异常管理》异常处置>跟踪管理》集装箱运输异常标识消失"):
+            yc_bs = ict.Test_Added01().test_Added0091(dd_hao=dd_hao,fw_lx="port_container_export_transport")
             assert yc_bs[0] == '操作成功'
             data1 = yc_bs[1][0]
             tags = []
@@ -5916,39 +5590,26 @@ class Test_businesso4():
                         tags.append(item[key])
             pytest.assume(tags == [])
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("应收费用制作,明细审核+整审")
-    def test_business_scenario009(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("查询调度管理集装箱出口运输订单信息"):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
-            assert dd_xx1[0] == '操作成功'
-            dd_id = dd_xx1[1]  # 订单id
-        with allure.step("应收费用制作查询运单基本信息(费用明细),订单号：{}".format(dd_xx[3])):
-            ys_lb = ict.Test_Added01().test_Added0086(dd_hao=dd_xx[3])
+        '''应收费用制作,明细审核+整审'''
+        with allure.step("应收费用制作,明细审核+整审>应收费用制作查询运单基本信息(费用明细)"):
+            ys_lb = ict.Test_Added01().test_Added0086(dd_hao=dd_hao)
             assert ys_lb[0] == '操作成功'
             yszd_id =  ys_lb[1][0]["id"]
             yszd_zt = ys_lb[1][0]["chargeStatus"]
             pytest.assume(yszd_zt == "status_check_awaiting")
-        with allure.step(" 应收费用制作查询运单费用明细信息(费用明细),订单号：{}".format(dd_xx[3])):
+        with allure.step("应收费用制作,明细审核+整审>应收费用制作查询运单费用明细信息(费用明细)"):
             zd_xx = ict.Test_Added01().test_Added0139(fy_id=yszd_id)
             assert zd_xx[0] == '操作成功'
             zt_id = zd_xx[1][0]["id"]
             zd_zt =  zd_xx[1][0]["statusType"]
             pytest.assume(zd_zt == "status_check_awaiting")
-        with allure.step("审核应收明细,账单id：{}".format(zt_id)):
+        with allure.step("应收费用制作,明细审核+整审>审核应收明细,账单id：{}".format(zt_id)):
             sh_mx = ict.Test_Added01().test_Added0141(zd_id=zt_id)
             assert sh_mx == '操作成功'
-        with allure.step("账单整审,订单号：{}".format(dd_xx[3])):
+        with allure.step("应收费用制作,明细审核+整审>账单整审,订单号：{}".format(dd_hao)):
             sh_zd = ict.Test_Added01().test_Added0142(zd_id=yszd_id)
             assert sh_zd == '操作成功'
-        with allure.step(" 应收费用制作查询运单费用明细信息(费用明细),订单号：{}".format(dd_xx[3])):
+        with allure.step(" 应收费用制作,明细审核+整审>应收费用制作查询运单费用明细信息(费用明细)"):
             zd_xx = ict.Test_Added01().test_Added0139(fy_id=yszd_id)
             assert zd_xx[0] == '操作成功'
             zd_zt =  zd_xx[1][0]["statusType"]
@@ -5956,200 +5617,151 @@ class Test_businesso4():
 
 
         with allure.step("查看派报关订单推送日志"):
-            gys_id = ict.Test_Added01().test_Added0134(dd_id=dd_xx[3])
+            gys_id = ict.Test_Added01().test_Added0134(dd_id=dd_hao)
             assert gys_id[0] == '操作成功'
             dd_hao = gys_id[2][0]["showContent"]
             jk_name =  gys_id[2][0]["interfaceRuleName"]
             pytest.assume(dd_hao == dd_xx[3])
             pytest.assume(jk_name == "FSC接收一体化审核的应收费用明细")
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("应收费用改单+改单审核")
-    def test_business_scenario010(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-            dd_hao = dd_xx[3]
-        with allure.step("应收费用制作查询运单基本信息(费用明细),订单号：{}".format(dd_xx[3])):
+        '''应收费用改单+改单审核'''
+        with allure.step("应收费用改单+改单审核>应收费用制作查询运单基本信息(费用明细)"):
             ys_lb = ict.Test_Added01().test_Added0145(dd_hao=dd_hao)
             assert ys_lb[0] == '操作成功'
             yszd_id =  ys_lb[1][0]["id"]
             yszd_zt = ys_lb[1][0]["chargeStatus"]
-        with allure.step("查询费用项档案"):
+        with allure.step("应收费用改单+改单审核>查询费用项档案"):
             fy_dd = ict.Test_Added01().test_Added0143()
             assert fy_dd[0] == '操作成功'
             fy_dw = fy_dd[1]
             fy_id = fy_dd[2]
             fy_lx = fy_dd[3]
-        with allure.step("新增应收改单提交,订单号：{}".format(dd_hao)):
+        with allure.step("应收费用改单+改单审核>新增应收改单提交"):
             xx_gd = ict.Test_Added01().test_Added0144(dd_hao=dd_hao,hz_id=hz_id,dd_id=yszd_id,fy_id=fy_id,fy_lx=fy_lx,fy_dw=fy_dw,gdlx=0)
             assert xx_gd == '操作成功'
-        with allure.step("改单列表查询，获取改单ID,订单号：{}".format(dd_hao)):
+        with allure.step("应收费用改单+改单审核>改单列表查询，获取改单ID"):
             gd_lb = ict.Test_Added01().test_Added0146(dd_hao=dd_hao)
             assert gd_lb[0] == '操作成功'
             gd_id = gd_lb[1][0]["id"]
 
-        with allure.step("改单审核,订单号：{}".format(dd_hao)):
+        with allure.step("应收费用改单+改单审核>改单审核,订单号：{}".format(dd_hao)):
             gd_sh = ict.Test_Added01().test_Added0147(gd_id=gd_id)
             assert gd_sh == '操作成功'
-        with allure.step("改单列表查询，获取改单状态,订单号：{}".format(dd_hao)):
+        with allure.step("应收费用改单+改单审核>改单列表查询，获取改单状态"):
             gd_lb = ict.Test_Added01().test_Added0146(dd_hao=dd_hao)
             assert gd_lb[0] == '操作成功'
             gd_zt = gd_lb[1][0]["statusType"]
             pytest.assume(gd_zt == "status_check_completed")
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("应收费用对账单提交+生成月结账单+收款")
-    def test_business_scenario011(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-            dd_hao = dd_xx[3]
-        with allure.step("应收对账单》待生成对账单列表,订单号：{}".format(dd_xx[3])):
+
+        '''应收费用对账单提交+生成月结账单+收款'''
+        with allure.step("应收费用对账单提交+生成月结账单+收款>应收对账单》待生成对账单列表"):
             ys_lb = ict.Test_Added01().test_Added0149(dd_hao=dd_hao)
             assert ys_lb[0] == '操作成功'
             yszd_id =  ys_lb[1][0]["id"]
-        with allure.step("对账单按单提交，订单号：{}".format(dd_hao)):
+        with allure.step("应收费用对账单提交+生成月结账单+收款>对账单按单提交，订单号：{}".format(dd_hao)):
             tj_zd = ict.Test_Added01().test_Added0148(zd_id=yszd_id)
             assert tj_zd == '操作成功'
-        with allure.step("应收对账单》对账单合计列表,订单号：{}".format(dd_xx[3])):
+        with allure.step("应收费用对账单提交+生成月结账单+收款>应收对账单》对账单合计列表"):
             ys_lb = ict.Test_Added01().test_Added0151(dd_hao=dd_hao)
             assert ys_lb[0] == '操作成功'
             dzd_id =  ys_lb[1][0]["id"]
             dzd_zt = ys_lb[1][0]["statusType"]
             dzd_hao =  ys_lb[1][0]["billOrderNumber"]
             pytest.assume(dzd_zt == "status_bill_awaiting" )
-        with allure.step("确认对账,对账单号：{}".format(dzd_hao)):
+        with allure.step("应收费用对账单提交+生成月结账单+收款>确认对账,对账单号：{}".format(dzd_hao)):
             qr_dz = ict.Test_Added01().test_Added0150(zd_id=dzd_id)
             assert qr_dz == '操作成功'
 
-        with allure.step("生成结算单,对账单号：{}".format(dzd_hao)):
+        with allure.step("应收费用对账单提交+生成月结账单+收款>生成结算单"):
             sc_jsd = ict.Test_Added01().test_Added0152(zd_id=dzd_id)
             assert sc_jsd == '操作成功'
 
-        with allure.step("获取图片地址"):
+        with allure.step("应收费用对账单提交+生成月结账单+收款>获取图片地址"):
             tu_dz = pz.Common_page().projects_path() + r"\Common\picture\2.02 MB.JPG"  # 图片地址
             # print(tu_dz)
-        with allure.step("上传图片，获取图片id"):
+        with allure.step("应收费用对账单提交+生成月结账单+收款>上传图片，获取图片id"):
             tp_id = ict.Test_Added01().test_Added0129(tp_lj=tu_dz)  # 获取图片id
             assert tp_id[1] == "success"
-        with allure.step("查看对账单状态"):
+        with allure.step("应收费用对账单提交+生成月结账单+收款>查看对账单状态"):
             yy_zt = ict.Test_Added01().test_Added0154(zd_hao=dzd_hao)
             assert yy_zt[0] == "操作成功"
             id = yy_zt[1][0]["id"]
-        with allure.step("确认收款"):
+        with allure.step("应收费用对账单提交+生成月结账单+收款>确认收款"):
             qr_sk = ict.Test_Added01().test_Added0153(zd_id=id,tp_name="2.02 MB.JPG",tp_id=tp_id[0])  # 获取图片id
             assert qr_sk == "操作成功"
-        with allure.step("查看对账单状态"):
+        with allure.step("应收费用对账单提交+生成月结账单+收款>查看对账单状态"):
             dzd_zt = ict.Test_Added01().test_Added0154(zd_hao=dzd_hao)
             assert dzd_zt[0] == "操作成功"
             pytest.assume(dzd_zt[1][0]["statusType"] == "status_all_pay_amount_comfirm" )
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("应付费用制作,明细审核+整审")
-    def test_business_scenario012(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-            dd_hao = dd_xx[3]
-        with allure.step("应付费用列表订单id，订单:{}".format(dd_hao)):
+        '''应付费用制作,明细审核+整审'''
+        with allure.step("应付费用制作,明细审核+整审>应付费用列表订单id，订单:{}".format(dd_hao)):
             lb_xx = ict.Test_Added01().test_Added0094(dd_hao=dd_hao,fw_lx="port_container_export_transport")
             pytest.assume(lb_xx[0] == '操作成功')
             dd_id = lb_xx[2]["id"]
-        with allure.step("应付费用费用信息明细，订单:{}".format(dd_hao)):
+        with allure.step("应付费用制作,明细审核+整审>应付费用费用信息明细"):
             fy_xx = ict.Test_Added01().test_Added0088(dd_id=dd_id)
             pytest.assume(fy_xx[0] == '操作成功')
             zd_id1 = fy_xx[1][0]["id"]  # 账单ID
             dd_hao = fy_xx[1][0]["orderNumber"]  # 订单号    明细已审核：status_check_completed
             zd_zt = fy_xx[1][0]["statusType"]  # 明细账单状态  待审核：status_check_awaiting  一整审：status_check_all_completed
-        with allure.step("应付费用费用明细审核，订单:{}".format(dd_hao)):
+        with allure.step("应付费用制作,明细审核+整审>应付费用费用明细审核"):
             mx_sh = ict.Test_Added01().test_Added0095(mx_id=zd_id1)
             pytest.assume(mx_sh == '操作成功')
-        with allure.step("应付费用费用整审，订单:{}".format(dd_hao)):
+        with allure.step("应付费用制作,明细审核+整审>应付费用费用整审"):
             fy_zs = ict.Test_Added01().test_Added0096(dd_id=dd_id)
             pytest.assume(fy_zs == '操作成功')
-        with allure.step("断言应付费用列表订单费用状态已完成，订单:{}".format(dd_hao)):
+        with allure.step("应付费用制作,明细审核+整审>断言应付费用列表订单费用状态已完成"):
             fy_lb = ict.Test_Added01().test_Added0094(dd_hao=dd_hao, fw_lx="port_container_export_transport")
             pytest.assume(fy_lb[0] == '操作成功')
             pytest.assume(fy_lb[2]["chargeStatus"] == "status_check_all_completed")  # 断言订单费用状态已整审
 
-   # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("应付费用改单+改单审核")
-    def test_business_scenario013(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-            dd_hao = dd_xx[3]
-        with allure.step("应付费用列表订单id，订单:{}".format(dd_hao)):
+        '''应付费用改单+改单审核'''
+        with allure.step("应付费用改单+改单审核>应付费用列表订单id，订单:{}".format(dd_hao)):
             lb_xx = ict.Test_Added01().test_Added0094(dd_hao=dd_hao,fw_lx="port_container_export_transport")
             pytest.assume(lb_xx[0] == '操作成功')
             yszd_id = lb_xx[2]["id"]
             cp_hao = lb_xx[2]["mainlandLicensePlateNumber"]
-        with allure.step("查询费用项档案"):
+        with allure.step("应付费用改单+改单审核查询费用项档案"):
             fy_dd = ict.Test_Added01().test_Added0143()
             assert fy_dd[0] == '操作成功'
             fy_dw = fy_dd[1]
             fy_id = fy_dd[2]
             fy_lx = fy_dd[3]
-        with allure.step("查看运输公司档案"):
+        with allure.step("应付费用改单+改单审核查看运输公司档案"):
             gys_da = ict.Test_Added01().test_Added0062(gys_name="租户测试自有车-集1")
             assert gys_da[0] == '操作成功'
             gys_id = gys_da[1]  #供应商id
             gyl_name =  gys_da[4]  #供应商名称
-        with allure.step("新增应收改单提交,订单号：{}".format(dd_hao)):
+        with allure.step("应付费用改单+改单审核新增应收改单提交"):
             xx_gd = ict.Test_Added01().test_Added0155(dd_hao=dd_hao, hz_id=hz_id, dd_id=yszd_id, fy_id=fy_id,
                                                       fy_lx=fy_lx, fy_dw=fy_dw, gdlx=1,gys_id=gys_id,cp_hao=cp_hao)
             assert xx_gd == '操作成功'
-        with allure.step("应付改单列表查询，获取改单ID,订单号：{}".format(dd_hao)):
+        with allure.step("应付费用改单+改单审核应付改单列表查询，获取改单ID"):
             gd_lb = ict.Test_Added01().test_Added0097(dd_hao=dd_hao)
             assert gd_lb[0] == '操作成功'
             gd_id = gd_lb[1][0]["id"]
 
-        with allure.step("改单审核,订单号：{}".format(dd_hao)):
+        with allure.step("应付费用改单+改单审核改单审核,订单号：{}".format(dd_hao)):
             gd_sh = ict.Test_Added01().test_Added0099(gd_id=gd_id)
             assert gd_sh == '操作成功'
-        with allure.step("改单列表查询，获取改单状态,订单号：{}".format(dd_hao)):
+        with allure.step("应付费用改单+改单审核改单列表查询，获取改单状态"):
             gd_lb = ict.Test_Added01().test_Added0097(dd_hao=dd_hao)
             assert gd_lb[0] == '操作成功'
             gd_zt = gd_lb[1][0]["statusType"]
             pytest.assume(gd_zt == "status_check_completed")
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("取消订单")
-    def test_business_scenario014(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("查询调度管理集装箱出口运输订单信息"):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_export_transport")
+        '''取消订单'''
+        with allure.step("取消订单>查询调度管理集装箱出口运输订单信息"):
+            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_hao,lx="port_container_export_transport")
             assert dd_xx1[0] == '操作成功'
             dd_id =  dd_xx1[1]   #订单id
-        with allure.step("调度管理》撤销派车，订单号：{}".format(dd_xx1[2])):
+        with allure.step("取消订单>调度管理》撤销派车"):
             cx_pc = ict.Test_Added01().test_Added0156(dd_id=dd_id)
             assert cx_pc == '操作成功'
-        with allure.step("计划管理，分单查询，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_xx[3])
+        with allure.step("取消订单>计划管理，分单查询"):
+            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             assert fd_xx[1] == 4
             data1 = fd_xx[2]
@@ -6170,17 +5782,17 @@ class Test_businesso4():
                 with allure.step("撤销分单,分单号：{}".format(fd_id)):
                     qy_jdzx = ict.Test_Added01().test_Added0157(dd_id=fd_id)
                     assert qy_jdzx == '操作成功'
-        with allure.step("集装箱运输》取消订单，订单号：{}".format(dd_xx1[2])):
+        with allure.step("取消订单>集装箱运输》取消订单，订单号：{}".format(dd_hao)):
             qx_dd = ict.Test_Added01().test_Added015701(dd_id=dd_xx[6]["id"])
             assert qx_dd == '操作成功'
 
 @allure.parent_suite('ict业务场景测试用例')
 @allure.suite('ict业务场景测试用例模块')
-@allure.sub_suite('业务场景六 集装箱进口（测试点：派自有车+通改+改派供应商+供应商手工报价）')
+@allure.sub_suite('业务场景六 集装箱进口')
 # @pytest.mark.skip(reason="无理由跳过")
 class Test_businesso5():
     # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("新增集装箱进口订单")
+    @allure.title("业务场景六 集装箱进口（测试点：派自有车+通改+改派供应商+供应商手工报价）")
     def test_business_scenario001(self):
         with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
             hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
@@ -6259,19 +5871,11 @@ class Test_businesso5():
         with allure.step("查询新增集装箱进口运输订单信息"):
             dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode=time9)
             assert dd_xx[0] == '操作成功'
-        with allure.step("集装箱进口运输订单号：{}".format(dd_xx[3])):
-            pass
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("集装箱进口通改")
-    def test_business_scenario002(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询集装箱进口运输订单信息"):
-            dd_hao = ict.Test_Added01().test_Added0117(hz_id=hz_id)
+
+        '''集装箱进口通改'''
+        with allure.step("查询集装箱进口运输订单信息{}".format(dd_xx[3])):
+            dd_hao = ict.Test_Added01().test_Added0117(hz_id=hz_id,customerDelegateCode=time9)
             assert dd_hao[0] == '操作成功'
             id = dd_hao[1][0]["id"]
             pytest.assume(dd_hao[1][0]["orderStatus"] == "status_execution")
@@ -6303,7 +5907,7 @@ class Test_businesso5():
             dd_xg = ict.Test_Added01().test_Added0160(data1=data,id=dd_id)
             assert dd_xg == '操作成功'
         with allure.step("查询集装箱进口运输订单状态"):
-            dd_zt = ict.Test_Added01().test_Added0117(hz_id=hz_id)
+            dd_zt = ict.Test_Added01().test_Added0117(hz_id=hz_id,customerDelegateCode="")
             assert dd_zt[0] == '操作成功'
             pytest.assume(dd_zt[1][0]["orderStatus"] == "status_edit_handling_awaiting")
         with allure.step("查询计划管理》集装箱出现修改申请标识"):
@@ -6330,16 +5934,9 @@ class Test_businesso5():
             tg_qr = ict.Test_Added01().test_Added0165(customerOrderId=jx_gl[2][0]["customerOrderId"])
             assert tg_qr == '操作成功'
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("集装箱出口订单分单管理》分自有车")
-    def test_business_scenario003(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
+        '''集装箱出口订单分单管理》分自有车'''
         with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode=time9)
             assert dd_xx[0] == '操作成功'
         with allure.step("计划管理，分单查询，订单号：{}".format(dd_xx[3])):
             fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_xx[3])
@@ -6363,17 +5960,7 @@ class Test_businesso5():
                     qy_jdzx = ict.Test_Added01().test_Added0058(zy_che=fd_id, gys="", hy_dt="")
                     assert qy_jdzx == '操作成功'
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("集装箱进口订单派自有车A，撤销派车变更分单，派供应商")
-    def test_business_scenario004(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
+        '''集装箱进口订单派自有车A，撤销派车变更分单，派供应商'''
         with allure.step("查询调度管理集装箱出口运输订单信息,订单号：{}".format(dd_xx[3])):
             dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_import_transport")
             assert dd_xx1[0] == '操作成功'
@@ -6413,12 +6000,28 @@ class Test_businesso5():
                 with allure.step("出车表存在，查看出车表信息"):
                     cc_dd = ict.Test_Added01().test_Added0074(sj_id=sj_id, cp_hao="粤ZZ0001", zh_time=time2)
                     assert cc_dd[0] == '操作成功'
-                    if cc_dd[2] == "car_dispatch_undistribute":
-                        with allure.step("出车表存在,车牌号：{}，并未分配".format(cc_dd[4])):
-                            pass
-                    if cc_dd[2] == "car_dispatch_completed":
-                        fz_ccb = ict.Test_Added01().test_Added0084(ccb_id=cc_dd[1])
-                        assert fz_ccb == '操作成功'
+
+                    data1 = cc_dd[5]
+                    list11 = []
+                    for i in data1:
+                        # print(i)
+                        n = ict.get_k(i)
+                        # print(n)
+                        for key in n.keys():
+                            if key == "status":
+                                list11.append(key)
+                                list11.append(n[key])
+                    # print(list11)
+                    for j in list11:
+                        list22 = []
+                        if  j =="car_dispatch_undistribute" :
+                            list22.append(j)
+                            if list22 == "car_dispatch_undistribute":
+                                with allure.step("出车表存在,车牌号：{}，并未分配".format(cc_dd[4])):
+                                    pass
+                            if list22 == "car_dispatch_completed":
+                                fz_ccb = ict.Test_Added01().test_Added0084(ccb_id=cc_dd[1])
+                                assert fz_ccb == '操作成功'
         with allure.step("获取出车表ID"):
             cc_xx = ict.Test_Added01().test_Added0074(sj_id=sj_id, cp_hao="粤ZZ0001",zh_time=time2)
             assert cc_xx[0] == '操作成功'
@@ -6448,17 +6051,8 @@ class Test_businesso5():
             bg_fd = ict.Test_Added01().test_Added0114(dd_id=dd_id,isSubmit=1)
             pytest.assume(bg_fd == '操作成功')
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("进口订单派供应商A：手工报价")
-    def test_business_scenario005(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
+
+        '''进口订单派供应商A：手工报价'''
         with allure.step("查询调度管理集装箱出口运输订单信息,订单号：{}".format(dd_xx[3])):
             dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_import_transport")
             assert dd_xx1[0] == '操作成功'
@@ -6475,16 +6069,9 @@ class Test_businesso5():
             gys_xx = ict.Test_Added01().test_Added0106(dd_id=dd_id,gys_lxr=gys_lxr,gys_lxrdh=gys_lxrdh,gys_id=gys_id[1],je=2500)
             assert gys_xx == '操作成功'
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("取消订单")
-    def test_business_scenario006(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询新增集装箱出口运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
+        '''取消订单'''
+        with allure.step("查询集装箱出口运输订单信息"):
+            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode=time9)
             assert dd_xx[0] == '操作成功'
         with allure.step("查询调度管理集装箱出口运输订单信息,订单号：{}".format(dd_xx[3])):
             dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="port_container_import_transport")
@@ -6518,17 +6105,17 @@ class Test_businesso5():
             qx_dd = ict.Test_Added01().test_Added015701(dd_id=dd_xx[6]["id"])
             assert qx_dd == '操作成功'
         with allure.step("订单管理》集装箱运输》查看订单状态，订单号：{}".format(dd_xx1[2])):
-            jzx_ys = ict.Test_Added01().test_Added0117(hz_id=hz_id)
+            jzx_ys = ict.Test_Added01().test_Added0117(hz_id=hz_id,customerDelegateCode="")
             assert jzx_ys[0] == '操作成功'
             assert jzx_ys[1][0]["orderStatus"] == 'status_undo_completed'
 
 @allure.parent_suite('ict业务场景测试用例')
 @allure.suite('ict业务场景测试用例模块')
-@allure.sub_suite('业务场景七 厢式车多装一卸（测试点：执改+派货源大厅+文件回收+改派自有车+改派供应商）')
+@allure.sub_suite('业务场景七 厢式车多装一卸')
 # @pytest.mark.skip(reason="无理由跳过")
 class Test_businesso6():
     # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("新增厢式车多点装货订单")
+    @allure.title("业务场景七 厢式车多装一卸（测试点：执改+派货源大厅+文件回收+改派自有车+改派供应商）")
     def test_business_scenario001(self):
         with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
             hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
@@ -6629,26 +6216,19 @@ class Test_businesso6():
                         consigneeContactPhone=xhdw_xlrdh,consigneeContactAddr=xhdw_xxdz,xh_sf=xsf_bm,xh_cs=xcs_bm,xh_q=xq_bm,xh_jd=xjd_bm,zh_sf=zsf_bm,zh_cs=zcs_bm,zh_q=zq_bm,zh_jd=zjd_bm,zh_dz1id=zhdw1_id,zh_dz1name=zhdw1_name,zh_dz1lxr=zhdw1_lxr,
                         zh_dz1lxrdh=zhdw1_xlrdh,zh_dz1=zhdw1_xxdz,zh_dz2id=zhdw2_id,zh_dz2name=zhdw2_name,zh_dz2lxr=zhdw2_lxr,zh_dz2lxrdh=zhdw2_xlrdh,zh_dz2=zhdw2_xxdz,zh_time=time2,jc_time=time3,bj_je=bjd_je,bj_id=bjd_id,kh_hao=time9)
             assert xz_xsc == '操作成功'
-        with allure.step("查询新增集装箱出口运输订单信息"):
+        with allure.step("查询新增厢式车运输订单信息"):
             dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode=time9)
             assert dd_xx[0] == '操作成功'
-        with allure.step("集装箱出口运输订单号：{}".format(dd_xx[3])):
-            pass
+            dd_hao = dd_xx[3]
+            orde_id = dd_xx[6]["id"]
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("厢式车执改")
-    def test_business_scenario002(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询厢式车订单信息"):
-            dd_hao = ict.Test_Added01().test_Added0168(hz_id=hz_id)
+        '''厢式车执改'''
+        with allure.step("厢式车执改>查询厢式车订单信息"):
+            dd_hao = ict.Test_Added01().test_Added0168(orderNumber=dd_hao)
             assert dd_hao[0] == '操作成功'
             id = dd_hao[1][0]["id"]
             pytest.assume(dd_hao[1][0]["orderStatus"] == "status_execution")
-        with allure.step("获取时间"):
+        with allure.step("厢式车执改>获取时间"):
             time1 = bf.Common_page().get_today001()
             time2 = time1[1]  # +5天 年月日时分秒
             time3 = time1[2]  # +10天  年月日时分秒
@@ -6658,7 +6238,7 @@ class Test_businesso6():
             time7 = time1[6]  # +100天  年月日
             time8 = time1[7]  # +200天  年月日
             time9 = time1[8]  # 按时间年月日时分秒生成数组-客户委托号
-        with allure.step("查看订单详情页，货主：{},{}".format(cf.hz_name,id)):
+        with allure.step("厢式车执改>查看订单详情页，货主：{},{}".format(cf.hz_name,id)):
             dd_xx = ict.Test_Added01().test_Added0162(dd_id=id)
             assert dd_xx[0] == '操作成功'
             data1 = dd_xx[1]
@@ -6672,14 +6252,14 @@ class Test_businesso6():
             baseInfo.update([('orderStatus','status_execution'),("carModeId",'10T')]) #修改状态+车型
             data = {"baseInfo":baseInfo,"addrList":addrList,"costList":costList,"goodsList":goodsList,"priceList":priceList}
             # print(str(data))
-        with allure.step("修改订单，订单号：{}".format(dd_hao)):
+        with allure.step("厢式车执改>修改订单，订单号：{}".format(dd_hao)):
             dd_xg = ict.Test_Added01().test_Added0160(data1=data,id=dd_id)
             assert dd_xg == '操作成功'
-        with allure.step("查询厢式车运输列表订单状态"):
-            dd_zt = ict.Test_Added01().test_Added0168(hz_id=hz_id)
+        with allure.step("厢式车执改>查询厢式车运输列表订单状态"):
+            dd_zt = ict.Test_Added01().test_Added0168(orderNumber=dd_hao)
             assert dd_zt[0] == '操作成功'
             pytest.assume(dd_zt[1][0]["orderStatus"] == "status_edit_handling_awaiting") #订单状态修改待处理
-        with allure.step("获取改单详情页信息"):
+        with allure.step("厢式车执改>获取改单详情页信息"):
             gd_xx = ict.Test_Added01().test_Added0164(dd_id=dd_id)
             assert gd_xx[3] == '操作成功'
             baseInfo1 = ict.get_k(gd_xx[1]['baseInfo'])
@@ -6688,31 +6268,22 @@ class Test_businesso6():
             id = gd_xx[2]["id"]
             editType = gd_xx[2]["editType"]
             editRemark = gd_xx[2]["editRemark"]
-        with allure.step("审核改单申请"):
+        with allure.step("厢式车执改>审核改单申请"):
             data1 = {"baseInfo":baseInfo1,"addrList":[addrList1],"costList":[costList1]}
             sh_gd = ict.Test_Added01().test_Added0163(dd_hao=dd_hao,data=data1,dd_id=id,editType=editType,editRemark=editRemark)
             assert sh_gd == '操作成功'
-        with allure.step("查询计划管理》出现通改标识"):
+        with allure.step("厢式车执改>查询计划管理》出现通改标识"):
             jx_gl = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
             assert jx_gl[0] == '操作成功'
             pytest.assume(jx_gl[2][0]["tags"] == "执改")
-        with allure.step("计划管理》通改确认"):
+        with allure.step("厢式车执改>计划管理》通改确认"):
             tg_qr = ict.Test_Added01().test_Added0165(customerOrderId=jx_gl[2][0]["customerOrderId"])
             assert tg_qr == '操作成功'
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("厢式车订单分单管理》分货源大厅，发布抢单")
-    def test_business_scenario003(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询厢式车运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("计划管理，分单查询，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_xx[3])
+
+        '''厢式车订单分单管理》分货源大厅，发布抢单'''
+        with allure.step("厢式车订单分单管理》分货源大厅，发布抢单>计划管理，分单查询，订单号：{}".format(dd_hao)):
+            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             assert fd_xx[1] == 1
             data1 = fd_xx[2]
@@ -6730,55 +6301,45 @@ class Test_businesso6():
                 id1 += 1
                 # print(id2)
                 fd_id = id[id2]
-                with allure.step("分单，分派供应商,分单号：{}".format(fd_id)):
+                with allure.step("厢式车订单分单管理》分货源大厅，发布抢单>分单，分派供应商,分单号：{}".format(fd_id)):
                     qy_jdzx = ict.Test_Added01().test_Added0058(zy_che="", gys="", hy_dt=fd_id)
                     assert qy_jdzx == '操作成功'
-        with allure.step("查询货源大厅订单状态"):
-            hy_dt = ict.Test_Added01().test_Added0171(dd_hao=dd_xx[3])
+        with allure.step("厢式车订单分单管理》分货源大厅，发布抢单>查询货源大厅订单状态"):
+            hy_dt = ict.Test_Added01().test_Added0171(dd_hao=dd_hao)
             assert hy_dt[0] == '操作成功'
             pytest.assume(hy_dt[1]== 1 ) #订单是否存在
             pytest.assume(hy_dt[2][0]["orderStatus"] == "status_waiting_dispatch") #运单状态= 待派单
             pytest.assume(hy_dt[2][0]["cargoShowStatus"] == "status_send_awaiting") #订单状态=待发布
             dd_id = hy_dt[2][0]["id"]
-        with allure.step("获取时间"):
+        with allure.step("厢式车订单分单管理》分货源大厅，发布抢单>获取时间"):
             time1 = bf.Common_page().get_today001()
             time2 = time1[10]  # +今天今时 年月日时分秒
-        with allure.step("货源大厅抢单发布"):
+        with allure.step("厢式车订单分单管理》分货源大厅，发布抢单>货源大厅抢单发布"):
             qd_fb = ict.Test_Added01().test_Added0172(dd_id=dd_id,sendStartTime=time2)
             assert qd_fb == '操作成功'
-        with allure.step("查询货源大厅订单状态"):
-            hy_dt = ict.Test_Added01().test_Added0171(dd_hao=dd_xx[3])
+        with allure.step("厢式车订单分单管理》分货源大厅，发布抢单>查询货源大厅订单状态"):
+            hy_dt = ict.Test_Added01().test_Added0171(dd_hao=dd_hao)
             assert hy_dt[0] == '操作成功'
             pytest.assume(hy_dt[2][0]["cargoShowStatus"] == "status_send_completed") #订单状态=已发送
-        with allure.step("货源大厅撤销发布"):
+        with allure.step("厢式车订单分单管理》分货源大厅，发布抢单>货源大厅撤销发布"):
             cx_fb = ict.Test_Added01().test_Added0173(dd_id=dd_id)
             assert cx_fb == '操作成功'
-        with allure.step("查询货源大厅订单状态"):
-            hy_dt = ict.Test_Added01().test_Added0171(dd_hao=dd_xx[3])
+        with allure.step("厢式车订单分单管理》分货源大厅，发布抢单>查询货源大厅订单状态"):
+            hy_dt = ict.Test_Added01().test_Added0171(dd_hao=dd_hao)
             assert hy_dt[0] == '操作成功'
             pytest.assume(hy_dt[2][0]["cargoShowStatus"] == "status_send_cancel") #订单状态=已撤销发布
-        with allure.step("货源大厅回退计划管理"):
+        with allure.step("厢式车订单分单管理》分货源大厅，发布抢单>货源大厅回退计划管理"):
             ht_jh = ict.Test_Added01().test_Added0174(dd_id=dd_id)
             assert ht_jh == '操作成功'
-        with allure.step("计划管理，分单查询，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_xx[3])
+        with allure.step("厢式车订单分单管理》分货源大厅，发布抢单>计划管理，分单查询，订单号：{}".format(dd_hao)):
+            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             dd_zt = fd_xx[2][0]["orderStatus"]
             pytest.assume(dd_zt == "status_waiting_distribute") #订单状态=待分单
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("厢式车订单分单管理》分供应商")
-    def test_business_scenario004(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询厢式车运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("计划管理，分单查询，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_xx[3])
+        '''厢式车订单分单管理》分供应商'''
+        with allure.step("厢式车订单分单管理》分供应商>计划管理，分单查询，订单号：{}".format(dd_hao)):
+            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             assert fd_xx[1] == 1
             data1 = fd_xx[2]
@@ -6796,23 +6357,13 @@ class Test_businesso6():
                 id1 += 1
                 # print(id2)
                 fd_id = id[id2]
-                with allure.step("分单，分派供应商,分单号：{}".format(fd_id)):
+                with allure.step("厢式车订单分单管理》分供应商>分单，分派供应商,分单号：{}".format(fd_id)):
                     qy_jdzx = ict.Test_Added01().test_Added0058(zy_che=fd_id, gys="", hy_dt="")
                     assert qy_jdzx == '操作成功'
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("派自有车A，撤销派车变更分单，派供应商")
-    def test_business_scenario005(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("查询调度管理订单信息,订单号：{}".format(dd_xx[3])):
-            dd_xx1 = ict.Test_Added01().test_Added0175(dd_hao=dd_xx[3])
+        '''派自有车A，撤销派车变更分单，派供应商'''
+        with allure.step("派自有车A，撤销派车变更分单，派供应商>查询调度管理订单信息,订单号：{}".format(dd_hao)):
+            dd_xx1 = ict.Test_Added01().test_Added0175(dd_hao=dd_hao)
             assert dd_xx1[0] == '操作成功'
             dd_id = dd_xx1[1]  # 订单id
             zh_time = dd_xx1[3][0]["pickupTime"]  # 装货时间  年月日时分秒
@@ -6821,50 +6372,65 @@ class Test_businesso6():
             str_datetime = zh_time
             time1 = datetime.datetime.strptime(str_datetime, "%Y-%m-%d %H:%M:%S")
             time2 = time1.strftime('%Y-%m-%d')  # 装货时间  年月日
-        with allure.step("查看司机档案"):
+        with allure.step("派自有车A，撤销派车变更分单，派供应商>查看司机档案"):
             xz_sj = ict.Test_Added01().test_Added0066(sj_name="测试自有车-集1")
             assert xz_sj[0] == '操作成功'
             sj_id = xz_sj[1]  # 司机id
             sj_name = xz_sj[4]  # 司机名称
             sj_haoma = xz_sj[5]  # 司机号码
-        with allure.step("查看运输公司档案"):
+        with allure.step("派自有车A，撤销派车变更分单，派供应商>查看运输公司档案"):
             gys_da = ict.Test_Added01().test_Added0062(gys_name="租户测试自有车-集1")
             assert gys_da[0] == '操作成功'
             gys_id = gys_da[1]  # 供应商id
             gyl_name = gys_da[4]  # 供应商名称
-        with allure.step("查看车辆档案"):
+        with allure.step("派自有车A，撤销派车变更分单，派供应商>查看车辆档案"):
             sj_da = ict.Test_Added01().test_Added0070(gys_id=gys_id, cp_hao="粤ZZ0001")
             assert sj_da[0] == '操作成功'
             cl_id = sj_da[1]  # 车辆id
             cp_hao = sj_da[2]  # 车牌号
             cl_name = sj_da[4]  # 车辆名称
             cz_qy = sj_da[6]  # 操作区域
-        with allure.step("维护出车表信息"):
+        with allure.step("派自有车A，撤销派车变更分单，派供应商>维护出车表信息"):
             cc_xx = ict.Test_Added01().test_Added0072(sj_id=sj_id,cp_hao="粤ZZ0001", zh_time=time2)
             assert cc_xx[0] == '操作成功'
             if cc_xx[1] == 0:
-                with allure.step("出车表不存在，生成出车表"):
+                with allure.step("派自有车A，撤销派车变更分单，派供应商>出车表不存在，生成出车表"):
                     xx_ccb = ict.Test_Added01().test_Added0073(fw_lx="container_type", cz_qy=cz_qy, tims=time2)
                     assert xx_ccb == '操作成功'
             if cc_xx[1] != 0:
-                with allure.step("出车表存在，查看出车表信息"):
+                with allure.step("派自有车A，撤销派车变更分单，派供应商>出车表存在，查看出车表信息"):
                     cc_dd = ict.Test_Added01().test_Added0074(sj_id=sj_id, cp_hao="粤ZZ0001", zh_time=time2)
                     assert cc_dd[0] == '操作成功'
-                    if cc_dd[2] == "car_dispatch_undistribute":
-                        with allure.step("出车表存在,车牌号：{}，并未分配".format(cc_dd[4])):
-                            pass
-                    if cc_dd[2] == "car_dispatch_completed":
-                        with allure.step("出车表存在已分配,车牌号：{}，复制出车表".format(cc_dd[4])):
-                            fz_ccb = ict.Test_Added01().test_Added0084(ccb_id=cc_dd[1])
-                            assert fz_ccb == '操作成功'
-        with allure.step("获取出车表ID"):
+
+                    data1 = cc_dd[5]
+                    list11 = []
+                    for i in data1:
+                        # print(i)
+                        n = ict.get_k(i)
+                        # print(n)
+                        for key in n.keys():
+                            if key == "status":
+                                list11.append(key)
+                                list11.append(n[key])
+                    # print(list11)
+                    for j in list11:
+                        list22 = []
+                        if  j =="car_dispatch_undistribute" :
+                            list22.append(j)
+                            if list22 == "car_dispatch_undistribute":
+                                with allure.step("出车表存在,车牌号：{}，并未分配".format(cc_dd[4])):
+                                    pass
+                            if list22 == "car_dispatch_completed":
+                                fz_ccb = ict.Test_Added01().test_Added0084(ccb_id=cc_dd[1])
+                                assert fz_ccb == '操作成功'
+        with allure.step("派自有车A，撤销派车变更分单，派供应商>获取出车表ID"):
             cc_xx = ict.Test_Added01().test_Added0074(sj_id=sj_id,cp_hao="粤ZZ0001",zh_time=time2)
             assert cc_xx[0] == '操作成功'
             ccb_id = cc_xx[1]  # 出车表ID
-        with allure.step("调度管理，获取车牌号:{}".format(cc_xx[4])):
+        with allure.step("派自有车A，撤销派车变更分单，派供应商>调度管理，获取车牌号:{}".format(cc_xx[4])):
             bz_dd1 = ict.Test_Added01().test_Added0085(zh_time=time2,fw_lx="port_container_import_transport")
             assert bz_dd1[0] == '操作成功'
-        with allure.step("调度管理，派自有车，订单号：{},".format(dd_hao)):
+        with allure.step("派自有车A，撤销派车变更分单，派供应商>调度管理，派自有车，订单号：{},".format(dd_hao)):
             pzyc = ict.Test_Added01().test_Added0075(id=dd_id,driverId=sj_id,supplierId=gys_id,
                                                      mainlandLicensePlateNumber=cp_hao,
                                                      orderNumber=dd_hao,pickupTime=zh_time,
@@ -6873,109 +6439,79 @@ class Test_businesso6():
                                                      mainlandPhone=sj_haoma, supplierName=gyl_name,
                                                      carDispatchId=ccb_id)
             assert pzyc == '操作成功'
-        with allure.step("断言分单渠道"):
+        with allure.step("派自有车A，撤销派车变更分单，派供应商>断言分单渠道"):
             fd_qd = ict.Test_Added01().test_Added0175(dd_hao=dd_hao)
             assert fd_qd[0] == '操作成功'
             pytest.assume("自有运力" == fd_qd[3][0]["distributeChannel"])
             pytest.assume("status_node_awaiting" == fd_qd[3][0]["orderStatus"])
-        with allure.step("自有车撤销派单，订单号:{}".format(dd_xx1[2])):
+        with allure.step("自有车撤销派单，订单号:{}".format(dd_hao)):
             cx_pd = ict.Test_Added01().test_Added0092(dd_id=dd_id)
             pytest.assume(cx_pd == '操作成功')
-        with allure.step("变更分单，订单号:{}".format(dd_xx1[2])):
+        with allure.step("派自有车A，撤销派车变更分单，派供应商>变更分单，订单号:{}".format(dd_hao)):
             bg_fd = ict.Test_Added01().test_Added0114(dd_id=dd_id,isSubmit=1)
             pytest.assume(bg_fd == '操作成功')
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("厢式车订单派供应商A：手工报价")
-    def test_business_scenario006(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询厢式车运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("计划管理，获取订单ID，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_xx[3])
+        '''厢式车订单派供应商A：手工报价'''
+        with allure.step("派自有车A，撤销派车变更分单，派供应商>>计划管理，获取订单ID，订单号：{}".format(dd_hao)):
+            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             dd_id = fd_xx[2][0]["id"]
-        with allure.step("查看供应商id"):
+        with allure.step("派自有车A，撤销派车变更分单，派供应商>查看供应商id"):
             gys_id = ict.Test_Added01().test_Added0062(gys_name=cf.gys2_name)
             assert gys_id[0] == '操作成功'
-        with allure.step("查看供应商联系人信息"):
+        with allure.step("派自有车A，撤销派车变更分单，派供应商>查看供应商联系人信息"):
             gys_xx = ict.Test_Added01().test_Added0105(gys_id=gys_id[1])
             assert gys_xx[0] == '操作成功'
             gys_lxr =  gys_xx[2]
             gys_lxrdh =  gys_xx[3]
-        with allure.step("派供应商A"):
+        with allure.step("派自有车A，撤销派车变更分单，派供应商>派供应商A"):
             gys_xx = ict.Test_Added01().test_Added0106(dd_id=dd_id,gys_lxr=gys_lxr,gys_lxrdh=gys_lxrdh,gys_id=gys_id[1],je=2500)
             assert gys_xx == '操作成功'
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("厢式车文件管理》回收文件")
-    def test_business_scenario007(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询厢式车运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("计划管理，获取订单ID，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_xx[3])
+        '''厢式车文件管理》回收文件'''
+        with allure.step("厢式车文件管理》回收文件>计划管理，获取订单ID，订单号：{}".format(dd_hao)):
+            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             dd_id = fd_xx[2][0]["id"]
             dd_hao =  fd_xx[2][0]["orderNumber"]
-        with allure.step("文件管理》查询订单状态，订单号{}".format(dd_hao)):
+        with allure.step("厢式车文件管理》回收文件>文件管理》查询订单状态，订单号{}".format(dd_hao)):
             dd_info = ict.Test_Added01().test_Added0180(dd_hao=dd_hao)
             assert dd_info[0] == "操作成功"
             pytest.assume("file_status_un_recycled" == dd_info[1][0]["fileStatus"])  #文件回收状态》待回收
-        with allure.step("获取图片地址"):
+        with allure.step("厢式车文件管理》回收文件>获取图片地址"):
             tu_dz = pz.Common_page().projects_path() + r"\Common\picture\2.02 MB.JPG"  # 图片地址
             # print(tu_dz)
-        with allure.step("上传图片，获取图片id"):
+        with allure.step("厢式车文件管理》回收文件>上传图片，获取图片id"):
             tp_id = ict.Test_Added01().test_Added0129(tp_lj=tu_dz)     # 获取图片id
             assert tp_id[1] == "success"
-        with allure.step("文件管理》上传附件，订单号{}".format(dd_hao)):
+        with allure.step("厢式车文件管理》回收文件>文件管理》上传附件，订单号{}".format(dd_hao)):
             sc_tp = ict.Test_Added01().test_Added0179(dd_id=dd_id,tp_name="2.02 MB.JPG",tp_id=tp_id[0])
             assert sc_tp == "操作成功"
-        with allure.step("文件管理》确实回收文件，订单号{}".format(dd_hao)):
+        with allure.step("厢式车文件管理》回收文件>文件管理》确实回收文件，订单号{}".format(dd_hao)):
             qs_hs = ict.Test_Added01().test_Added0181(dd_id=dd_id)
             assert qs_hs == "操作成功"
-        with allure.step("文件管理》查询订单状态，订单号{}".format(dd_hao)):
+        with allure.step("厢式车文件管理》回收文件>文件管理》查询订单状态，订单号{}".format(dd_hao)):
             dd_info = ict.Test_Added01().test_Added0180(dd_hao=dd_hao)
             assert dd_info[0] == "操作成功"
             pytest.assume("file_status_pending_review" == dd_info[1][0]["fileStatus"])  #文件回收状态》待审核
-        with allure.step("文件管理》审核文件，订单号{}".format(dd_hao)):
+        with allure.step("厢式车文件管理》回收文件>文件管理》审核文件，订单号{}".format(dd_hao)):
             sh_wj = ict.Test_Added01().test_Added0182(dd_id=dd_id)
             assert sh_wj == "操作成功"
-        with allure.step("文件管理》查询订单状态，订单号{}".format(dd_hao)):
+        with allure.step("厢式车文件管理》回收文件>文件管理》查询订单状态，订单号{}".format(dd_hao)):
             dd_info = ict.Test_Added01().test_Added0180(dd_hao=dd_hao)
             assert dd_info[0] == "操作成功"
             pytest.assume("file_status_done" == dd_info[1][0]["fileStatus"])  #文件回收状态》已审核
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("取消订单")
-    def test_business_scenario008(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询厢式车运输订单信息"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("计划管理，获取订单ID，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_xx[3])
+        '''取消订单'''
+        with allure.step("取消订单>计划管理，获取订单ID，订单号：{}".format(dd_hao)):
+            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             dd_id = fd_xx[2][0]["id"]
-        with allure.step("调度管理》撤销派单/车，订单号：{}".format(dd_xx[2])):
+        with allure.step("取消订单>调度管理》撤销派单/车，订单号：{}".format(dd_hao)):
             cx_pc = ict.Test_Added01().test_Added0156(dd_id=dd_id)
             assert cx_pc == '操作成功'
-        with allure.step("计划管理，分单查询，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_xx[3])
+        with allure.step("取消订单>计划管理，分单查询，订单号：{}".format(dd_hao)):
+            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             data1 = fd_xx[2]
             id = []
@@ -6992,14 +6528,14 @@ class Test_businesso6():
                 id1 += 1
                 # print(id2)
                 fd_id = id[id2]
-                with allure.step("撤销分单,分单号：{}".format(fd_id)):
+                with allure.step("取消订单>撤销分单,分单号：{}".format(fd_id)):
                     qy_jdzx = ict.Test_Added01().test_Added0157(dd_id=fd_id)
                     assert qy_jdzx == '操作成功'
-        with allure.step("集装箱运输》取消订单，订单号：{}".format(dd_xx[2])):
-            qx_dd = ict.Test_Added01().test_Added015701(dd_id=dd_xx[6]["id"])
+        with allure.step("取消订单>集装箱运输》取消订单，订单号：{}".format(dd_hao)):
+            qx_dd = ict.Test_Added01().test_Added015701(dd_id=orde_id)
             assert qx_dd == '操作成功'
-        with allure.step("订单管理》集装箱运输》查看订单状态，订单号：{}".format(dd_xx[2])):
-            jzx_ys = ict.Test_Added01().test_Added0168(hz_id=hz_id)
+        with allure.step("取消订单>订单管理》集装箱运输》查看订单状态，订单号：{}".format(dd_hao)):
+            jzx_ys = ict.Test_Added01().test_Added0168(orderNumber=dd_hao)
             assert jzx_ys[0] == '操作成功'
             assert jzx_ys[1][0]["orderStatus"] == 'status_undo_completed'
 
@@ -7007,11 +6543,11 @@ class Test_businesso6():
 
 @allure.parent_suite('ict业务场景测试用例')
 @allure.suite('ict业务场景测试用例模块')
-@allure.sub_suite('业务场景八 危险品出口（测试点：订单自动分单派单+海事报关自动派单+海事申报自动派供应商,派自有车无报价，派货源大厅无报价）')
+@allure.sub_suite('业务场景八 危险品出口')
 # @pytest.mark.skip(reason="无理由跳过")
 class Test_businesso7():
     # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("新增危险品出口订单")
+    @allure.title("业务场景八 危险品出口（测试点：订单自动分单派单+海事报关自动派单+海事申报自动派供应商,派自有车无报价，派货源大厅无报价）")
     def test_business_scenario001(self):
         with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
             hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
@@ -7092,77 +6628,64 @@ class Test_businesso7():
         with allure.step("查询新增危险品出口订单信息"):
             dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode=time9)
             assert dd_xx[0] == '操作成功'
-        with allure.step("危险品出口订单号：{}".format(dd_xx[3])):
-            pass
+            dd_hao = dd_xx[3]
+            orde_id = dd_xx[6]["id"]
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("录入柜号，报关订单自动派单，订单撤销派供应商")
-    def test_business_scenario002(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-        with allure.step("查询危险品出口订单号"):
-            dd_xx = ict.Test_Added01().test_Added0056(hz_id=hz_id,customerDelegateCode="")
-            assert dd_xx[0] == '操作成功'
-        with allure.step("查询调度管理集装箱出口运输订单信息，订单号{}".format(dd_xx[3])):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="dangerous_cargo_export_transport")
+        '''录入柜号，报关订单自动派单，订单撤销派供应商'''
+        with allure.step("录入柜号，报关订单自动派单，订单撤销派供应商>查询调度管理集装箱出口运输订单信息"):
+            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_hao,lx="dangerous_cargo_export_transport")
             assert dd_xx1[0] == '操作成功'
             dd_id =  dd_xx1[1]   #订单id
             zh_time = dd_xx1[3][0]["pickupTime"]    #装货时间  年月日时分秒
             cz_qy = dd_xx1[3][0]["operationGroup"]   # 操作区域
             dd_hao = dd_xx1[2]    #订单号
-        with allure.step("手动录入柜号，订单:{}".format(dd_hao)):
+        with allure.step("录入柜号，报关订单自动派单，订单撤销派供应商>手动录入柜号，订单:{}".format(dd_hao)):
             x_hao = "FSCU5130217"
             ft_hao = "CAAU5507656"
             kg_z = "2580"
             g_hao = ict.Test_Added01().test_Added0089(x_hao=x_hao,kg_z=kg_z,dd_id=dd_id,ft_hao=ft_hao)
             pytest.assume(g_hao == '操作成功')
-        with allure.step("跟踪管理查看柜号，订单:{}".format(dd_hao)):
+        with allure.step("录入柜号，报关订单自动派单，订单撤销派供应商>跟踪管理查看柜号"):
             ck_g_hao = ict.Test_Added01().test_Added0091(dd_hao=dd_hao,fw_lx="dangerous_cargo_export_transport")
             pytest.assume(ck_g_hao[0] == '操作成功')
             pytest.assume(ck_g_hao[1][0]["containerNumber"] == x_hao)
             pytest.assume(ck_g_hao[1][0]["sealNumber"] == ft_hao)
             pytest.assume(ck_g_hao[1][0]["cabinetWeight"] == kg_z)
-        with allure.step("查询危险品出口自动派报关订单,自动派单成功，订单号{}".format(dd_hao)):
+        with allure.step("录入柜号，报关订单自动派单，订单撤销派供应商>查询危险品出口自动派报关订单,自动派单成功"):
             zd_bg = ict.Test_Added01().test_Added0119(dd_hao=dd_hao)
             assert zd_bg[0] == '操作成功'
-            pytest.assume(zd_bg[1][0]["orderStatus"] == "status_completed_dispatch")  #报关订单状态=已派单
-        with allure.step("查询危险品出口，自动分单供应商成功，订单号：{}".format(dd_xx[3])):
-            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_xx[3])
-            assert fd_xx[0] == '操作成功'
-            pytest.assume(fd_xx[2][0]["distributeChannel"] == "供应商")  #分单渠道=供应商
-        with allure.step("查询调度管理集装箱出口运输订单信息"):
-            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_xx[3],lx="dangerous_cargo_export_transport")
-            assert dd_xx1[0] == '操作成功'
-            pytest.assume(dd_xx1[3][0]["orderStatus"] == "status_waiting_dispatch")  #运单订单状态=待派单
-        # with allure.step("调度管理》撤销派单/车，订单号：{}".format(dd_xx[2])):
-        #     cx_pc = ict.Test_Added01().test_Added0156(dd_id=dd_id)
-        #     assert cx_pc == '操作成功'
-        with allure.step("撤销分单,分单号：{}".format(dd_hao)):
-            qy_jdzx = ict.Test_Added01().test_Added0157(dd_id=dd_id)
-            assert qy_jdzx == '操作成功'
-
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("集装箱出口订单派自有车A，无报价")
-    def test_business_scenario003(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询集装箱进口运输订单信息"):
-            dd_hao = ict.Test_Added01().test_Added0117(hz_id=hz_id)
-            assert dd_hao[0] == '操作成功'
-            dd_hao = dd_hao[1][0]["orderNumber"]
-        with allure.step("计划管理，分单查询，订单号：{}".format(dd_hao)):
+            # pytest.assume(zd_bg[1][0]["orderStatus"] == "status_pending")  #报关订单状态=已派单  计划8.4上生产
+            pytest.assume(zd_bg[1][0]["orderStatus"] == "status_completed_dispatch")  #报关订单状态=已派单  生产环境
+        with allure.step("查询危险品出口，自动分单供应商成功，订单号：{}".format(dd_hao)):
             fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             fd_id = fd_xx[2][0]["id"]
-        with allure.step("分单，分派自有车,订单号：{}".format(dd_hao)):
+            pytest.assume(fd_xx[2][0]["distributeChannel"] == "供应商")  #分单渠道=供应商
+        with allure.step("查询调度管理集装箱出口运输订单信息"):
+            dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_hao,lx="dangerous_cargo_export_transport")
+            assert dd_xx1[0] == '操作成功'
+            pytest.assume(dd_xx1[3][0]["orderStatus"] == "status_pending")  #运单订单状态=待派单
+            # print("这个是运单状态{}".format(dd_xx1[3][0]["orderStatus"]))
+
+        with allure.step("调度管理》撤销派单/车，订单号：{}".format(dd_hao)):
+            cx_pc = ict.Test_Added01().test_Added0156(dd_id=fd_id)
+            assert cx_pc == '操作成功'
+        with allure.step("撤销分单,分单号：{}".format(dd_hao)):
+            qy_jdzx = ict.Test_Added01().test_Added0157(dd_id=fd_id)
+            assert qy_jdzx == '操作成功'
+
+
+
+
+        '''集装箱出口订单派自有车A，无报价'''
+        with allure.step("集装箱出口订单派自有车A，无报价>计划管理，分单查询，订单号：{}".format(dd_hao)):
+            fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_hao)
+            assert fd_xx[0] == '操作成功'
+            fd_id = fd_xx[2][0]["id"]
+        with allure.step("集装箱出口订单派自有车A，无报价>分单，分派自有车,订单号：{}".format(dd_hao)):
             qy_jdzx = ict.Test_Added01().test_Added0058(zy_che=fd_id, gys="", hy_dt="")
             assert qy_jdzx == '操作成功'
-        with allure.step("查询调度管理集装箱出口运输订单信息"):
+        with allure.step("集装箱出口订单派自有车A，无报价>查询调度管理集装箱出口运输订单信息"):
             dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_hao,lx="dangerous_cargo_export_transport")
             assert dd_xx1[0] == '操作成功'
             dd_id =  dd_xx1[1]   #订单id
@@ -7173,94 +6696,163 @@ class Test_businesso7():
             time1 = datetime.datetime.strptime(str_datetime, "%Y-%m-%d %H:%M:%S")
             time2 = time1.strftime('%Y-%m-%d')   #装货时间  年月日
 
-        with allure.step("查看司机档案"):
+        with allure.step("集装箱出口订单派自有车A，无报价>查看司机档案"):
             xz_sj = ict.Test_Added01().test_Added0066(sj_name="测试自有车-集1")
             assert xz_sj[0] == '操作成功'
             sj_id = xz_sj[1]   #司机id
             sj_name = xz_sj[4]   #司机名称
             sj_haoma = xz_sj[5]   #司机号码
-        with allure.step("查看运输公司档案"):
+        with allure.step("集装箱出口订单派自有车A，无报价>查看运输公司档案"):
             gys_da = ict.Test_Added01().test_Added0062(gys_name="租户测试自有车-集1")
             assert gys_da[0] == '操作成功'
             gys_id = gys_da[1]  #供应商id
             gyl_name =  gys_da[4]  #供应商名称
-        with allure.step("查看车辆档案"):
+        with allure.step("集装箱出口订单派自有车A，无报价>查看车辆档案"):
             sj_da = ict.Test_Added01().test_Added0070(gys_id=gys_id, cp_hao="粤ZZ0001")
             assert sj_da[0] == '操作成功'
             cl_id = sj_da[1]   #车辆id
             cp_hao = sj_da[2]    #车牌号
             cl_name = sj_da[4]  #车辆名称
             cz_qy = sj_da[6]    # 操作区域
-        with allure.step("维护出车表信息"):
+        with allure.step("集装箱出口订单派自有车A，无报价>维护出车表信息"):
             cc_xx = ict.Test_Added01().test_Added0072(sj_id=sj_id, cp_hao="粤ZZ0001",zh_time=time2)
             assert cc_xx[0] == '操作成功'
             if cc_xx[1] == 0 :
-                with allure.step("出车表不存在，生成出车表"):
+                with allure.step("集装箱出口订单派自有车A，无报价>出车表不存在，生成出车表"):
                     xx_ccb = ict.Test_Added01().test_Added0073(fw_lx="container_type",cz_qy=cz_qy,tims=time2)
                     assert xx_ccb == '操作成功'
             if cc_xx[1] != 0 :
-                with allure.step("出车表存在，查看出车表信息"):
+                with allure.step("集装箱出口订单派自有车A，无报价>出车表存在，查看出车表信息"):
                     cc_dd = ict.Test_Added01().test_Added0074(sj_id=sj_id,cp_hao="粤ZZ0001",zh_time=time2)
                     assert cc_dd[0] == '操作成功'
-                    if cc_dd[2] == "car_dispatch_undistribute":
-                        with allure.step("出车表存在,车牌号：{}，并未分配".format(cc_dd[4])):
-                            pass
-                    if cc_dd[2] == "car_dispatch_completed":
-                        fz_ccb = ict.Test_Added01().test_Added0084(ccb_id=cc_dd[1])
-                        assert fz_ccb == '操作成功'
-        with allure.step("维护出车表信息"):
+
+                    data1 = cc_dd[5]
+                    list11 = []
+                    for i in data1:
+                        # print(i)
+                        n = ict.get_k(i)
+                        # print(n)
+                        for key in n.keys():
+                            if key == "status":
+                                list11.append(key)
+                                list11.append(n[key])
+                    # print(list11)
+                    for j in list11:
+                        list22 = []
+                        if  j =="car_dispatch_undistribute" :
+                            list22.append(j)
+                            if list22 == "car_dispatch_undistribute":
+                                with allure.step("出车表存在,车牌号：{}，并未分配".format(cc_dd[4])):
+                                    pass
+                            if list22 == "car_dispatch_completed":
+                                fz_ccb = ict.Test_Added01().test_Added0084(ccb_id=cc_dd[1])
+                                assert fz_ccb == '操作成功'
+        with allure.step("集装箱出口订单派自有车A，无报价>维护出车表信息"):
             cc_xx = ict.Test_Added01().test_Added0074(sj_id=sj_id, cp_hao="粤ZZ0001",zh_time=time2)
             assert cc_xx[0] == '操作成功'
             ccb_id =  cc_xx[1]   #出车表ID
-        with allure.step("调度管理，获取车牌号:{}".format(cc_xx[4])):
+        with allure.step("集装箱出口订单派自有车A，无报价>调度管理，获取车牌号:{}".format(cc_xx[4])):
             bz_dd1 = ict.Test_Added01().test_Added0085(zh_time=time2,fw_lx="dangerous_cargo_export_transport")
             assert bz_dd1[0] == '操作成功'
             # assert bz_dd1[1] != []
-        with allure.step("调度管理，派自有车，订单号：{}".format(dd_hao)):
+
+
+
+        with allure.step("查看厢式车自有司机报价单是否存在"):
+            bz_dd1 = ict.Test_Added01().test_Added0076(fw_lx="dangerous_cargo_export_transport")
+            assert bz_dd1[0] == '操作成功'
+            if  bz_dd1[1] == 0 :
+                pass
+            if bz_dd1[1] != 0:
+                status = bz_dd1[2][0]["statusType"]
+                quotation_id = bz_dd1[2][0]["id"]
+                if status == "status_type_enabled" :
+                    with allure.step("存在启用的危险品出口自有车报价单，禁用报价单"):
+                        forbidden =   ict.Test_Added01().test_Added0006(bjd_id =quotation_id)
+                        assert forbidden == '操作成功'
+        with allure.step("集装箱出口订单派自有车A，无报价>调度管理，派自有车，订单号：{}".format(dd_hao)):
             pzyc = ict.Test_Added01().test_Added0075(id=dd_id,driverId=sj_id,supplierId=gys_id,mainlandLicensePlateNumber=cp_hao,
                                                       orderNumber=dd_hao,pickupTime=zh_time,transportType="dangerous_cargo_export_transport",
                                                       mainlandLicensePlate=cl_id,driverName=sj_name,mainlandPhone=sj_haoma,supplierName=gyl_name,
                                                       carDispatchId=ccb_id)
+            # print("这个是无报价报错{}".format(pzyc))
             assert pzyc == '{}:未匹配到报价'.format(dd_hao)
-        with allure.step("撤销分单,分单号：{}".format(dd_hao)):
+
+        with allure.step("集装箱出口订单派自有车A，无报价>撤销分单,分单号：{}".format(dd_hao)):
             qy_jdzx = ict.Test_Added01().test_Added0157(dd_id=dd_id)
             assert qy_jdzx == '操作成功'
 
-    # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("集装箱出口订单派货源大厅无报价")
-    def test_business_scenario004(self):
-        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
-            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
-            assert hz_id1[0] == '操作成功'
-            hz_id = hz_id1[1]  # 货主id
-            kf_id = hz_id1[2]  # 客服id
-        with allure.step("查询集装箱进口运输订单信息"):
-            dd_hao = ict.Test_Added01().test_Added0117(hz_id=hz_id)
-            assert dd_hao[0] == '操作成功'
-            dd_hao = dd_hao[1][0]["orderNumber"]
-            dd_id = dd_hao[1][0]["id"]
-        with allure.step("计划管理，分单查询，订单号：{}".format(dd_hao)):
+        '''集装箱出口订单派货源大厅无报价'''
+        with allure.step("集装箱出口订单派货源大厅无报价>计划管理，分单查询，订单号：{}".format(dd_hao)):
             fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             fd_id = fd_xx[2][0]["id"]
-        with allure.step("分单，分派自有车,订单号：{}".format(dd_hao)):
+
+        with allure.step("集装箱出口订单派货源大厅无报价>分单，分派自有车,订单号：{}".format(dd_hao)):
             qy_jdzx = ict.Test_Added01().test_Added0058(zy_che="", gys="", hy_dt=fd_id)
             assert qy_jdzx == '获取报价信息异常[没有获取到任何市场报价]'
 
-        with allure.step("集装箱运输》取消订单，订单号：{}".format(dd_hao)):
-            qx_dd = ict.Test_Added01().test_Added015701(dd_id=dd_id)
+        with allure.step("取消订单>集装箱运输》取消订单，订单号：{}".format(dd_hao)):
+            qx_dd = ict.Test_Added01().test_Added015701(dd_id=orde_id)
             assert qx_dd == '操作成功'
-        with allure.step("订单管理》集装箱运输》查看订单状态，订单号：{}".format(dd_hao)):
-            dd_hao = ict.Test_Added01().test_Added0117(hz_id=hz_id)
+        with allure.step("取消订单>订单管理》集装箱运输》查看订单状态，订单号：{}".format(dd_hao)):
+            dd_hao = ict.Test_Added01().test_Added0117(hz_id=hz_id,customerDelegateCode="")
             assert dd_hao[0] == '操作成功'
             assert dd_hao[1][0]["orderStatus"] == 'status_undo_completed'
 
 
 
 
-
-
-
+@allure.parent_suite('ict业务场景测试用例')
+@allure.suite('ict业务场景测试用例模块')
+@allure.sub_suite('业务场景十四 报关订单（测试点：报关订单+海格申报+改派其他供应商）')
+@pytest.mark.skip(reason="无理由跳过")
+class Test_businesso8():
+    log.info("開始運行，业务场景十四,報告訂單")
+    # @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("新增报关订单")
+    def test_business_scenario001(self):
+        log.info("查看货主id，货主：{}".format(cf.hz_name))
+        with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
+            hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
+            assert hz_id1[0] == '操作成功'
+            hz_id = hz_id1[1]  # 货主id
+            kf_id = hz_id1[2]  # 客服id
+        log.info("获取货主联系人")
+        with allure.step("获取货主联系人"):
+            lxr_name1 = ict.Test_Added01().test_Added0014(hz_id=hz_id)
+            assert lxr_name1[0] == '操作成功'
+            lxr_id = lxr_name1[1]  # 货主联系人id
+            lxr_name = lxr_name1[3]  # 货主联系人名称
+            lxr_hm = lxr_name1[4]  # 货主联系人号码
+        log.info("获取港口id")
+        with allure.step("港口id"):
+            gk_id1 = ict.Test_Added01().test_Added000(placeName="BREMERHAVEN")
+            assert gk_id1[0] == '操作成功'
+            gk_id = gk_id1[1]  # 港口id
+        log.info("获取时间")
+        with allure.step("获取时间"):
+            time1 = bf.Common_page().get_today001()
+            time9 = time1[8]  # 按时间年月日时分秒生成数组-客户委托号
+            SSS = bf.Common_page().start()  # 订舱号
+            containerNumber = "TRLU7360789"   #柜号
+        log.info("新增报关订单")
+        with allure.step("新增报关订单"):
+            xzjzx_ck = ict.Test_Added01().test_Added02104(customerId=hz_id, customerContact=lxr_name,
+                                                          customerContactPhone=lxr_hm,customsAddr=gk_id,
+                                                          customerServiceId=kf_id,bookingNumber=SSS,
+                                                          customerDelegateCode=time9,containerNumber=containerNumber)
+            assert xzjzx_ck == '操作成功'
+        with allure.step("查询报关订单信息"):
+            dd_xx = ict.Test_Added01().test_Added0117(hz_id=hz_id,customerDelegateCode=time9)
+            assert dd_xx[0] == '操作成功'
+            dd_hao = dd_xx[1][0]["orderNumber"]
+        log.info("报关订单號:{}".format(dd_hao))
+        log.info("接口推送日志")
+        with allure.step("关务OMS接收一体化推单,接口推送日志报关订单号：{}".format(dd_hao)):
+            log_01 = ict.Test_Added01().test_Added0195(orderNumber=dd_hao)
+            assert log_01[0] == '操作成功'
+            pytest.assume(log_01[1] == 1 )
 
 
 
@@ -7276,7 +6868,7 @@ class Test_businesso7():
 '''后台查询接口'''
 @allure.parent_suite('ict业务场景测试用例')
 @allure.suite('ict业务场景测试用例模块')
-@allure.sub_suite('业务场景九,后台查询接口（测试点：派自有车+通改+改派供应商+获取供应商合同报价）')
+@allure.sub_suite('业务场景九,后台查询接口')
 # @pytest.mark.skip(reason="无理由跳过")
 class Test_query01():
     '''大类'''
@@ -8162,7 +7754,7 @@ class Test_query01():
 '''货主查询接口'''
 @allure.parent_suite('ict业务场景测试用例')
 @allure.suite('ict业务场景测试用例模块')
-@allure.sub_suite('业务场景九,货主的查询接口（测试点：派自有车+通改+改派供应商+获取供应商合同报价）')
+@allure.sub_suite('业务场景九,货主的查询接口')
 # @pytest.mark.skip(reason="无理由跳过")
 class Test_query02():
     '''大类'''
@@ -8295,7 +7887,7 @@ class Test_query02():
 '''运输公司查询接口'''
 @allure.parent_suite('ict业务场景测试用例')
 @allure.suite('ict业务场景测试用例模块')
-@allure.sub_suite('业务场景九,运输公司查询接口（测试点：派自有车+通改+改派供应商+获取供应商合同报价）')
+@allure.sub_suite('业务场景九,运输公司查询接口')
 # @pytest.mark.skip(reason="无理由跳过")
 class Test_query03():
     '''大类'''
