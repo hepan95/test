@@ -8527,7 +8527,7 @@ class Test_businesso9():
             assert jzx_ys[0] == '操作成功'
             assert jzx_ys[1][0]["orderStatus"] == 'status_undo_completed'
 
-    @pytest.mark.skip(reason="无理由跳过")
+    # @pytest.mark.skip(reason="无理由跳过")
     @allure.title("业务场景十五 FBA配置计划（测试点：配载直接下发）")
     def test_business_scenario003(self):
         with allure.step("查看订单状态，订单号：MCSZX-MCO-20230805-0001-1"):
