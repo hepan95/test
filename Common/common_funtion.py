@@ -61,9 +61,9 @@ class Common_page():
         j = n.strftime('%Y-%m-%d' )  #今天
         f = n.strftime('%Y%m%d%H%M%S')  #今天 时分秒
         f = f[2:14]   #切片
-        ll = p.strftime('%Y-%m-%d' )   #+3天
+        ll = p.strftime('%Y-%m-%d' )   #+5天
         zz = n.strftime("%H%M")
-        cc = p.strftime('%Y-%m-%d %H:%M:%S' )   #+3天
+        cc = p.strftime('%Y-%m-%d %H:%M:%S' )   #+5天
         # print(cc)
         # print(today)
         # print(z)
