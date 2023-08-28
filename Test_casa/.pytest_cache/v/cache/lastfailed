@@ -3,5 +3,6 @@
   "test_ict_FBA.py": true,
   "test_ict_FBA.py::Test_businesso1::test_business_scenario001": true,
   "test_ict_FBA.py::Test_businesso4::test_business_scenario001": true,
-  "test_ict_scene.py::Test_businesso3::test_business_scenario001": true
+  "test_ict_scene.py::Test_businesso8::test_business_scenario001": true,
+  "test_ict_scene.py::Test_businesso7::test_business_scenario001": true
 }

@@ -57,7 +57,7 @@ class Test_businesso1():
             enquiry_id1 = order_info[2][0]["id"]                #询价单id
             status = order_info[2][0]["orderStatus"]  #询价单状态
             pytest.assume(status == "status_draft")  # 断言订单状态：草稿
-            time.sleep(1)
+            time.sleep(3)
         with allure.step("后台查看邮件日志，询价单导入触发邮件通知，,第一个询价单号：{}".format(ALO1)):
             subject = ALO1 + "询价结果"
             enquiry_log = ict.Test_Added01().test_Added0190(ht_host=ht_host_FBA,token=ht_token,subject=subject)
@@ -95,7 +95,7 @@ class Test_businesso1():
             pytest.assume(enquiry_log[1] != 0)  # 断言订单状态：存在下单日志
 
         with allure.step("后台查看订单状态，,第一个订单订单号：{}".format(customerOrderNumber1)):
-            ht_order_info = ict.Test_Added01().test_Added0187(ht_host=ht_host_FBA,token=ht_token,order_number=customerOrderNumber1)
+            ht_order_info = ict.Test_Added01().test_Added0187(ht_host=ht_host_FBA,token=ht_token,order_number=customerOrderNumber1,customerDelegateCode="")
             assert ht_order_info[0] == '操作成功'
             customerOrderId1 = ht_order_info[1][0]["id"]    #订单id
             status = ht_order_info[1][0]["orderStatus"]  #订单状态
@@ -125,7 +125,7 @@ class Test_businesso1():
             order_info = ict.Shipperapi().test_Added003(hz_host=hz_host_FBA,hz_id=hz_id,xj_dh=ALO1,token=hz_token)
             assert order_info[0] == '操作成功'
             customerOrderNumber2 = order_info[2][0]["customerOrderNumber"]  #订单号
-            time.sleep(1)
+            time.sleep(3)
         with allure.step("后台查看邮件日志，编辑立即下单入触发邮件通知,第一个订单订单号：{}".format(customerOrderNumber2)):
             subject = "【{},{}】已下单".format(customerOrderNumber2,ALO1)
             enquiry_log = ict.Test_Added01().test_Added0190(ht_host=ht_host_FBA,token=ht_token,subject=subject)
@@ -133,7 +133,7 @@ class Test_businesso1():
             pytest.assume(enquiry_log[1] != 0)  # 断言订单状态：存在下单日志
 
         with allure.step("编辑立即下单，后台查看订单状态，,第一个订单ALO号：{}".format(ALO1)):
-            ht_order_info = ict.Test_Added01().test_Added0187(ht_host=ht_host_FBA,token=ht_token,order_number=customerOrderNumber2)
+            ht_order_info = ict.Test_Added01().test_Added0187(ht_host=ht_host_FBA,token=ht_token,order_number=customerOrderNumber2,customerDelegateCode="")
             assert ht_order_info[0] == '操作成功'
             customerOrderId2 = ht_order_info[1][0]["id"]    #订单id
 
@@ -181,7 +181,7 @@ class Test_businesso1():
             weight =  Detail_Pages2[1]["weight"]*2        #毛重
             netWeight  =  Detail_Pages2[1]["netWeight"]*2        #货物总净重
             goodsTotalAmount =  Detail_Pages2[1]["goodsTotalAmount"]*2        #货物总价
-            time.sleep(1)
+            time.sleep(3)
         with allure.step("后台查看邮件日志，询价单导入触发邮件通知，,第二个询价单号：{}".format(ALO2)):
             subject = ALO2 + "询价结果"
             enquiry_log = ict.Test_Added01().test_Added0190(ht_host=ht_host_FBA,token=ht_token,subject=subject)
@@ -224,7 +224,7 @@ class Test_businesso1():
             customerOrderNumber1 = order_info[2][0]["customerOrderNumber"]  #订单号
             status = order_info[2][0]["orderStatus"]  #订单状态
             pytest.assume(status == "status_generated")  # 断言订单状态：已生成
-            time.sleep(1)
+            time.sleep(3)
         with allure.step("后台查看邮件日志，第一第二询价单合并下单入触发邮件通知，询价单号：{}，{}".format(ALO1,ALO2)):
             subject = "【{},{},{}】已下单".format(customerOrderNumber1,ALO1,ALO2)
             enquiry_log = ict.Test_Added01().test_Added0190(ht_host=ht_host_FBA,token=ht_token,subject=subject)
@@ -232,7 +232,7 @@ class Test_businesso1():
             pytest.assume(enquiry_log[1] != 0)  # 断言订单状态：存在下单日志
 
         with allure.step("后台查看订单状态，,合并询价单号：{}".format(orderNumber)):
-            ht_order_info = ict.Test_Added01().test_Added0187(ht_host=ht_host_FBA,token=ht_token,order_number=customerOrderNumber1)
+            ht_order_info = ict.Test_Added01().test_Added0187(ht_host=ht_host_FBA,token=ht_token,order_number=customerOrderNumber1,customerDelegateCode="")
             assert ht_order_info[0] == '操作成功'
             customerOrderId1 = ht_order_info[1][0]["id"]    #订单id
             status = ht_order_info[1][0]["orderStatus"]  #订单状态
@@ -267,7 +267,7 @@ class Test_businesso1():
             enquiry_id3 = order_info3[2][0]["id"]                #询价单id
             status3 = order_info3[2][0]["orderStatus"]  #询价单状态
             pytest.assume(status3 == "status_draft")  # 断言订单状态：草稿
-            time.sleep(1)
+            time.sleep(3)
         with allure.step("后台查看邮件日志，询价单导入触发邮件通知，,第三个询价单号：{}".format(ALO3)):
             subject = ALO3 + "询价结果"
             enquiry_log = ict.Test_Added01().test_Added0190(ht_host=ht_host_FBA,token=ht_token,subject=subject)
@@ -353,7 +353,7 @@ class Test_businesso1():
             customerOrderNumber1 = order_info[2][0]["customerOrderNumber"]  # 订单号
             status = order_info[2][0]["orderStatus"]  # 订单状态
             pytest.assume(status == "status_generated")  # 断言订单状态：已生成
-            time.sleep(1)
+            time.sleep(3)
         with allure.step("后台查看邮件日志，三个询价单合并下单入触发邮件通知,询价单号：{},{},{}".format(ALO1,ALO2,ALO3)):
             subject = "【{},{},{},{}】已下单".format(customerOrderNumber1,ALO1,ALO2,ALO3)
             enquiry_log = ict.Test_Added01().test_Added0190(ht_host=ht_host_FBA,token=ht_token,subject=subject)
@@ -361,7 +361,7 @@ class Test_businesso1():
             pytest.assume(enquiry_log[1] != 0)  # 断言订单状态：存在下单日志
 
         with allure.step("草稿合并报价提交，后台查看订单状态，,合并询价单号：{}".format(orderNumber)):
-            ht_order_info = ict.Test_Added01().test_Added0187(ht_host=ht_host_FBA,token=ht_token,order_number=customerOrderNumber1)
+            ht_order_info = ict.Test_Added01().test_Added0187(ht_host=ht_host_FBA,token=ht_token,order_number=customerOrderNumber1,customerDelegateCode="")
             assert ht_order_info[0] == '操作成功'
             customerOrderId1 = ht_order_info[1][0]["id"]    #订单id
             status = ht_order_info[1][0]["orderStatus"]  #订单状态
@@ -372,7 +372,7 @@ class Test_businesso1():
             assert cancellation_order == '操作成功'
 
         with allure.step("取消订单，后台查看订单状态，,合并询价单号：{}".format(orderNumber)):
-            ht_order_info = ict.Test_Added01().test_Added0187(ht_host=ht_host_FBA,token=ht_token,order_number=customerOrderNumber1)
+            ht_order_info = ict.Test_Added01().test_Added0187(ht_host=ht_host_FBA,token=ht_token,order_number=customerOrderNumber1,customerDelegateCode="")
             assert ht_order_info[0] == '操作成功'
             customerOrderId1 = ht_order_info[1][0]["id"]    #订单id
             status = ht_order_info[1][0]["orderStatus"]  #订单状态
@@ -416,7 +416,7 @@ class Test_businesso2():
             assert order_info[0] == '操作成功'
             assert order_info[1] != 0
             orderNumber = order_info[2][0]["orderNumber"]
-            time.sleep(1)
+            time.sleep(3)
         with allure.step("后台查看邮件日志，询价单导入触发邮件通知，,第一个询价单号：{}".format(ALO1)):
             subject = ALO1 + "询价结果"
             enquiry_log = ict.Test_Added01().test_Added0190(ht_host=ht_host_FBA, token=ht_token, subject=subject)
@@ -514,7 +514,7 @@ class Test_businesso2():
             modelid = modelName[1]
         with allure.step("获取导入询价模板,第一个订单"):
             time1 = bf.Common_page().get_today001()[12]  # 获取当前时间年月日时分秒
-            time2 = bf.Common_page().get_today001()[13]  # 获取当前时间年月日  + 3天
+            time2 = bf.Common_page().get_today001()[13]  # 获取当前时间年月日  + 5天
             ALO1 = 'AL0-T' + time1  # 询价单号
             Template_path = bf.Common_page().projects_path() + "\Test_data\FBA_inquiry_list.xls"  # 模板IP路径
             bf.Common_page().read_excel(file_path=Template_path, ALO=ALO1, time1=time2)
@@ -527,7 +527,7 @@ class Test_businesso2():
             assert order_info[0] == '操作成功'
             assert order_info[1] != 0
             orderNumber = order_info[2][0]["orderNumber"]
-            time.sleep(1)
+            time.sleep(3)
         with allure.step("后台查看邮件日志，询价单导入触发邮件通知，,第一个询价单号：{}".format(ALO1)):
             subject = ALO1 + "询价结果"
             enquiry_log = ict.Test_Added01().test_Added0190(ht_host=ht_host_FBA, token=ht_token, subject=subject)
@@ -619,7 +619,7 @@ class Test_businesso2():
 @allure.parent_suite('FBA业务场景测试用例')
 @allure.suite('FBA业务场景测试用例模块')
 @allure.sub_suite('业务场景十二')
-@pytest.mark.skip(reason="无理由跳过")
+# @pytest.mark.skip(reason="无理由跳过")
 class Test_businesso3():
     # @pytest.mark.skip(reason="无理由跳过")
     @allure.title("期望提货时间，表格时间小于邮件接收时间，取邮件接收时间+1,")
@@ -646,7 +646,7 @@ class Test_businesso3():
             assert order_info[0] == '操作成功'
             assert order_info[1] != 0
             orderNumber = order_info[2][0]["orderNumber"]
-            time.sleep(1)
+            time.sleep(3)
         with allure.step("后台查看邮件日志，询价单导入触发邮件通知，,第一个询价单号：{}".format(ALO1)):
             subject = ALO1 + "询价结果"
             enquiry_log = ict.Test_Added01().test_Added0190(ht_host=ht_host_FBA, token=ht_token, subject=subject)
@@ -711,7 +711,7 @@ class Test_businesso3():
             assert order_info[0] == '操作成功'
             assert order_info[1] != 0
             orderNumber = order_info[2][0]["orderNumber"]
-            time.sleep(1)
+            time.sleep(3)
         with allure.step("后台查看邮件日志，询价单导入触发邮件通知，,第一个询价单号：{}".format(ALO1)):
             subject = ALO1 + "询价结果"
             enquiry_log = ict.Test_Added01().test_Added0190(ht_host=ht_host_FBA, token=ht_token, subject=subject)
@@ -752,7 +752,7 @@ class Test_businesso3():
 @allure.parent_suite('FBA业务场景测试用例')
 @allure.suite('FBA业务场景测试用例模块')
 @allure.sub_suite('业务场景十三')
-@pytest.mark.skip(reason="无理由跳过")
+# @pytest.mark.skip(reason="无理由跳过")
 class Test_businesso4():
     # @pytest.mark.skip(reason="无理由跳过")
     @allure.title("业务场景十三（测试点：<盐田模板>（零担更新货量信息）更新应收费用 ")
@@ -822,7 +822,7 @@ class Test_businesso4():
             amount =  order_info[2][0]["priceInfoList"]["ltl"][0]["amount"] #推荐报价
 
         with allure.step("后台查看订单状态，,订单号：{}".format(customerOrderNumber1)):
-            ht_order_info = ict.Test_Added01().test_Added0187(ht_host=ht_host_FBA,token=ht_token,order_number=customerOrderNumber1)
+            ht_order_info = ict.Test_Added01().test_Added0187(ht_host=ht_host_FBA,token=ht_token,order_number=customerOrderNumber1,customerDelegateCode="")
             assert ht_order_info[0] == '操作成功'
             customerOrderId1 = ht_order_info[1][0]["id"]    #订单id
             status = ht_order_info[1][0]["orderStatus"]  #订单状态
@@ -842,7 +842,7 @@ class Test_businesso4():
                                                         planPiecesNumber=planPiecesNumber,weight=planWeight,volume=volume,
                                                              goodsNumber=planGoodsNumber,piecesNumber=planPiecesNumber,order_id=customerOrderId1)
             assert update_cargo == '操作成功'
-        time.sleep(1)
+        time.sleep(3)
         with allure.step("后台查看更新货量后应收费用金额，,订单号：{}".format(customerOrderNumber1)):
             cost_info = ict.Test_Added01().test_Added0193(ht_host=ht_host_FBA,token=ht_token,order_number=customerOrderNumber1)
             assert cost_info[0] == '操作成功'
