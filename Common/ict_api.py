@@ -3790,10 +3790,10 @@ class Test_Added01():
         # print(bj_je,bj_id)
         return returnMsg,bj_je,bj_id
     '''计划管理-厢式车拆单 查询''' #
-    def test_Added0103(self,dd_hao="MCSZ-MCO-20230724-0008"):  # 传的是报价id
-        url = self.host + "/api/platform/planBulkcargoTransport/list"
+    def test_Added0103(self,ht_host="",token="",dd_hao="MCSZ-MCO-20230724-0008"):  # 传的是报价id
+        url = ht_host + "/api/platform/planBulkcargoTransport/list"
         headers = {'Content-Type': 'application/json',
-                   'Cookie': 'token={}'.format(self.ht_token)}
+                   'Cookie': 'token={}'.format(token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"orderStatus":"","orderNumber":dd_hao}}
         A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
@@ -4295,16 +4295,17 @@ class Test_Added01():
         returnMsg = A.json()["returnMsg"]
         return returnMsg
     '''跟踪管理》推送日志'''
-    def test_Added0134(self,dd_id="MCSZ-MCO-20230615-0001-01"):
+    def test_Added0134(self,dd_id="MCSZX-MCO-20230829-0028"):
         url = self.host + "/api/platform/interfaceLog/pushLogList"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"showContent":dd_id}}
         A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
-        # print(A.json())
+        print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  # 1 表示存在推送日志
         data1 =  A.json()["result"]["data"]
+        print(returnTotalItems)
 
         return returnMsg,returnTotalItems,data1
     '''跟踪管理》新增异常'''
@@ -4911,7 +4912,7 @@ class Test_Added01():
         return returnMsg,data1
 
     '''改单审核'''
-    def test_Added0163(self,data,dd_id,dd_hao,editType,editRemark):
+    def test_Added0163(self,data,dd_id,dd_hao,editType,editRemark,changeList):
         url = self.host + "/api/platform/receiveOrder/changeAudit"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
@@ -4923,7 +4924,7 @@ class Test_Added01():
                 "content":content
 
                 ,
-                "changeList":[],
+                "changeList":changeList,
                 "orderNumber":dd_hao,  #订单号
                 "resultType":1
             }
@@ -4933,7 +4934,7 @@ class Test_Added01():
         return returnMsg
 
     '''获取改单详情页信息'''
-    def test_Added0164(self,dd_id="0d5aa5a8fe5547b9a16cac243a22c0c6"):
+    def test_Added0164(self,dd_id="0fe9919e4a754906b1dbc3cf6c6cbaea"):
         url = self.host + "/api/platform/receiveOrder/changeAuditInfo/{}".format(dd_id)
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
@@ -4944,20 +4945,17 @@ class Test_Added01():
         # print(result)
         returnMsg = A.json()["result"]["content"]
         data1 = json.loads(returnMsg)  #json.load(f)之后，返回的对象是python的字典对象。
-        # addrList = json.loads(returnMsg)['addrList'][0]
-        # baseInfo = json.loads(returnMsg)['baseInfo']
-        # costList = json.loads(returnMsg)['costList'][0]
-        # print(addrList)
-        # # print(baseInfo)
-        # # print(costList)
-        # aa = get_k(addrList)
-        # bb = get_k(baseInfo)
-        # cc = get_k(costList)
-        # # print(aa)
-        # # print(bb)
-        # # print(cc)
-        # data2 = {"baseInfo": bb, "addrList": [aa], "costList": [cc]}
-        # print(data2)
+
+        # baseInfo1 = get_k(data1["baseInfo"])
+        # # print(baseInfo1)
+        # costList = []
+        # addrList = []
+        # changeList = result["changeList"]
+        # # print(changeList)
+        # baseInfo1.update([("containerNumber","TRLU7360790")])
+        # data2 = {"baseInfo": baseInfo1, "addrList": addrList, "costList": costList}
+        # # print(data2)
+
         return returnMsg,data1,result,returnMsg1
 
     '''计划管理》通改、执改确认'''
@@ -5165,10 +5163,10 @@ class Test_Added01():
         return returnMsg
 
     '''调度管理厢式车查询'''
-    def test_Added0175(self,dd_hao="MCSZ-MCO-20230724-0009"):
-        url = self.host + "/api/platform/dispatchBulkcargoTransport/list"
+    def test_Added0175(self,ht_host,token,dd_hao="HC-CO-20230829-0008"):
+        url = ht_host + "/api/platform/dispatchBulkcargoTransport/list"
         headers = {'Content-Type': 'application/json',
-                   'Cookie': 'token={}'.format(self.ht_token)}
+                   'Cookie': 'token={}'.format(token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"orderNumber":dd_hao}}
 
         A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
@@ -5480,11 +5478,11 @@ class Test_Added01():
 
 
     '''后台订单管理》厢式车运输列表'''
-    def test_Added0187(self,ht_host="",token="",order_number="HC-CO-20230814-0004"):
+    def test_Added0187(self,ht_host="",token="",order_number="HC-CO-20230814-0004",customerDelegateCode=""):
         url = ht_host + "/api/platform/receiveOrder/list"
         headers = { 'Content-Type': 'application/json',
                      'Cookie':'token={}'.format(token)}
-        data = {"itemFrom":0,"itemTo":10,"filter":{"orderNumber":order_number,"tagKey":"all","taskUnitCodeType":"vanType"}}
+        data = {"itemFrom":0,"itemTo":10,"filter":{"orderNumber":order_number,"customerDelegateCode":customerDelegateCode,"tagKey":"all","taskUnitCodeType":"vanType"}}
         A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         returnMsg = A.json()["returnMsg"]
         data1 = A.json()["result"]["data"]
@@ -5623,12 +5621,61 @@ class Test_Added01():
         returnTotalItems =  A.json()["result"]["returnTotalItems"]  #接口日志条数
         # print(returnTotalItems)
         return returnMsg,returnTotalItems
+    '''订单管理》审核下发'''
+    def test_Added0196(self,ht_host,token,order_id="MCSZ-MCO-20230823-0001"):
+        url =ht_host + "/api/platform/receiveOrder/auditDispatch"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(token)}
+        data = [order_id]
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
+    '''配置计划》列表查询》'''
+    def test_Added0197(self,ht_host="https://ict-uat.cloudlinkscm.com",token="68bd5d4d-d11b-4433-9930-3407109b668c:e26285b9-faaa-4c8a-84a4-bc9161b32e39",orderNumber="MCSZX-MCO-20230805-0001-1"):
+        url = ht_host + "/api/platform/plan/list"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(token)}
+        data ={"itemFrom":0,"itemTo":10,"filter":{"tagKey":"","planStatusTypes":[],"orderNumber":orderNumber}}
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        data1 =  A.json()["result"]["data"]
+        # data1 =   A.json()["result"]["data"][0]["planStatusType"]   #待配载 status_waiting_plan 待提交 status_submit_awaiting 已配载 status_plan_completed
+        # print(data1)
+        return returnMsg,data1
 
+    '''配置计划》撤销下发'''
+    def test_Added0198(self,ht_host="https://ict-uat.cloudlinkscm.com",token="68bd5d4d-d11b-4433-9930-3407109b668c:e26285b9-faaa-4c8a-84a4-bc9161b32e39",order_id="1aa1e6b56b6146ea88a34fb6107e736f"):
+        url = ht_host + "/api/platform/plan/revoke/{}".format(order_id)
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(token)}
+        A =requests.request("GET",url,headers=headers,verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
 
+    '''配置计划》移除配置'''
+    def test_Added0199(self,ht_host="https://ict-uat.cloudlinkscm.com",token="68bd5d4d-d11b-4433-9930-3407109b668c:e26285b9-faaa-4c8a-84a4-bc9161b32e39",order_id="1aa1e6b56b6146ea88a34fb6107e736f"):
+        url = ht_host + "/api/platform/plan/move"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(token)}
+        data = 	[order_id]
+        A =requests.request("POST",url,headers=headers,data= json.dumps(data),verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
 
-
-
-
+    '''配置计划》直接下发'''
+    def test_Added0200(self,ht_host="https://ict-uat.cloudlinkscm.com",token="68bd5d4d-d11b-4433-9930-3407109b668c:e26285b9-faaa-4c8a-84a4-bc9161b32e39",order_id=["091f77ddf8124e5e8d19e76601f1f2bc","1aa1e6b56b6146ea88a34fb6107e736f"]):
+        url = ht_host + "/api/platform/plan/dispatchDirect"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(token)}
+        data = 	order_id
+        A =requests.request("POST",url,headers=headers,data= json.dumps(data),verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
 
 
 
@@ -6670,6 +6717,285 @@ class Shipperapi():
         return returnMsg,data1
 
 
+    '''货主新增集装箱出口订单'''
+    def test_Added014(self,hz_host,token,customerId,customerContact,customerContactPhone,customerServiceId,transportPort,departureProvinces,
+                       departureCity,departureArea,departure,cyCutOffTime,consignorId,consignorName,consignorContact,consignorContactPhone,
+                       consignorContactAddr,provinces,city,district,street,pickupTime,bookingNumber,customerDelegateCode,baseAmount,price,
+                       customerPricePropertyId,matchKey):
+        url = hz_host  + "/api/platform/inputOrder/submit"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(token)}
+        data =[{
+                "isAgentOperate": 0,  #是否代操作
+                "baseInfo": {
+                    "isSanitaryTreatment": 1, #是否存重还柜
+                    "customerId": customerId,  #委托客户id（货主id）
+                    "customerContact": customerContact,  #货主联系人名称
+                    "customerContactPhone": customerContactPhone,   #货主联系电话
+                    "customerContactMail": "",  #客户邮箱
+                    "customerServiceId": customerServiceId, #货主客服id 用户档案，监理客服
+                    "customerServiceEmail": "",   #po
+                    "balanceId": "",
+                    "balancePhone": "",
+                    "balanceMail": "",
+                    "payerId": "",
+                    "payerPhone": "",
+                    "payerMail": "",
+                    "consignorId": "",
+                    "consigneeId": "",
+                    "balanceWay": "balance_way_bill",    #结算方式
+                    "isMultiLoad": True,
+                    "discount": "0.85",  #折扣系数
+                    "transportPort": transportPort,  #港口id
+                    "departureProvinces": departureProvinces,  #装货省份
+                    "departureCity": departureCity,  #装货城市
+                    "departureArea": departureArea,  #装货行政区
+                    "departure": departure,  #装货街道
+                    "isTwinDrag": 0,
+                    "cyCutOffTime": cyCutOffTime, #截重/空柜时间
+                    "isCustoms": "1",   #是否委托报关
+                    "customsType": "Customs_Type_002",  #报关方式
+                    "otherFile": None,
+                    # "isSanitaryTreatment":"1",  #是否监理
+                    "bookingNumberFile": None,
+                    "hblNumberFile": None,
+                    "taskUnitCode": "port_container_export_transport",  #服务类型
+                    "taskUnitTypeName": "集装箱出口运输",   #服务类型
+                    "id": ""
+                },
+                "priceList": [],
+                "addrList": [
+                    {
+                        # "lineNo": "15c1c7f586510e4f1555f2233d256ab35350",
+                        "pickupDeliveryType": 0,
+                        "options": "",
+                        "consignorId": consignorId,  #装货单位id（收发货人档案）
+                        "consignorName": consignorName,  #装货单位名称
+                        "consignorContact": consignorContact,             #装货联系人
+                        "consignorContactPhone": consignorContactPhone,   #装货联系电话
+                        "consignorContactAddr": consignorContactAddr,   #装货详细地址
+                        "provinces": provinces,    #装货始发省份
+                        "city": city,         #装货始发城市
+                        "district": district,     #装货始发行政区
+                        "street": street,#装货街道
+                        "departureProvinces": "",
+                        "departureCity": "",
+                        "departureArea": "",
+                        "departure": "",
+                        "driverRemark": "装卸货注意事项",
+                        "supervisionRemark": "监理注意事项",
+                        "sequence": 1
+                    }
+                ],
+                "planList": [
+                    {
+                        "goodsCurrency": "USD",
+                        "isReserveCabinet": "1",   #是否预提柜
+                        "weighingMethod": "weighing_method_needless",  #过磅方式
+                        "goodsValueType": "goods_value_type_001",  #货物价值
+                        "pickupTime": pickupTime,  #装货时间
+                        "bookingNumber": bookingNumber,   #订舱号
+                        "customerDelegateCode":customerDelegateCode,  #客户委托号
+                        "carModeId": "20GP",   #柜型
+                        "isWeightStorage": "1",
+                        "saveContainerTime": "",
+                        "isReturnWeightStorage": "1",
+                        "containerLocation": "container_location_003",  #集装箱摆放要求
+                        "weight": 1,    #毛重
+                        # "lineNo": "47802372c1638f975380b70ec79d51f3a042",
+                        "isReadonly": [
+                            "cabinetPickupTime",
+                            "saveContainerTime",
+                            "returnContainerTime"
+                        ],
+                        "isRequired": [
+                            "containerLocation"
+                        ],
+                        "baseAmount": baseAmount,        #报价
+                        "priceType": "",
+                        "chargeInfo": {
+                            "currencyType": "CNY",
+                            "exchangeRate": 1,
+                            "price": price,                #报价
+                            "pickupTime": pickupTime,  #装货时间
+                            "sequence": 0,
+                            "carModeId": "20GP",    #柜型
+                            "customerPricePropertyId": customerPricePropertyId, #报价单id（明细）
+                            "departure": departure, #装货街道
+                            "departureArea": departureArea,  #装货始发行政区
+                            "departureCity": departureCity,   #装货始发城市
+                            "departureProvinces": departureProvinces,  #始装货发省份
+                            "balanceCompany": "",
+                            "matchKey": "null:null:{}".format(matchKey) #装货街道
+                        }
+                    }
+                ]
+            }
+        ]
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return  returnMsg
+
+    ''' 货主新增厢式车多点运输'''
+    def test_Added015(self,hz_host,token,customerId,customerContact,customerContactPhone,customerServiceId,consigneeId,consigneeName,consigneeContact,
+                        consigneeContactPhone,consigneeContactAddr,xh_sf,xh_cs,xh_q,xh_jd,zh_sf,zh_cs,zh_q,zh_jd,zh_dz1id,zh_dz1name,zh_dz1lxr,
+                        zh_dz1lxrdh,zh_dz1,zh_dz2id,zh_dz2name,zh_dz2lxr,zh_dz2lxrdh,zh_dz2,zh_time,jc_time,bj_je,bj_id,kh_hao):
+        url = hz_host + "/api/platform/inputOrder/submit"
+        headers = {'Content-Type': 'application/json',
+                   'Cookie': 'token={}'.format(token)}
+        data =[
+                {
+                    "isAgentOperate":0,    #是否代操作
+                    "baseInfo":{
+                        "customerId":customerId,  #委托客户id（货主id）
+                        "customerContact":customerContact,                      #货主联系人名称
+                        "customerContactPhone":customerContactPhone,               #货主联系电话
+                        "customerContactMail":"",
+                        "customerServiceId":customerServiceId, #货主客服id 用户档案，监理客服
+                        "customerServiceEmail":"",
+                        "balanceId":"",
+                        "balancePhone":"",
+                        "balanceMail":"",
+                        "payerId":"",
+                        "payerPhone":"",
+                        "payerMail":"",
+                        "consignorId":"",
+                        "consigneeId":consigneeId,  #卸货单位id
+                        "balanceWay":"balance_way_bill",                   #结算方式
+                        "isMultiLoad":True,
+                        "discount":"0.85",
+                        "consigneeName":consigneeName,   #卸货单位名称
+                        "consigneeContact":consigneeContact,   #卸货单位联系人
+                        "consigneeContactPhone":consigneeContactPhone,   #卸货单位联系人手机号
+                        "consigneeContactAddr":consigneeContactAddr,  #卸货单位详细地址
+                        "provinces":"",
+                        "city":"",
+                        "district":"",
+                        "street":"",
+                        "destinationProvinces":xh_sf,  #卸货省份
+                        "destinationCity":xh_cs,  #卸货城市
+                        "destinationArea":xh_q,  #卸货行政区
+                        "destination":xh_jd, #卸货街道
+                        "driverRemark":"装卸货注意事项",
+                        "supervisionRemark":"监理注意事项",
+                        "departureProvinces":zh_sf, #装货省份
+                        "departureCity":zh_cs, #装货市
+                        "departureArea":zh_q,#装货区
+                        "departure":zh_jd, #装货街道
+                        "otherFile":None,
+                        "bookingNumberFile":None,
+                        "hblNumberFile":None,
+                        "taskUnitCode":"bulkcargo_transport", #服务类型
+                        "transportType":"transport_type_many_one",
+                        "taskUnitTypeName":"厢式车运输",  #服务类型
+                        "id":""
+                    },
+                    "priceList":[
+
+                    ],
+                    "addrList":[
+                        {
+                            # "lineNo":"3da0e30cfd2abfb98c0609275dd13378fbb2",
+                            "pickupDeliveryType":0,
+                            "options":"",
+                            "consignorId":zh_dz1id, #装货地址1 id
+                            "consignorName":zh_dz1name,  #装货地址1 名称
+                            "consignorContact":zh_dz1lxr,       #装货地址1 联系人
+                            "consignorContactPhone":zh_dz1lxrdh,  #装货地址1 联系的话
+                            "consignorContactAddr":zh_dz1,   #装货地址1 详细地址
+                            "provinces":zh_sf,  #装货省份
+                            "city":zh_cs,  #装货市
+                            "district":zh_q, #装货区
+                            "street":zh_jd, #装货街道
+                            "departureProvinces":"",
+                            "departureCity":"",
+                            "departureArea":"",
+                            "departure":"",
+                            "driverRemark":"装卸货注意事项",
+                            "supervisionRemark":"装卸货注意事项",
+                            "sequence":1
+                        },
+                        {
+                            # "lineNo":"ed4a99a02262ea295a096277ba6b2dc02a12",
+                            "pickupDeliveryType":0,
+                            "options":"",
+                            "consignorId":zh_dz2id,  #装货地址2 id
+                            "consignorName":zh_dz2name,   #装货地址2 名称
+                            "consignorContact":zh_dz2lxr,  #装货地址2 联系人
+                            "consignorContactPhone":zh_dz2lxrdh,  #装货地址2 联系的话
+                            "consignorContactAddr":zh_dz2,  #装货地址2 详细地址
+                            "provinces":zh_sf,   #装货省份
+                            "city":zh_cs,         #装货市
+                            "district":zh_q,    #装货区
+                            "street":zh_jd,    #装货街道
+                            "departureProvinces":"",
+                            "departureCity":"",
+                            "departureArea":"",
+                            "departure":"",
+                            "driverRemark":"装卸货注意事项",
+                            "supervisionRemark":"装卸货注意事项",
+                            "sequence":2
+                        }
+                    ],
+                    "planList":[
+                        {
+                            "goodsCurrency":"CNY",
+                            "isReserveCabinet":0,
+                            "weighingMethod":"weighing_method_needless",
+                            "goodsValueType":"goods_value_type_001",
+                            "pickupTime":zh_time,   #装货时间
+                            "carModeId":"15T",
+                            "containerLocation":"",
+                            "isTwinDrag":"",
+                            "weight":4,  #毛重
+                            "volume":6,   #体积
+                            "goodsNumber":8,  #件数
+                            "packageUnit":"packaging_unit_074",
+                            "cyCloseTime":jc_time,  #截仓时间
+                            # "lineNo":"6d35297fd19ec467f1e9ccc6066a02e9a78d",
+                            "isReadonly":[
+                                "cabinetPickupTime",
+                                "saveContainerTime",
+                                "returnContainerTime",
+                                "savePile",
+                                "containerLocation",
+                                "isTwinDrag",
+                                "containerLocation",
+                                "isTwinDrag"
+                            ],
+                            "isRequired":[
+
+                            ],
+                            "baseAmount":bj_je,  #报价金额
+                            "priceType":"",
+                            "chargeInfo":{
+                                "currencyType":"CNY",
+                                "exchangeRate":1,
+                                "price":bj_je,   #报价金额
+                                "pickupTime":zh_time,  #装货时间
+                                "sequence":0,
+                                "carModeId":"15T",
+                                "customerPricePropertyId":bj_id, #报价单id（明细）
+                                "departure":zh_jd, #装货街道
+                                "destination":xh_jd,  #卸货街道
+                                "departureArea":zh_q, #装货区
+                                "departureCity":zh_cs,#装货市
+                                "departureProvinces":zh_sf,#装货省份
+                                "destinationArea":xh_q,#卸货行政区
+                                "destinationCity":xh_cs,#卸货城市
+                                "destinationProvinces":xh_sf, #卸货省份
+                                "matchKey":"null:null:{}:{}".format(zh_jd,xh_jd) #卸货街道
+                            },
+                            "customerDelegateCode":kh_hao  #客户委托号
+                        }
+                    ]
+                }
+            ]
+        A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
+        # print(A.json())
+        returnMsg = A.json()["returnMsg"]
+        return returnMsg
 
 
 
@@ -6839,7 +7165,7 @@ class Test_transport_company01():
 
 if __name__ == '__main__':
     run=Test_Added01()  # 后台
-    run.test_Added0076()
+    run.test_Added0134()
 
     # run2 = Test_login()
     # run2.Test_login005()
