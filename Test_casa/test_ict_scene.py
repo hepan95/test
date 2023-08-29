@@ -2706,7 +2706,7 @@ class Test_businesso1():
                 print(id2)
                 fd_id = id[id2]
                 with allure.step("分单，分派自有车,分单号：{}".format(fd_id)):
-                    qy_jdzx = ict.Test_Added01().test_Added0058(zy_che=fd_id,gys="",hy_dt="")
+                    qy_jdzx = ict.Test_Added01().test_Added0058(ht_host=ht_host,token=ht_token,zy_che=fd_id,gys="",hy_dt="")
                     assert qy_jdzx == '操作成功'
 
         '''集装箱出口订单派自有车A'''
@@ -3557,7 +3557,7 @@ class Test_businesso2():
                 # print(id2)
                 fd_id = id[id2]
                 with allure.step("分单，分派供应商,分单号：{}".format(fd_id)):
-                    qy_jdzx = ict.Test_Added01().test_Added0058(zy_che="", gys=fd_id, hy_dt="")
+                    qy_jdzx = ict.Test_Added01().test_Added0058(ht_host=ht_host,token=ht_token,zy_che="", gys=fd_id, hy_dt="")
                     assert qy_jdzx == '操作成功'
 
         '''厢式车订单派供应商A：手工报价'''
@@ -3975,7 +3975,7 @@ class Test_businesso3():
                 # print(id2)
                 fd_id = id[id2]
                 with allure.step("集装箱出口订单分单管理》分自有车>分单，分派自有车,分单号：{}".format(fd_id)):
-                    qy_jdzx = ict.Test_Added01().test_Added0058(zy_che=fd_id,gys="",hy_dt="")
+                    qy_jdzx = ict.Test_Added01().test_Added0058(ht_host=ht_host,token=ht_token,zy_che=fd_id,gys="",hy_dt="")
                     assert qy_jdzx == '操作成功'
 
         '''集装箱出口订单派自有车A，并审核应付明细'''
@@ -5380,7 +5380,7 @@ class Test_businesso4():
                 # print(id2)
                 fd_id = id[id2]
                 with allure.step("分单，分派自有车,分单号：{}".format(fd_id)):
-                    qy_jdzx = ict.Test_Added01().test_Added0058(zy_che=fd_id,gys="",hy_dt="")
+                    qy_jdzx = ict.Test_Added01().test_Added0058(ht_host=ht_host,token=ht_token,zy_che=fd_id,gys="",hy_dt="")
                     assert qy_jdzx == '操作成功'
 
 
@@ -5961,7 +5961,7 @@ class Test_businesso5():
                 # print(id2)
                 fd_id = id[id2]
                 with allure.step("分单，分派自有车,分单号：{}".format(fd_id)):
-                    qy_jdzx = ict.Test_Added01().test_Added0058(zy_che=fd_id, gys="", hy_dt="")
+                    qy_jdzx = ict.Test_Added01().test_Added0058(ht_host=ht_host,token=ht_token,zy_che=fd_id, gys="", hy_dt="")
                     assert qy_jdzx == '操作成功'
 
         '''集装箱进口订单派自有车A，撤销派车变更分单，派供应商'''
@@ -6306,7 +6306,7 @@ class Test_businesso6():
                 # print(id2)
                 fd_id = id[id2]
                 with allure.step("厢式车订单分单管理》分货源大厅，发布抢单>分单，分派供应商,分单号：{}".format(fd_id)):
-                    qy_jdzx = ict.Test_Added01().test_Added0058(zy_che="", gys="", hy_dt=fd_id)
+                    qy_jdzx = ict.Test_Added01().test_Added0058(ht_host=ht_host,token=ht_token,zy_che="", gys="", hy_dt=fd_id)
                     assert qy_jdzx == '操作成功'
         with allure.step("厢式车订单分单管理》分货源大厅，发布抢单>查询货源大厅订单状态"):
             hy_dt = ict.Test_Added01().test_Added0171(dd_hao=dd_hao)
@@ -6362,7 +6362,7 @@ class Test_businesso6():
                 # print(id2)
                 fd_id = id[id2]
                 with allure.step("厢式车订单分单管理》分供应商>分单，分派供应商,分单号：{}".format(fd_id)):
-                    qy_jdzx = ict.Test_Added01().test_Added0058(zy_che=fd_id, gys="", hy_dt="")
+                    qy_jdzx = ict.Test_Added01().test_Added0058(ht_host=ht_host,token=ht_token,zy_che=fd_id, gys="", hy_dt="")
                     assert qy_jdzx == '操作成功'
 
         '''派自有车A，撤销派车变更分单，派供应商'''
@@ -6685,7 +6685,7 @@ class Test_businesso7():
             assert fd_xx[0] == '操作成功'
             fd_id = fd_xx[2][0]["id"]
         with allure.step("集装箱出口订单派自有车A，无报价>分单，分派自有车,订单号：{}".format(dd_hao)):
-            qy_jdzx = ict.Test_Added01().test_Added0058(zy_che=fd_id, gys="", hy_dt="")
+            qy_jdzx = ict.Test_Added01().test_Added0058(ht_host=ht_host,token=ht_token,zy_che=fd_id, gys="", hy_dt="")
             assert qy_jdzx == '操作成功'
         with allure.step("集装箱出口订单派自有车A，无报价>查询调度管理集装箱出口运输订单信息"):
             dd_xx1 = ict.Test_Added01().test_Added0083(dd_hao=dd_hao,lx="dangerous_cargo_export_transport")
@@ -6791,7 +6791,7 @@ class Test_businesso7():
             fd_id = fd_xx[2][0]["id"]
 
         with allure.step("集装箱出口订单派货源大厅无报价>分单，分派自有车,订单号：{}".format(dd_hao)):
-            qy_jdzx = ict.Test_Added01().test_Added0058(zy_che="", gys="", hy_dt=fd_id)
+            qy_jdzx = ict.Test_Added01().test_Added0058(ht_host=ht_host,token=ht_token,zy_che="", gys="", hy_dt=fd_id)
             assert qy_jdzx == '获取报价信息异常[没有获取到任何市场报价]'
 
         with allure.step("取消订单>集装箱运输》取消订单，订单号：{}".format(dd_hao)):
@@ -8117,7 +8117,7 @@ class Test_businesso9():
                 print(id2)
                 fd_id = id[id2]
                 with allure.step("分单，分派自有车,分单号：{}".format(fd_id)):
-                    qy_jdzx = ict.Test_Added01().test_Added0058(zy_che=fd_id,gys="",hy_dt="")
+                    qy_jdzx = ict.Test_Added01().test_Added0058(ht_host=ht_host,token=ht_token,zy_che=fd_id,gys="",hy_dt="")
                     assert qy_jdzx == '操作成功'
 
         '''集装箱出口订单派自有车A'''
@@ -8444,7 +8444,7 @@ class Test_businesso9():
                 # print(id2)
                 fd_id = id[id2]
                 with allure.step("分单，分派供应商,分单号：{}".format(fd_id)):
-                    qy_jdzx = ict.Test_Added01().test_Added0058(zy_che="", gys=fd_id, hy_dt="")
+                    qy_jdzx = ict.Test_Added01().test_Added0058(ht_host=ht_host,token=ht_token,zy_che="", gys=fd_id, hy_dt="")
                     assert qy_jdzx == '操作成功'
 
         '''厢式车订单派供应商A：手工报价'''
