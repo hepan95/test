@@ -619,7 +619,7 @@ class Test_businesso2():
 @allure.parent_suite('FBA业务场景测试用例')
 @allure.suite('FBA业务场景测试用例模块')
 @allure.sub_suite('业务场景十二')
-@pytest.mark.skip(reason="无理由跳过")
+# @pytest.mark.skip(reason="无理由跳过")
 class Test_businesso3():
     # @pytest.mark.skip(reason="无理由跳过")
     @allure.title("期望提货时间，表格时间小于邮件接收时间，取邮件接收时间+1,")
@@ -752,7 +752,7 @@ class Test_businesso3():
 @allure.parent_suite('FBA业务场景测试用例')
 @allure.suite('FBA业务场景测试用例模块')
 @allure.sub_suite('业务场景十三')
-@pytest.mark.skip(reason="无理由跳过")
+# @pytest.mark.skip(reason="无理由跳过")
 class Test_businesso4():
     # @pytest.mark.skip(reason="无理由跳过")
     @allure.title("业务场景十三（测试点：<盐田模板>（零担更新货量信息）更新应收费用 ")
@@ -855,7 +855,7 @@ class Test_businesso4():
 @allure.suite('FBA业务场景测试用例模块')
 @allure.sub_suite('业务场景十五')
 # @pytest.mark.skip(reason="无理由跳过")
-class Test_businesso4():
+class Test_businesso5():
     # @pytest.mark.skip(reason="无理由跳过")
     @allure.title("业务场景十五 FBA配置计划（测试点：零担》配载直接下发）")
     def test_business_scenario001(self):
@@ -948,25 +948,13 @@ class Test_businesso4():
             fd_xx = ict.Test_Added01().test_Added0103(ht_host=ht_host_FBA,token=ht_token,dd_hao=orderNumber)
             assert fd_xx[0] == '操作成功'
             assert fd_xx[1] == 1
-            data1 = fd_xx[2]
-            id = []
-            for item in data1:
-                for key in item:
-                    # print(key)
-                    if key == "id":
-                        # print(item[key])
-                        id.append(item[key])
-            id0 = len(id)
-            id1 = 0
-            while id1 < id0:
-                id2 = id1
-                id1 += 1
-                # print(id2)
-                fd_id = id[id2]
-                with allure.step("分单，分派供应商,分单号：{}".format(fd_id)):
-                    qy_jdzx = ict.Test_Added01().test_Added0058(zy_che=fd_id, gys="", hy_dt="")
-                    assert qy_jdzx == '操作成功'
-        with allure.step("派自有车A，，派供应商>断言分单渠道"):
+            fd_id = fd_xx[2][0]["id"]
+
+        with allure.step("分单，分派供应商,分单号：{}".format(fd_id)):
+            qy_jdzx = ict.Test_Added01().test_Added0058(ht_host=ht_host_FBA,token=ht_token,zy_che=fd_id, gys="", hy_dt="")
+            assert qy_jdzx == '操作成功'
+        time.sleep(2)
+        with allure.step("派自有车A，派供应商>断言分单渠道"):
             fd_qd = ict.Test_Added01().test_Added0175(dd_hao=orderNumber,ht_host=ht_host_FBA,token=ht_token)
             assert fd_qd[0] == '操作成功'
             pytest.assume("自有运力" == fd_qd[3][0]["distributeChannel"])  #分单渠道= 自有车
@@ -1056,27 +1044,15 @@ class Test_businesso4():
 
         '''厢式车订单分单管理》分自有车'''
         with allure.step("计划管理，分单查询，订单号：{}".format(orderNumber)):
-            fd_xx = ict.Test_Added01().test_Added0103(ht_host=ht_host_FBA, token=ht_token, dd_hao=orderNumber)
+            fd_xx = ict.Test_Added01().test_Added0103(ht_host=ht_host_FBA,token=ht_token,dd_hao=orderNumber)
             assert fd_xx[0] == '操作成功'
             assert fd_xx[1] == 1
-            data1 = fd_xx[2]
-            id = []
-            for item in data1:
-                for key in item:
-                    # print(key)
-                    if key == "id":
-                        # print(item[key])
-                        id.append(item[key])
-            id0 = len(id)
-            id1 = 0
-            while id1 < id0:
-                id2 = id1
-                id1 += 1
-                # print(id2)
-                fd_id = id[id2]
-                with allure.step("分单，分派供应商,分单号：{}".format(fd_id)):
-                    qy_jdzx = ict.Test_Added01().test_Added0058(zy_che=fd_id, gys="", hy_dt="")
-                    assert qy_jdzx == '操作成功'
+            fd_id = fd_xx[2][0]["id"]
+
+        with allure.step("分单，分自有车,分单号：{}".format(fd_id)):
+            qy_jdzx = ict.Test_Added01().test_Added0058(ht_host=ht_host_FBA,token=ht_token,zy_che=fd_id, gys="", hy_dt="")
+            assert qy_jdzx == '操作成功'
+        time.sleep(2)
         with allure.step("派自有车A，派自有车>断言分单渠道"):
             fd_qd = ict.Test_Added01().test_Added0175(dd_hao=orderNumber,ht_host=ht_host_FBA,token=ht_token)
             assert fd_qd[0] == '操作成功'

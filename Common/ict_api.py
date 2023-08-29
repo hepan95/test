@@ -3019,10 +3019,10 @@ class Test_Added01():
         # print(returnTotalItems,data1)
         return returnMsg,returnTotalItems,data1
     '''计划管理-集装箱》分单'''
-    def test_Added0058(self,zy_che="",gys="",hy_dt=""):  #传的是派自有车，拍供应商，派货源大厅
-        url = self.host + "/api/platform/planPortTransport/dispatch"
+    def test_Added0058(self,ht_host,token,zy_che="",gys="",hy_dt=""):  #传的是派自有车，拍供应商，派货源大厅
+        url = ht_host + "/api/platform/planPortTransport/dispatch"
         headers = {'Content-Type': 'application/json',
-                   'Cookie': 'token={}'.format(self.ht_token)}
+                   'Cookie': 'token={}'.format(token)}
         data = {"isSubmit":1,"ownerCarList":[zy_che],"supplierList":[gys],"supplyHallList":[hy_dt]}
         A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
@@ -3790,7 +3790,7 @@ class Test_Added01():
         # print(bj_je,bj_id)
         return returnMsg,bj_je,bj_id
     '''计划管理-厢式车拆单 查询''' #
-    def test_Added0103(self,ht_host="",token="",dd_hao="MCSZ-MCO-20230724-0008"):  # 传的是报价id
+    def test_Added0103(self,ht_host="",token="",dd_hao="HC-CO-20230829-0032"):  #
         url = ht_host + "/api/platform/planBulkcargoTransport/list"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(token)}
