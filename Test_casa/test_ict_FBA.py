@@ -43,7 +43,7 @@ class Test_businesso1():
             time2 = bf.Common_page().get_today001()[11]  #获取当前时间年月日
             ALO1 = 'AL0-T'+time1   #询价单号
             Template_path = bf.Common_page().projects_path() + "\Test_data\FBA_inquiry_list.xls" #模板IP路径
-            bf.Common_page().read_excel(file_path=Template_path,ALO=ALO1,time1=time2)
+            bf.Common_page().read_excel(file_path=Template_path,ALO=ALO1,time1=time2,pygidium="No")
 
         with allure.step("货主导入询价模板,第一个订单,ALO号：{}".format(ALO1)):
             to_channel = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA,mb_id=modelid,wj_name="FBA_inquiry_list.xls",wj_dz=Template_path,token=hz_token)
@@ -146,7 +146,7 @@ class Test_businesso1():
             time2 = bf.Common_page().get_today001()[11]  #获取当前时间年月日
             ALO2 = 'AL0-T'+time1   #询价单号
             Template_path = bf.Common_page().projects_path() + "\Test_data\FBA_inquiry_list.xls" #模板IP路径
-            bf.Common_page().read_excel(file_path=Template_path,ALO=ALO2,time1=time2)
+            bf.Common_page().read_excel(file_path=Template_path,ALO=ALO2,time1=time2,pygidium="No")
 
         with allure.step("货主导入询价模板,第二个订单,ALO号：{}".format(ALO2)):
             to_channel2 = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA,mb_id=modelid,wj_name="FBA_inquiry_list.xls",wj_dz=Template_path,token=hz_token)
@@ -253,7 +253,7 @@ class Test_businesso1():
             time2 = bf.Common_page().get_today001()[11]  #获取当前时间年月日
             ALO3 = 'AL0-T'+time1   #询价单号
             Template_path = bf.Common_page().projects_path() + "\Test_data\FBA_inquiry_list.xls" #模板IP路径
-            bf.Common_page().read_excel(file_path=Template_path,ALO=ALO3,time1=time2)
+            bf.Common_page().read_excel(file_path=Template_path,ALO=ALO3,time1=time2,pygidium="No")
 
         with allure.step("货主导入询价模板,第三个订单,ALO号：{}".format(ALO3)):
             to_channel3 = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA,mb_id=modelid,wj_name="FBA_inquiry_list.xls",wj_dz=Template_path,token=hz_token)
@@ -407,7 +407,7 @@ class Test_businesso2():
             time2 = bf.Common_page().get_today001()[11]  #获取当前时间年月日
             ALO1 = 'AL0-T'+time1   #询价单号
             Template_path = bf.Common_page().projects_path() + "\Test_data\FBA_inquiry_list.xls" #模板IP路径
-            bf.Common_page().read_excel(file_path=Template_path,ALO=ALO1,time1=time2)
+            bf.Common_page().read_excel(file_path=Template_path,ALO=ALO1,time1=time2,pygidium="No")
         with allure.step("导入询价模板,第一个订单,ALO号：{}".format(ALO1)):
             to_channel = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA,mb_id=modelid,wj_name="FBA_inquiry_list.xls",wj_dz=Template_path,token=hz_token)
             assert to_channel == '导入成功,操作成功'
@@ -517,7 +517,7 @@ class Test_businesso2():
             time2 = bf.Common_page().get_today001()[13]  # 获取当前时间年月日  + 5天
             ALO1 = 'AL0-T' + time1  # 询价单号
             Template_path = bf.Common_page().projects_path() + "\Test_data\FBA_inquiry_list.xls"  # 模板IP路径
-            bf.Common_page().read_excel(file_path=Template_path, ALO=ALO1, time1=time2)
+            bf.Common_page().read_excel(file_path=Template_path, ALO=ALO1, time1=time2,pygidium="No")
         with allure.step("导入询价模板,第一个订单,ALO号：{}".format(ALO1)):
             to_channel = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA, mb_id=modelid, wj_name="FBA_inquiry_list.xls",
                                                         wj_dz=Template_path, token=hz_token)
@@ -637,7 +637,7 @@ class Test_businesso3():
             time2 = bf.Common_page().get_today001()[11]  #获取当前时间年月日
             ALO1 = 'AL0-T'+time1   #询价单号
             Template_path = bf.Common_page().projects_path() + "\Test_data\FBA_inquiry_list.xls" #模板IP路径
-            bf.Common_page().read_excel(file_path=Template_path,ALO=ALO1,time1=time2)
+            bf.Common_page().read_excel(file_path=Template_path,ALO=ALO1,time1=time2,pygidium="No")
         with allure.step("导入询价模板,第一个订单,ALO号：{}".format(ALO1)):
             to_channel = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA,mb_id=modelid,wj_name="FBA_inquiry_list.xls",wj_dz=Template_path,token=hz_token)
             assert to_channel == '导入成功,操作成功'
@@ -701,7 +701,7 @@ class Test_businesso3():
             time2 = bf.Common_page().get_today001()[13]  # 获取当前时间年月日  + 3天
             ALO1 = 'AL0-T' + time1  # 询价单号
             Template_path = bf.Common_page().projects_path() + "\Test_data\FBA_inquiry_list.xls"  # 模板IP路径
-            bf.Common_page().read_excel(file_path=Template_path, ALO=ALO1, time1=time2)
+            bf.Common_page().read_excel(file_path=Template_path, ALO=ALO1, time1=time2,pygidium="No")
         with allure.step("导入询价模板,第一个订单,ALO号：{}".format(ALO1)):
             to_channel = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA, mb_id=modelid, wj_name="FBA_inquiry_list.xls",
                                                         wj_dz=Template_path, token=hz_token)
@@ -772,7 +772,7 @@ class Test_businesso4():
             time2 = bf.Common_page().get_today001()[11]  #获取当前时间年月日
             ALO1 = 'AL0-T'+time1   #询价单号
             Template_path = bf.Common_page().projects_path() + "\Test_data\FBA_inquiry_list.xls" #模板IP路径
-            bf.Common_page().read_excel(file_path=Template_path,ALO=ALO1,time1=time2)
+            bf.Common_page().read_excel(file_path=Template_path,ALO=ALO1,time1=time2,pygidium="No")
 
         with allure.step("货主导入询价模板,第一个订单,ALO号：{}".format(ALO1)):
             to_channel = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA,mb_id=modelid,wj_name="FBA_inquiry_list.xls",wj_dz=Template_path,token=hz_token)
@@ -848,3 +848,237 @@ class Test_businesso4():
             assert cost_info[0] == '操作成功'
             amount1 = amount * 10
             pytest.assume(cost_info[1][0]["inComeAmountTotal"] == amount1)  # 断言应收金额是推荐报价金额*10
+
+
+
+@allure.parent_suite('FBA业务场景测试用例')
+@allure.suite('FBA业务场景测试用例模块')
+@allure.sub_suite('业务场景十五')
+# @pytest.mark.skip(reason="无理由跳过")
+class Test_businesso4():
+    # @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("业务场景十五 FBA配置计划（测试点：零担》配载直接下发）")
+    def test_business_scenario001(self):
+        with allure.step("获取货主ID"):
+            hz_name = ict.Test_Added01().test_Added0185(ht_host=ht_host_FBA,hz_name=cf.hz_name_FBA,token=ht_token)
+            assert hz_name[0] == '操作成功'
+            hz_id = hz_name[1]
+
+        with allure.step("后台获取导入询价模板ID"):
+            modelName = ict.Test_Added01().test_Added0184(ht_host=ht_host_FBA,modelName="询价管理导入-盐田",token=ht_token)
+            assert modelName[0] == '操作成功'
+            modelid = modelName[1]
+
+        with allure.step("获取导入询价模板,第一个订单"):
+            time1 = bf.Common_page().get_today001()[12]  #获取当前时间年月日时分秒
+            time2 = bf.Common_page().get_today001()[11]  #获取当前时间年月日
+            ALO1 = 'AL0-T'+time1   #询价单号
+            Template_path = bf.Common_page().projects_path() + "\Test_data\FBA_inquiry_list.xls" #模板IP路径
+            bf.Common_page().read_excel(file_path=Template_path,ALO=ALO1,time1=time2,pygidium="Yes")
+
+        with allure.step("货主导入询价模板,第一个订单,ALO号：{}".format(ALO1)):
+            to_channel = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA,mb_id=modelid,wj_name="FBA_inquiry_list.xls",wj_dz=Template_path,token=hz_token)
+            assert to_channel == '导入成功,操作成功'
+
+        with allure.step("货主导入询价模板,第一个订单信息,第一个订单ALO号：{}".format(ALO1)):
+            order_info = ict.Shipperapi().test_Added003(hz_host=hz_host_FBA,hz_id=hz_id,xj_dh=ALO1,token=hz_token)
+            assert order_info[0] == '操作成功'
+            assert order_info[1] != 0
+            orderNumber1 = order_info[2][0]["orderNumber"]  #询价单号
+            enquiry_id1 = order_info[2][0]["id"]                #询价单id
+            status = order_info[2][0]["orderStatus"]  #询价单状态
+            pytest.assume(status == "status_draft")  # 断言订单状态：草稿
+
+        with allure.step("获取图片地址上传附件,,第一个订单询价单号：{}".format(orderNumber1)):
+            tu_dz = pz.Common_page().projects_path() + r"\Common\picture\2.02 MB.JPG"  # 图片地址
+
+        with allure.step("货主上传图片，,第一个订单获取图片id"):
+            tp_id = ict.Shipperapi().test_Added004(tp_lj=tu_dz,hz_host=hz_host_FBA,token=hz_token)  # 获取图片id
+            assert tp_id[1] == "success"
+
+        with allure.step("货主询价导入》上传附件，,第一个订单询价单号{}".format(orderNumber1)):
+            sc_tp = ict.Shipperapi().test_Added005(hz_host=hz_host_FBA,token=hz_token,id=enquiry_id1,tp_name="2.02 MB.JPG",tp_id=tp_id[0])
+            assert sc_tp == "操作成功"
+
+        with allure.step("货主查看订单详情页,,第一个订单ALO号：{}".format(ALO1)):
+            Detail_Pages1 = ict.Shipperapi().test_Added007(hz_host=hz_host_FBA,token=hz_token,id=enquiry_id1)
+            assert Detail_Pages1[0] == '操作成功'
+            data1 = ict.get_k(Detail_Pages1[1])
+            data1.update([('ltlFtlType', 'LTL')])  #零担
+
+        with allure.step("货主编辑》立即下单,,第一个订单ALO号：{}".format(ALO1)):
+            immediately_place = ict.Shipperapi().test_Added008(hz_host=hz_host_FBA,token=hz_token,data1=data1)
+            assert immediately_place[0] == '操作成功'
+
+        with allure.step("后台查看新增厢式车运输信息"):
+            ht_order_info = ict.Test_Added01().test_Added0187(ht_host=ht_host_FBA,token=ht_token,order_number="",customerDelegateCode=ALO1)
+            assert ht_order_info[0] == '操作成功'
+            order_id = ht_order_info[1][0]["id"]    #订单id
+            orderNumber = ht_order_info[1][0]["orderNumber"]
+            status = ht_order_info[1][0]["orderStatus"]  #订单状态
+            pytest.assume(status == "status_pending")  # 断言订单状态：待接单
+
+        with allure.step("厢式车运输审核下发"):
+            audit_issue = ict.Test_Added01().test_Added0196(ht_host=ht_host_FBA,token=ht_token,order_id=order_id)
+            assert audit_issue == '操作成功'
+        with allure.step("审核下发，查看订单状态"):
+            ht_order_info = ict.Test_Added01().test_Added0187(ht_host=ht_host_FBA,token=ht_token,order_number="",customerDelegateCode=ALO1)
+            assert ht_order_info[0] == '操作成功'
+            pytest.assume(ht_order_info[1][0]["orderStatus"] == "status_execution")  #订单状态= 执行中
+        with allure.step("待配载查看订单状态，订单号：{}".format(orderNumber)):
+            order_info = ict.Test_Added01().test_Added0197(ht_host=ht_host_FBA, token=ht_token,
+                                                           orderNumber=orderNumber)
+            assert order_info[0] == '操作成功'
+            state1 = order_info[1][0]["planStatusType"]
+            pytest.assume( state1 == "status_waiting_plan")  # 断言订单状态：待配载
+        with allure.step("直接下发"):
+            direct_issue = ict.Test_Added01().test_Added0200(ht_host=ht_host_FBA, token=ht_token,
+                                                             order_id=[order_id])
+            assert direct_issue == '操作成功'
+
+        with allure.step("直接下发查看订单状态，订单号：{}".format(orderNumber)):
+            order_info = ict.Test_Added01().test_Added0197(ht_host=ht_host_FBA, token=ht_token,
+                                                           orderNumber=orderNumber)
+            assert order_info[0] == '操作成功'
+            state2 = order_info[1][0]["planStatusType"]
+            pytest.assume( state2 == "status_plan_completed")  # 断言订单状态：已配载
+
+        '''厢式车订单分单管理》分自有车'''
+        with allure.step("计划管理，分单查询，订单号：{}".format(orderNumber)):
+            fd_xx = ict.Test_Added01().test_Added0103(ht_host=ht_host_FBA,token=ht_token,dd_hao=orderNumber)
+            assert fd_xx[0] == '操作成功'
+            assert fd_xx[1] == 1
+            data1 = fd_xx[2]
+            id = []
+            for item in data1:
+                for key in item:
+                    # print(key)
+                    if key == "id":
+                        # print(item[key])
+                        id.append(item[key])
+            id0 = len(id)
+            id1 = 0
+            while id1 < id0:
+                id2 = id1
+                id1 += 1
+                # print(id2)
+                fd_id = id[id2]
+                with allure.step("分单，分派供应商,分单号：{}".format(fd_id)):
+                    qy_jdzx = ict.Test_Added01().test_Added0058(zy_che=fd_id, gys="", hy_dt="")
+                    assert qy_jdzx == '操作成功'
+        with allure.step("派自有车A，，派供应商>断言分单渠道"):
+            fd_qd = ict.Test_Added01().test_Added0175(dd_hao=orderNumber,ht_host=ht_host_FBA,token=ht_token)
+            assert fd_qd[0] == '操作成功'
+            pytest.assume("自有运力" == fd_qd[3][0]["distributeChannel"])  #分单渠道= 自有车
+            pytest.assume("status_waiting_dispatch" == fd_qd[3][0]["orderStatus"])  #状态= 待派单
+
+    # @pytest.mark.skip(reason="无理由跳过")
+    @allure.title("业务场景十五 FBA配置计划（测试点：整车》配载直接下发）")
+    def test_business_scenario002(self):
+        with allure.step("获取货主ID"):
+            hz_name = ict.Test_Added01().test_Added0185(ht_host=ht_host_FBA, hz_name=cf.hz_name_FBA, token=ht_token)
+            assert hz_name[0] == '操作成功'
+            hz_id = hz_name[1]
+
+        with allure.step("后台获取导入询价模板ID"):
+            modelName = ict.Test_Added01().test_Added0184(ht_host=ht_host_FBA, modelName="询价管理导入-盐田", token=ht_token)
+            assert modelName[0] == '操作成功'
+            modelid = modelName[1]
+
+        with allure.step("获取导入询价模板,第一个订单"):
+            time1 = bf.Common_page().get_today001()[12]  # 获取当前时间年月日时分秒
+            time2 = bf.Common_page().get_today001()[11]  # 获取当前时间年月日
+            ALO1 = 'AL0-T' + time1  # 询价单号
+            Template_path = bf.Common_page().projects_path() + "\Test_data\FBA_inquiry_list.xls"  # 模板IP路径
+            bf.Common_page().read_excel(file_path=Template_path, ALO=ALO1, time1=time2, pygidium="Yes")
+
+        with allure.step("货主导入询价模板,第一个订单,ALO号：{}".format(ALO1)):
+            to_channel = ict.Shipperapi().test_Added001(hz_host=hz_host_FBA, mb_id=modelid,
+                                                        wj_name="FBA_inquiry_list.xls", wj_dz=Template_path,
+                                                        token=hz_token)
+            assert to_channel == '导入成功,操作成功'
+
+        with allure.step("货主导入询价模板,第一个订单信息,第一个订单ALO号：{}".format(ALO1)):
+            order_info = ict.Shipperapi().test_Added003(hz_host=hz_host_FBA, hz_id=hz_id, xj_dh=ALO1, token=hz_token)
+            assert order_info[0] == '操作成功'
+            assert order_info[1] != 0
+            orderNumber1 = order_info[2][0]["orderNumber"]  # 询价单号
+            enquiry_id1 = order_info[2][0]["id"]  # 询价单id
+            status = order_info[2][0]["orderStatus"]  # 询价单状态
+            pytest.assume(status == "status_draft")  # 断言订单状态：草稿
+
+        with allure.step("获取图片地址上传附件,,第一个订单询价单号：{}".format(orderNumber1)):
+            tu_dz = pz.Common_page().projects_path() + r"\Common\picture\2.02 MB.JPG"  # 图片地址
+
+        with allure.step("货主上传图片，,第一个订单获取图片id"):
+            tp_id = ict.Shipperapi().test_Added004(tp_lj=tu_dz, hz_host=hz_host_FBA, token=hz_token)  # 获取图片id
+            assert tp_id[1] == "success"
+
+        with allure.step("货主询价导入》上传附件，,第一个订单询价单号{}".format(orderNumber1)):
+            sc_tp = ict.Shipperapi().test_Added005(hz_host=hz_host_FBA, token=hz_token, id=enquiry_id1,
+                                                   tp_name="2.02 MB.JPG", tp_id=tp_id[0])
+            assert sc_tp == "操作成功"
+
+        with allure.step("货主查看订单详情页,,第一个订单ALO号：{}".format(ALO1)):
+            Detail_Pages1 = ict.Shipperapi().test_Added007(hz_host=hz_host_FBA, token=hz_token, id=enquiry_id1)
+            assert Detail_Pages1[0] == '操作成功'
+            data1 = ict.get_k(Detail_Pages1[1])
+            data1.update([('ltlFtlType', 'FTL')])  # 整车
+
+        with allure.step("货主编辑》立即下单,,第一个订单ALO号：{}".format(ALO1)):
+            immediately_place = ict.Shipperapi().test_Added008(hz_host=hz_host_FBA, token=hz_token, data1=data1)
+            assert immediately_place[0] == '操作成功'
+
+        with allure.step("后台查看新增厢式车运输信息"):
+            ht_order_info = ict.Test_Added01().test_Added0187(ht_host=ht_host_FBA, token=ht_token, order_number="",
+                                                              customerDelegateCode=ALO1)
+            assert ht_order_info[0] == '操作成功'
+            order_id = ht_order_info[1][0]["id"]  # 订单id
+            orderNumber = ht_order_info[1][0]["orderNumber"]
+            status = ht_order_info[1][0]["orderStatus"]  # 订单状态
+            pytest.assume(status == "status_pending")  # 断言订单状态：待接单
+
+        with allure.step("厢式车运输审核下发"):
+            audit_issue = ict.Test_Added01().test_Added0196(ht_host=ht_host_FBA, token=ht_token, order_id=order_id)
+            assert audit_issue == '操作成功'
+        with allure.step("审核下发，查看订单状态"):
+            ht_order_info = ict.Test_Added01().test_Added0187(ht_host=ht_host_FBA, token=ht_token, order_number="",
+                                                              customerDelegateCode=ALO1)
+            assert ht_order_info[0] == '操作成功'
+            pytest.assume(ht_order_info[1][0]["orderStatus"] == "status_execution")  # 订单状态= 执行中
+
+        with allure.step("整车无需配载，查看订单状态，订单号：{}".format(orderNumber)):
+            order_info = ict.Test_Added01().test_Added0197(ht_host=ht_host_FBA, token=ht_token,
+                                                           orderNumber=orderNumber)
+            assert order_info[0] == '操作成功'
+            state2 = order_info[1][0]["planStatusType"]
+            pytest.assume(state2 == "status_plan_completed")  # 断言订单状态：已配载
+
+        '''厢式车订单分单管理》分自有车'''
+        with allure.step("计划管理，分单查询，订单号：{}".format(orderNumber)):
+            fd_xx = ict.Test_Added01().test_Added0103(ht_host=ht_host_FBA, token=ht_token, dd_hao=orderNumber)
+            assert fd_xx[0] == '操作成功'
+            assert fd_xx[1] == 1
+            data1 = fd_xx[2]
+            id = []
+            for item in data1:
+                for key in item:
+                    # print(key)
+                    if key == "id":
+                        # print(item[key])
+                        id.append(item[key])
+            id0 = len(id)
+            id1 = 0
+            while id1 < id0:
+                id2 = id1
+                id1 += 1
+                # print(id2)
+                fd_id = id[id2]
+                with allure.step("分单，分派供应商,分单号：{}".format(fd_id)):
+                    qy_jdzx = ict.Test_Added01().test_Added0058(zy_che=fd_id, gys="", hy_dt="")
+                    assert qy_jdzx == '操作成功'
+        with allure.step("派自有车A，派自有车>断言分单渠道"):
+            fd_qd = ict.Test_Added01().test_Added0175(dd_hao=orderNumber,ht_host=ht_host_FBA,token=ht_token)
+            assert fd_qd[0] == '操作成功'
+            pytest.assume("自有运力" == fd_qd[3][0]["distributeChannel"])  # 分单渠道= 自有车
+            pytest.assume("status_waiting_dispatch" == fd_qd[3][0]["orderStatus"])  # 状态= 待派单

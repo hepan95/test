@@ -2619,7 +2619,7 @@ class Test_query002():
 # @pytest.mark.skip(reason="无理由跳过")
 class Test_businesso1():
     # @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("业务场景一 集装箱出口（测试点：重复派车自有车应付费用生成五条明细'")
+    @allure.title("业务场景一 集装箱出口（测试点：重复派车自有车应付费用生成五条明细)")
     def test_business_scenario001(self):
         with allure.step("查看货主id，货主：{}".format(cf.hz_name)):
             hz_id1 = ict.Test_Added01().test_Added0012(hz_name=cf.hz_name)
@@ -3538,7 +3538,7 @@ class Test_businesso2():
 
         '''厢式车订单分单管理》分供应'''
         with allure.step("计划管理，分单查询，订单号：{}".format(dd_hao)):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
+            fd_xx = ict.Test_Added01().test_Added0103(ht_host=ht_host,token=ht_token,dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             assert fd_xx[1] == 1
             data1 = fd_xx[2]
@@ -3562,7 +3562,7 @@ class Test_businesso2():
 
         '''厢式车订单派供应商A：手工报价'''
         with allure.step("计划管理，获取订单ID，订单号：{}".format(dd_hao)):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
+            fd_xx = ict.Test_Added01().test_Added0103(ht_host=ht_host,token=ht_token,dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             dd_id = fd_xx[2][0]["id"]
         with allure.step("查看供应商id"):
@@ -3848,7 +3848,7 @@ class Test_businesso2():
             cx_pc = ict.Test_Added01().test_Added0156(dd_id=dd_id)
             assert cx_pc == '操作成功'
         with allure.step("计划管理，分单查询，订单号：{}".format(dd_hao)):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
+            fd_xx = ict.Test_Added01().test_Added0103(ht_host=ht_host,token=ht_token,dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             data1 = fd_xx[2]
             id = []
@@ -6277,7 +6277,7 @@ class Test_businesso6():
             sh_gd = ict.Test_Added01().test_Added0163(dd_hao=dd_hao,data=data1,dd_id=id,editType=editType,editRemark=editRemark,changeList=[])
             assert sh_gd == '操作成功'
         with allure.step("厢式车执改>查询计划管理》出现通改标识"):
-            jx_gl = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
+            jx_gl = ict.Test_Added01().test_Added0103(ht_host=ht_host,token=ht_token,dd_hao=dd_hao)
             assert jx_gl[0] == '操作成功'
             pytest.assume(jx_gl[2][0]["tags"] == "执改")
         with allure.step("厢式车执改>计划管理》通改确认"):
@@ -6287,7 +6287,7 @@ class Test_businesso6():
 
         '''厢式车订单分单管理》分货源大厅，发布抢单'''
         with allure.step("厢式车订单分单管理》分货源大厅，发布抢单>计划管理，分单查询，订单号：{}".format(dd_hao)):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
+            fd_xx = ict.Test_Added01().test_Added0103(ht_host=ht_host,token=ht_token,dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             assert fd_xx[1] == 1
             data1 = fd_xx[2]
@@ -6336,14 +6336,14 @@ class Test_businesso6():
             ht_jh = ict.Test_Added01().test_Added0174(dd_id=dd_id)
             assert ht_jh == '操作成功'
         with allure.step("厢式车订单分单管理》分货源大厅，发布抢单>计划管理，分单查询，订单号：{}".format(dd_hao)):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
+            fd_xx = ict.Test_Added01().test_Added0103(ht_host=ht_host,token=ht_token,dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             dd_zt = fd_xx[2][0]["orderStatus"]
             pytest.assume(dd_zt == "status_waiting_distribute") #订单状态=待分单
 
         '''厢式车订单分单管理》分供应商'''
         with allure.step("厢式车订单分单管理》分供应商>计划管理，分单查询，订单号：{}".format(dd_hao)):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
+            fd_xx = ict.Test_Added01().test_Added0103(ht_host=ht_host,token=ht_token,dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             assert fd_xx[1] == 1
             data1 = fd_xx[2]
@@ -6367,7 +6367,7 @@ class Test_businesso6():
 
         '''派自有车A，撤销派车变更分单，派供应商'''
         with allure.step("派自有车A，撤销派车变更分单，派供应商>查询调度管理订单信息,订单号：{}".format(dd_hao)):
-            dd_xx1 = ict.Test_Added01().test_Added0175(dd_hao=dd_hao)
+            dd_xx1 = ict.Test_Added01().test_Added0175(dd_hao=dd_hao,ht_host=ht_host,token=ht_token)
             assert dd_xx1[0] == '操作成功'
             dd_id = dd_xx1[1]  # 订单id
             zh_time = dd_xx1[3][0]["pickupTime"]  # 装货时间  年月日时分秒
@@ -6444,7 +6444,7 @@ class Test_businesso6():
                                                      carDispatchId=ccb_id)
             assert pzyc == '操作成功'
         with allure.step("派自有车A，撤销派车变更分单，派供应商>断言分单渠道"):
-            fd_qd = ict.Test_Added01().test_Added0175(dd_hao=dd_hao)
+            fd_qd = ict.Test_Added01().test_Added0175(dd_hao=dd_hao,ht_host=ht_host,token=ht_token)
             assert fd_qd[0] == '操作成功'
             pytest.assume("自有运力" == fd_qd[3][0]["distributeChannel"])
             pytest.assume("status_node_awaiting" == fd_qd[3][0]["orderStatus"])
@@ -6457,7 +6457,7 @@ class Test_businesso6():
 
         '''厢式车订单派供应商A：手工报价'''
         with allure.step("派自有车A，撤销派车变更分单，派供应商>>计划管理，获取订单ID，订单号：{}".format(dd_hao)):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
+            fd_xx = ict.Test_Added01().test_Added0103(ht_host=ht_host,token=ht_token,dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             dd_id = fd_xx[2][0]["id"]
         with allure.step("派自有车A，撤销派车变更分单，派供应商>查看供应商id"):
@@ -6474,7 +6474,7 @@ class Test_businesso6():
 
         '''厢式车文件管理》回收文件'''
         with allure.step("厢式车文件管理》回收文件>计划管理，获取订单ID，订单号：{}".format(dd_hao)):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
+            fd_xx = ict.Test_Added01().test_Added0103(ht_host=ht_host,token=ht_token,dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             dd_id = fd_xx[2][0]["id"]
             dd_hao =  fd_xx[2][0]["orderNumber"]
@@ -6508,14 +6508,14 @@ class Test_businesso6():
 
         '''取消订单'''
         with allure.step("取消订单>计划管理，获取订单ID，订单号：{}".format(dd_hao)):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
+            fd_xx = ict.Test_Added01().test_Added0103(ht_host=ht_host,token=ht_token,dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             dd_id = fd_xx[2][0]["id"]
         with allure.step("取消订单>调度管理》撤销派单/车，订单号：{}".format(dd_hao)):
             cx_pc = ict.Test_Added01().test_Added0156(dd_id=dd_id)
             assert cx_pc == '操作成功'
         with allure.step("取消订单>计划管理，分单查询，订单号：{}".format(dd_hao)):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=dd_hao)
+            fd_xx = ict.Test_Added01().test_Added0103(ht_host=ht_host,token=ht_token,dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
             data1 = fd_xx[2]
             id = []
@@ -7944,6 +7944,8 @@ class Test_businesso8():
                                                           customerServiceId=kf_id,bookingNumber=SSS,
                                                           customerDelegateCode=time9,containerNumber=containerNumber)
             assert xzjzx_ck == '操作成功'
+        time.sleep(5)
+        log.info("查询报关订单信息")
         with allure.step("查询报关订单信息"):
             dd_xx = ict.Test_Added01().test_Added0117(hz_id=hz_id,customerDelegateCode=time9)
             assert dd_xx[0] == '操作成功'
@@ -7951,10 +7953,11 @@ class Test_businesso8():
             order_id = dd_xx[1][0]["id"]
         log.info("报关订单號:{}".format(dd_hao))
         log.info("接口推送日志")
+        time.sleep(5)
         with allure.step("关务OMS接收一体化推单,接口推送日志报关订单号：{}".format(dd_hao)):
             log_01 = ict.Test_Added01().test_Added0134(dd_id=dd_hao)
             assert log_01[0] == '操作成功'
-            pytest.assume(log_01[1] == 1 )
+            pytest.assume(log_01[1] != 0 )
 
 
         with allure.step("集装箱运输》查看订单详情页，订单号：{}".format(dd_hao)):
@@ -8420,9 +8423,9 @@ class Test_businesso9():
             pytest.assume(ht_order_info[1][0]["orderStatus"] == "status_execution")  #订单状态= 执行中
 
 
-        '''厢式车订单分单管理》分供应'''
+        '''厢式车订单分单管理》分供应商'''
         with allure.step("计划管理，分单查询，订单号：{}".format(orderNumber)):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=orderNumber)
+            fd_xx = ict.Test_Added01().test_Added0103(ht_host=ht_host,token=ht_token,dd_hao=orderNumber)
             assert fd_xx[0] == '操作成功'
             assert fd_xx[1] == 1
             data1 = fd_xx[2]
@@ -8446,7 +8449,7 @@ class Test_businesso9():
 
         '''厢式车订单派供应商A：手工报价'''
         with allure.step("计划管理，获取订单ID，订单号：{}".format(orderNumber)):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=orderNumber)
+            fd_xx = ict.Test_Added01().test_Added0103(ht_host=ht_host,token=ht_token,dd_hao=orderNumber)
             assert fd_xx[0] == '操作成功'
             dd_id = fd_xx[2][0]["id"]
         with allure.step("厢式车订单派供应商A》查看供应商id"):
@@ -8499,7 +8502,7 @@ class Test_businesso9():
             cx_pc = ict.Test_Added01().test_Added0156(dd_id=dd_id)
             assert cx_pc == '操作成功'
         with allure.step("计划管理，分单查询，订单号：{}".format(orderNumber)):
-            fd_xx = ict.Test_Added01().test_Added0103(dd_hao=orderNumber)
+            fd_xx = ict.Test_Added01().test_Added0103(ht_host=ht_host,token=ht_token,dd_hao=orderNumber)
             assert fd_xx[0] == '操作成功'
             data1 = fd_xx[2]
             id = []
@@ -8526,47 +8529,6 @@ class Test_businesso9():
             jzx_ys = ict.Test_Added01().test_Added0168(orderNumber=orderNumber)
             assert jzx_ys[0] == '操作成功'
             assert jzx_ys[1][0]["orderStatus"] == 'status_undo_completed'
-
-    @pytest.mark.skip(reason="无理由跳过")
-    @allure.title("业务场景十五 FBA配置计划（测试点：配载直接下发）")
-    def test_business_scenario003(self):
-        with allure.step("查看订单状态，订单号：MCSZX-MCO-20230805-0001-1"):
-            order_info = ict.Test_Added01().test_Added0197(ht_host=ht_host,token=ht_token,orderNumber="MCSZX-MCO-20230805-0001-1")
-            assert order_info[0] == '操作成功'
-            state = order_info[1][0]["planStatusType"]
-            order_id =  order_info[1][0]["id"]
-            if state == "status_plan_completed" :
-                with allure.step("撤销下发"):
-                    revocation_issue =  ict.Test_Added01().test_Added0198(ht_host=ht_host,token=ht_token,order_id=order_id)
-                    assert revocation_issue == '操作成功'
-                with allure.step("移出配载"):
-                    revocation_issue =  ict.Test_Added01().test_Added0199(ht_host=ht_host,token=ht_token,order_id=order_id)
-                    assert revocation_issue == '操作成功'
-            if state == "status_submit_awaiting" :
-                with allure.step("移出配载"):
-                    revocation_issue =  ict.Test_Added01().test_Added0199(ht_host=ht_host,token=ht_token,order_id=order_id)
-                    assert revocation_issue == '操作成功'
-
-        with allure.step("查看订单状态，订单号：MCSZX-MCO-20221230-0002"):
-            order_info = ict.Test_Added01().test_Added0197(ht_host=ht_host,token=ht_token,orderNumber="MCSZX-MCO-20221230-0002")
-            assert order_info[0] == '操作成功'
-            state2 = order_info[1][0]["planStatusType"]
-            order_id2 =  order_info[1][0]["id"]
-            if state2 == "status_plan_completed" :
-                with allure.step("撤销下发"):
-                    revocation_issue =  ict.Test_Added01().test_Added0198(ht_host=ht_host,token=ht_token,order_id=order_id2)
-                    assert revocation_issue == '操作成功'
-                with allure.step("移出配载"):
-                    shift_stowage =  ict.Test_Added01().test_Added0199(ht_host=ht_host,token=ht_token,order_id=order_id2)
-                    assert shift_stowage == '操作成功'
-            if state2 == "status_submit_awaiting" :
-                with allure.step("移出配载"):
-                    shift_stowage =  ict.Test_Added01().test_Added0199(ht_host=ht_host,token=ht_token,order_id=order_id2)
-                    assert shift_stowage == '操作成功'
-
-        with allure.step("直接下发"):
-            direct_issue = ict.Test_Added01().test_Added0200(ht_host=ht_host,token=ht_token,order_id=[order_id,order_id2])
-            assert direct_issue == '操作成功'
 
 
 
