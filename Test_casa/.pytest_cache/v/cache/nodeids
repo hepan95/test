@@ -5,6 +5,8 @@
   "test_ict_FBA.py::Test_businesso3::test_business_scenario001",
   "test_ict_FBA.py::Test_businesso3::test_business_scenario002",
   "test_ict_FBA.py::Test_businesso4::test_business_scenario001",
+  "test_ict_FBA.py::Test_businesso4::test_business_scenario002",
+  "test_ict_FBA.py::Test_businesso4::test_business_scenario003",
   "test_ict_long.py::Test_login_01::test_long001",
   "test_ict_long.py::Test_login_01::test_long002",
   "test_ict_long.py::Test_login_01::test_long003",
