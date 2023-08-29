@@ -204,7 +204,7 @@ class Common_page():
         return list_a
 
     '''excel写入数据'''
-    def read_excel(self,file_path,ALO,time1):
+    def read_excel(self,file_path,ALO,time1,pygidium):
         import xlrd, xlwt
         from xlutils.copy import copy
         # 读取文件
@@ -220,6 +220,7 @@ class Common_page():
         # 写入数据
         write_save.write(1, 1, ALO )  #询价单号'AL0-T230808095141'
         write_save.write(3, 1, time1)   #提货时间  年月日 2023-08-11
+        write_save.write(19, 1, pygidium)   #是否需要尾板 Yes  No
         # 参数注释：
         # x,y:写入目标格的位置坐标
         # value：写入数据

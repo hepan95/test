@@ -3790,10 +3790,10 @@ class Test_Added01():
         # print(bj_je,bj_id)
         return returnMsg,bj_je,bj_id
     '''计划管理-厢式车拆单 查询''' #
-    def test_Added0103(self,dd_hao="MCSZ-MCO-20230724-0008"):  # 传的是报价id
-        url = self.host + "/api/platform/planBulkcargoTransport/list"
+    def test_Added0103(self,ht_host="",token="",dd_hao="MCSZ-MCO-20230724-0008"):  # 传的是报价id
+        url = ht_host + "/api/platform/planBulkcargoTransport/list"
         headers = {'Content-Type': 'application/json',
-                   'Cookie': 'token={}'.format(self.ht_token)}
+                   'Cookie': 'token={}'.format(token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"orderStatus":"","orderNumber":dd_hao}}
         A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
         # print(A.json())
@@ -4295,16 +4295,17 @@ class Test_Added01():
         returnMsg = A.json()["returnMsg"]
         return returnMsg
     '''跟踪管理》推送日志'''
-    def test_Added0134(self,dd_id="MCSZ-MCO-20230828-0013"):
+    def test_Added0134(self,dd_id="MCSZX-MCO-20230829-0028"):
         url = self.host + "/api/platform/interfaceLog/pushLogList"
         headers = {'Content-Type': 'application/json',
                    'Cookie': 'token={}'.format(self.ht_token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"showContent":dd_id}}
         A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
-        # print(A.json())
+        print(A.json())
         returnMsg = A.json()["returnMsg"]
         returnTotalItems = A.json()["result"]["returnTotalItems"]  # 1 表示存在推送日志
         data1 =  A.json()["result"]["data"]
+        print(returnTotalItems)
 
         return returnMsg,returnTotalItems,data1
     '''跟踪管理》新增异常'''
@@ -5162,10 +5163,10 @@ class Test_Added01():
         return returnMsg
 
     '''调度管理厢式车查询'''
-    def test_Added0175(self,dd_hao="MCSZ-MCO-20230724-0009"):
-        url = self.host + "/api/platform/dispatchBulkcargoTransport/list"
+    def test_Added0175(self,ht_host,token,dd_hao="HC-CO-20230829-0008"):
+        url = ht_host + "/api/platform/dispatchBulkcargoTransport/list"
         headers = {'Content-Type': 'application/json',
-                   'Cookie': 'token={}'.format(self.ht_token)}
+                   'Cookie': 'token={}'.format(token)}
         data = {"itemFrom":0,"itemTo":10,"filter":{"orderNumber":dd_hao}}
 
         A =requests.request("POST",url,headers=headers,data=json.dumps(data),verify=False)
@@ -7164,7 +7165,7 @@ class Test_transport_company01():
 
 if __name__ == '__main__':
     run=Test_Added01()  # 后台
-    run.test_Added0198()
+    run.test_Added0134()
 
     # run2 = Test_login()
     # run2.Test_login005()
