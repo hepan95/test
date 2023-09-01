@@ -6656,8 +6656,8 @@ class Test_businesso7():
         with allure.step("录入柜号，报关订单自动派单，订单撤销派供应商>查询危险品出口自动派报关订单,自动派单成功"):
             zd_bg = ict.Test_Added01().test_Added0119(dd_hao=dd_hao)
             assert zd_bg[0] == '操作成功'
-            # pytest.assume(zd_bg[1][0]["orderStatus"] == "status_pending")  #报关订单状态=已派单  计划8.4上生产
-            pytest.assume(zd_bg[1][0]["orderStatus"] == "status_completed_dispatch")  #报关订单状态=已派单  生产环境
+            pytest.assume(zd_bg[1][0]["orderStatus"] == "status_pending")  #报关订单状态=已派单  计划9.4上生产
+            # pytest.assume(zd_bg[1][0]["orderStatus"] == "status_completed_dispatch")  #报关订单状态=已派单  生产环境
         with allure.step("查询危险品出口，自动分单供应商成功，订单号：{}".format(dd_hao)):
             fd_xx = ict.Test_Added01().test_Added0057(dd_hao=dd_hao)
             assert fd_xx[0] == '操作成功'
@@ -7957,6 +7957,7 @@ class Test_businesso8():
         with allure.step("关务OMS接收一体化推单,接口推送日志报关订单号：{}".format(dd_hao)):
             log_01 = ict.Test_Added01().test_Added0134(dd_id=dd_hao)
             assert log_01[0] == '操作成功'
+            # print("这个是报关单推送日志{}".format(log_01[2]))
             pytest.assume(log_01[1] != 0 )
 
 
